@@ -14,6 +14,7 @@ const Login = () => {
         try {
             const response = await Axios.post(`${import.meta.env.VITE_API_URL + endpoints.login}`, qs.stringify(data));
             if(response.data.status==="success"){
+                localStorage.setItem("userData",JSON.stringify(response.data))
                 localStorage.setItem("token",response.data.access_token)
                 navigate(routepath.dashboard)
             }
@@ -62,9 +63,9 @@ const Login = () => {
                             {errors.password&&(<div className="incorrect">
                                 Incorrect password
                             </div>)}
-                            <div className="forgot-pswd">
+                            {/* <div className="forgot-pswd">
                                 <a href="">Forgot password</a>
-                            </div>
+                            </div> */}
                             <button type="submit" className="login-button">Login</button>
                         </form>
                     </div>
