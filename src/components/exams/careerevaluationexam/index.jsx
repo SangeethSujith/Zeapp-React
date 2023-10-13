@@ -1,38 +1,12 @@
-import mainLogo from '../../assets/zeapp-logo.png'
-import career from '../../assets/career.png'
-const CareerEVT = () => {
-  const loginData = JSON.parse(localStorage.getItem("userData"))
-  const token=localStorage.getItem("token")
+import mainLogo from "../../../assets/images/zeapp-logo.png";
+import career from "../../../assets/images/career.png";
+import Header from "../../shared/Header";
+const CareerEvaluationExam = () => {
+  const loginData = JSON.parse(localStorage.getItem("userData"));
+  const token = localStorage.getItem("token");
   return (
     <div>
-      <header>
-        <div className="logo">
-          <a href="">
-            <img src={mainLogo} alt="zeapp-Logo" />
-          </a>
-        </div>
-        <button className="burger-button">&#9776;</button>
-        <nav className="main-menu">
-          <ul>
-            <li>
-              <a href="" className="active">
-                Home
-              </a>
-            </li>
-            {loginData.view_report === "Y" && <li><a href="">Report</a></li>}
-
-            <li>
-              <a href="">Notification</a>
-            </li>
-            <li>
-              <a href="">Profile</a>
-            </li>
-            <li>
-              <a href="">Logout</a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <Header />
       <div className="main-head">
         <h1 className="page-header">Career Evaluation Test</h1>
         <div className="timer">
@@ -44,8 +18,8 @@ const CareerEVT = () => {
           <div className="questions-container bg-blue">
             <p>
               This activity helps you match your interests to different types of
-              careers. For each item, select the letter of the activity you would
-              rather do
+              careers. For each item, select the letter of the activity you
+              would rather do
             </p>
           </div>
           <div className="options-wrap">
@@ -138,13 +112,13 @@ const CareerEVT = () => {
         <div
           className="column second-column"
           style={{
-            height: 'fit-content',
-            textAlign: 'center',
-            padding: '8% 10px',
+            height: "fit-content",
+            textAlign: "center",
+            padding: "8% 10px",
           }}
         >
           <div className="gif">
-            <img src={career} alt="" style={{ width: '300px' }} />
+            <img src={career} alt="" style={{ width: "300px" }} />
           </div>
           <div className="bottom-btn-row">
             <button className="btn btn-red">Quit</button>
@@ -184,8 +158,7 @@ const CareerEVT = () => {
       </div>
       <div className="footer2">&copy; 2023 Zeapp All Rights Reserved.</div>
     </div>
-    
   );
 };
 
-export default CareerEVT;
+export default CareerEvaluationExam;

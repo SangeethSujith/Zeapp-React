@@ -1,6 +1,6 @@
-export const routepath={
-    login:'/',
-    dashboard:'/dashboard',
-    careerEVT:'/career-evaluation',
-    reasoning:'/reasoning-test'
-}
+export const routepath = {
+  login: "/",
+  dashboard: "/",
+  careerEvaluationExam: "/career-evaluation-exam",
+  reasoningExam: "/reasoning-exam",
+};

@@ -1,60 +1,24 @@
-const base_url = 'test.com/';
+/* eslint-disable arrow-body-style */
+/**
+ * @param {string} id
+ * @returns scroll to provided id element
+ */
+export const scrollToId = (id) => {
+    return document.getElementById(id).scrollIntoView()
+}
 
-export default function parseJSON(jsonData) {
-    if (!jsonData || !Array.isArray(jsonData)) {
-        return jsonData;
+/**
+ * @description debounce to delay network requests
+ * @param {Function} -- callback function to be called after the delay
+ * @param {Number} -- delay in milliseconds
+ * @returns {Function} -- debounced function
+ */
+export const debounce = (callbackFn, delay = 500) => {
+    let timeout
+    return (...args) => {
+        clearTimeout(timeout)
+        timeout = setTimeout(() => {
+            callbackFn(...args)
+        }, delay)
     }
-
-    const baseFeatures = {
-        time: [],
-        selected: [],
-    };
-
-    return jsonData.map(item => {
-        // Clone the item and add baseFeatures
-        const updatedItem = { ...item, ...baseFeatures };
-
-        // Update string values in the object
-        for (const key in updatedItem) {
-            if (typeof updatedItem[key] === 'string') {
-                updatedItem[key] = parseString(updatedItem[key]);
-            }
-        }
-
-        return updatedItem;
-    });
-}
-
-function parseString(stringData = '') {
-    if (!stringData) return '';
-
-    // Update image source URLs
-    return updateImageSrc(stringData);
-}
-
-function updateImageSrc(htmlString, prefix = base_url) {
-    if (!htmlString) return htmlString;
-
-    const imgSrcRegex = /<img[^>]*\ssrc=["']([^"']*)["']/g;
-
-    // Use a function to update img src attributes
-    function updateSrc(match, src) {
-        if (src) {
-            const cleanedSrc = getCleanPath(src);
-            const updatedSrc = `src="${prefix}${cleanedSrc}"`;
-            return `<img ${updatedSrc}`;
-        }
-        return match;
-    }
-
-    return htmlString.replace(imgSrcRegex, updateSrc);
-}
-
-function getCleanPath(imagePath) {
-    const cleanedPath = imagePath
-        .split('/')
-        .filter(segment => segment !== '.' && segment !== '..')
-        .join('/');
-
-    return cleanedPath;
 }

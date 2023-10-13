@@ -1,29 +1,27 @@
-import { Routes, Route } from 'react-router-dom';
-import { ToastContainer } from "react-toastify"
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import toasterConfig from "../src/common/renderToaster"
+import Loader from './components/shared/Loader';
+import ScrollToTop from './components/shared/ScrollToTop';
+import { appRoutes } from './routes';
 
+const App = () => {
+    
+    const router = createBrowserRouter(appRoutes());
+    const { loaders } = useSelector((state) => state.common);
+    console.log('loaders', loaders)
 
-import Login from './pages/Login/Login'
-import Dashboard from './pages/Dashboard/Dashboard'
-import CareerEVT from './pages/CareerEVT/CareerEVT'
-import ReasoningTest from './pages/ReasoningTest/ReasoningTest';
-
-function App() {
-  return (
-    // <Dashboard/>
-    // <Login/>
-    <>
-    <ToastContainer theme="colored" {...toasterConfig} />
-    <Routes>
-      <Route path='/' element={<Login />} />
-      <Route path='/dashboard' element={<Dashboard />} />
-      <Route path='/career-evaluation' element={<CareerEVT />} />
-      <Route path='/reasoning-test' element={<ReasoningTest/>}/>
-    </Routes>
-    </>
-    // <CareerEVT/>
-    )
+    return (
+        <React.StrictMode>
+            {loaders.length > 0 && <Loader />}
+            <ToastContainer closeButton transition={Slide} icon theme="colored" hideProgressBar />
+            <RouterProvider router={router}>
+                <ScrollToTop />
+            </RouterProvider>
+        </React.StrictMode>
+    );
 }
 
-export default App
+export default App;
