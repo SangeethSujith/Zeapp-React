@@ -1,9 +1,37 @@
 import mainLogo from '../../assets/zeapp-logo.png';
+import { useForm } from "react-hook-form"
+import { endpoints } from '../../constants/endpoint';
+import Axios from 'axios';
+import qs from 'qs';
+import { useNavigate } from 'react-router-dom';
+import { routepath } from '../../constants/routepath';
+import { renderToaster } from '../../common/renderToaster';
 const Login = () => {
+    const navigate=useNavigate()
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    console.log('errors', errors)
+    const onSubmit = async (data) => {
+        try {
+            const response = await Axios.post(`${import.meta.env.VITE_API_URL + endpoints.login}`, qs.stringify(data));
+            if(response.data.status==="success"){
+                localStorage.setItem("userData",JSON.stringify(response.data))
+                localStorage.setItem("token",response.data.access_token)
+                navigate(routepath.dashboard)
+            }
+            else{
+                renderToaster({
+                    type: "error",
+                    message: response.data.message
+                  })
+            }
+        } catch (error) {
+            console.error('Error sending POST request:', error);
+        }
+    };
     return (
         <>
             <header>
-                <div className="logo"><a href=""><img src="../../../src/assets/zeapp-logo.png" alt="zeapp-Logo.png"/></a> </div>
+                <div className="logo"><a href=""><img src="../../../src/assets/zeapp-logo.png" alt="zeapp-Logo.png" /></a> </div>
 
                 <nav className="menu">
                     <ul>
@@ -15,56 +43,40 @@ const Login = () => {
                     </ul>
                 </nav>
                 <button className="burger-button">&#9776;</button>
-                <nav className="main-menu">
-                    <ul>
-                        <li><a href="" className="active">Home</a></li>
-                        <li><a href="">Report</a></li>
-                        <li><a href="">Notification</a></li>
-                        <li><a href="">Profile</a></li>
-                        <li><a href="">Logout</a></li>
-                    </ul>
-                </nav>
             </header>
             <section className="main-section">
                 <div className="main-head">
-                    {/* <!-- <h1 className="page-header" style="width:100%;">Login</h1> --> */}
                 </div>
                 <div id="login" className="login-container">
                     <div className="login-card">
                         <div className="close-btn">
-                            <span className="close-button" >&times;</span>
                         </div>
-                        <form className="login-form">
+                        <form className="login-form" onSubmit={handleSubmit(onSubmit)}>
                             <div className="login-card-head">
                                 <h1>Login</h1>
                             </div>
-                            <input type="text" className="login-input" placeholder="Username"/>
-                                <div className="incorrect" style={{ display: "none" }}>
-                                    Incorrect username
-                                </div>
-                                <input type="password" className="login-input" placeholder="Password"/>
-                                    <div className="incorrect" style={{ display: "none" }}>
-                                        Incorrect password
-                                    </div>
-                                    <div className="forgot-pswd">
-                                        <a href="">Forgot password</a>
-                                    </div>
-                                    <button type="submit" className="login-button">Login</button>
-                                </form>
-                            </div>
+                            <input type="text" className="login-input" placeholder="Username" name="username" {...register("username", { required: true })} />
+                            {errors.username&&(<div className="incorrect">
+                                Incorrect username
+                            </div>)}
+                            <input type="password" className="login-input" placeholder="Password" name="password" {...register("password", { required: true })} />
+                            {errors.password&&(<div className="incorrect">
+                                Incorrect password
+                            </div>)}
+                            {/* <div className="forgot-pswd">
+                                <a href="">Forgot password</a>
+                            </div> */}
+                            <button type="submit" className="login-button">Login</button>
+                        </form>
                     </div>
+                </div>
             </section>
             <div className="footer">
                 <div className="footer-logo"><a href=""><img src={mainLogo} alt="zeapp-Logo" /></a> </div>
-                <ul className="footer-menu">
-                    <li><a href="" className="active">Home</a></li>
-                    <li><a href="">Report</a></li>
-                    <li><a href="">Notification</a></li>
-                    <li><a href="">Profile</a></li>
-                    <li><a href="">Logout</a></li>
-                </ul>
                 <div className="app-buttons">
-                    <button className="app-button">Download on Play Store</button>
+                    <a target='_blank' href="https://play.google.com/store/apps/details?id=com.udyata.myapps.zeapp&pli=1">
+                        <button className="app-button">Download on Play Store</button>
+                    </a>
                     <button className="app-button">Download on App Store</button>
                 </div>
             </div>

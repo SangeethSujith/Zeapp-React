@@ -1,6 +1,8 @@
 import mainLogo from '../../assets/zeapp-logo.png'
 import career from '../../assets/career.png'
 const CareerEVT = () => {
+  const loginData = JSON.parse(localStorage.getItem("userData"))
+  const token=localStorage.getItem("token")
   return (
     <div>
       <header>
@@ -9,28 +11,6 @@ const CareerEVT = () => {
             <img src={mainLogo} alt="zeapp-Logo" />
           </a>
         </div>
-
-        <nav className="menu">
-          <ul>
-            <li>
-              <a href="" className="active">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="">Report</a>
-            </li>
-            <li>
-              <a href="">Notification</a>
-            </li>
-            <li>
-              <a href="">Profile</a>
-            </li>
-            <li>
-              <a href="">Logout</a>
-            </li>
-          </ul>
-        </nav>
         <button className="burger-button">&#9776;</button>
         <nav className="main-menu">
           <ul>
@@ -39,9 +19,8 @@ const CareerEVT = () => {
                 Home
               </a>
             </li>
-            <li>
-              <a href="">Report</a>
-            </li>
+            {loginData.view_report === "Y" && <li><a href="">Report</a></li>}
+
             <li>
               <a href="">Notification</a>
             </li>
