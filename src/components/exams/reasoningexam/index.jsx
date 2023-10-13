@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import parseJSON from "../../../utils/jsonparser";
 import Header from "../../shared/Header";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
+import Footer from "../../shared/Footer";
 
 const ReasoningExam = () => {
   useBeforeUnload("Are you sure you want to leave this page?");
@@ -188,37 +189,7 @@ const ReasoningExam = () => {
           </div>
         </div>
       </div>
-      <div className="footer">
-        <div className="footer-logo">
-          <a href="">
-            <img src="zeapp-logo.png" alt="zeapp-Logo" />
-          </a>
-        </div>
-        <ul className="footer-menu">
-          <li>
-            <a href="" className="active">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="">Report</a>
-          </li>
-          <li>
-            <a href="">Notification</a>
-          </li>
-          <li>
-            <a href="">Profile</a>
-          </li>
-          <li>
-            <a href="">Logout</a>
-          </li>
-        </ul>
-        <div className="app-buttons">
-          <button className="app-button">Download on Play Store</button>
-          <button className="app-button">Download on App Store</button>
-        </div>
-      </div>
-      <div className="footer2">&copy; 2023 Zeapp All Rights Reserved.</div>
+      <Footer />
     </div>
   );
 };

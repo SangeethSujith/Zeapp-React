@@ -1,6 +1,7 @@
 import mainLogo from "../../../assets/images/zeapp-logo.png";
 import career from "../../../assets/images/career.png";
 import Header from "../../shared/Header";
+import Footer from "../../shared/Footer";
 const CareerEvaluationExam = () => {
   const loginData = JSON.parse(localStorage.getItem("userData"));
   const token = localStorage.getItem("token");
@@ -126,37 +127,7 @@ const CareerEvaluationExam = () => {
           </div>
         </div>
       </div>
-      <div className="footer">
-        <div className="footer-logo">
-          <a href="">
-            <img src={mainLogo} alt="zeapp-Logo" />
-          </a>
-        </div>
-        <ul className="footer-menu">
-          <li>
-            <a href="" className="active">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="">Report</a>
-          </li>
-          <li>
-            <a href="">Notification</a>
-          </li>
-          <li>
-            <a href="">Profile</a>
-          </li>
-          <li>
-            <a href="">Logout</a>
-          </li>
-        </ul>
-        <div className="app-buttons">
-          <button className="app-button">Download on Play Store</button>
-          <button className="app-button">Download on App Store</button>
-        </div>
-      </div>
-      <div className="footer2">&copy; 2023 Zeapp All Rights Reserved.</div>
+      <Footer />
     </div>
   );
 };

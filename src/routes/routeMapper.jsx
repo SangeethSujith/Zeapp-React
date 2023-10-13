@@ -6,6 +6,7 @@ import Loader from "../components/shared/Loader/index";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import { routepath } from "../constants/routepath";
+import Footer from "../components/shared/Footer";
 
 // Lazy-loaded Components
 const Login = lazy(() => import("../components/auth/Login"));
