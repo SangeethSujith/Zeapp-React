@@ -16,7 +16,7 @@ const SideMenu = () => {
               Home
             </a>
           </li>
-          {loginData.view_report === "Y" && (
+          {loginData && loginData.view_report === "Y" && (
             <li>
               <a href="">Report</a>
             </li>
@@ -27,13 +27,10 @@ const SideMenu = () => {
           <li>
             <a href="">Profile</a>
           </li>
-          <li>
+          <li onClick={localStorage.clear()}>
             <a
-              href="#"
-              onClick={() => {
-                localStorage.clear();
-                navigate(routepath.login);
-              }}
+              href=""
+
             >
               Logout
             </a>
