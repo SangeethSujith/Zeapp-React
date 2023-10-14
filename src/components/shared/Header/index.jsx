@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { routepath } from "../../../constants/routepath";
 
 const Header = ({ isMenuHidden }) => {
@@ -19,15 +19,19 @@ const Header = ({ isMenuHidden }) => {
         <nav className="main-menu">
           <ul>
             <li>
-              <Link to={routepath.dashboard} className="active">
+              <NavLink
+                to={routepath.dashboard}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
                 Home
-              </Link>
+              </NavLink>
             </li>
-            {loginData && loginData.view_report === "Y" && (
-              <li>
-                <a href="">Report</a>
-              </li>
-            )}
+            <NavLink
+              to={routepath.examReport}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Report
+            </NavLink>
             <li>
               <a href="">Notification</a>
             </li>

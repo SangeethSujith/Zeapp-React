@@ -1,5 +1,7 @@
 export const endpoints = {
   login: "/do_login",
+  canUserPullReport: "/canUserPullReport",
+  getALLReportGroup: "/getALLReportGroup",
   getAssignedExams: "/getAssignedExams",
   getCareerClusterExam: "/getCareerClusterExam",
   getQuestionsByExam: "/getQuestionsByExam",
