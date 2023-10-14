@@ -3,10 +3,9 @@ import parseJSON from "../../../utils/jsonparser";
 import Header from "../../shared/Header";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import Footer from "../../shared/Footer";
+import Timer from "../../shared/Timer";
 
 const ReasoningExam = () => {
-  useBeforeUnload("Are you sure you want to leave this page?");
-
   const response = {
     status: "success",
     data: [
@@ -107,10 +106,10 @@ const ReasoningExam = () => {
     http_code: 200,
   };
 
-  useEffect(() => {
-    const parsed = parseJSON(response.data);
-    console.log("parsed", parsed);
-  }, []);
+  const parsed = parseJSON(response.data);
+  console.log("parsed", parsed);
+  // useEffect(() => {
+  // }, []);
 
   return (
     <div>
@@ -118,7 +117,9 @@ const ReasoningExam = () => {
       <div className="main-head" style={{ display: "flex" }}>
         <h1 className="page-header">Reasoning Test</h1>
         <div className="timer">
-          <div id="app"></div>
+          <div id="app">
+            <Timer />
+          </div>
         </div>
       </div>
       <div className="container">
@@ -153,7 +154,14 @@ const ReasoningExam = () => {
           </div>
         </div>
         <div className="column second-column">
-          <div className="button-row"></div>
+          <div className="button-row">
+            {/* {parsed.map((index)=>{
+            <button key={index} class="button">{index}</button>
+            })} */}
+            {parsed.map((object, index) => (
+              <button className="button">{index}</button>
+            ))}
+          </div>
           <div className="color-indicator">
             <div className="color-box-wrap">
               <div
