@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { routepath } from "../../../constants/routepath";
 
 const Header = ({ loginPage }) => {
   const loginData = JSON.parse(localStorage.getItem("userData"));
@@ -17,16 +19,15 @@ const Header = ({ loginPage }) => {
         <nav className="main-menu">
           <ul>
             <li>
-              <a href="" className="active">
+              <Link to={routepath.dashboard} className="active">
                 Home
-              </a>
+              </Link>
             </li>
             {loginData && loginData.view_report === "Y" && (
               <li>
                 <a href="">Report</a>
               </li>
             )}
-
             <li>
               <a href="">Notification</a>
             </li>
