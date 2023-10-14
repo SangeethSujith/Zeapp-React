@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-
 const useBeforeUnload = (message) => {
   useEffect(() => {
     const handleBeforeUnload = (e) => {
@@ -10,6 +9,7 @@ const useBeforeUnload = (message) => {
     window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
+      localStorage.clear();
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [message]);
