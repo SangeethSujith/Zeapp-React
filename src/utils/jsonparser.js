@@ -1,4 +1,4 @@
-const base_url = 'test.com/';
+const base_url = import.meta.env.VITE_API_URL;
 
 export default function parseJSON(jsonData) {
     if (!jsonData || !Array.isArray(jsonData)) {
