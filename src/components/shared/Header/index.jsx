@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { routepath } from "../../../constants/routepath";
 
-const Header = ({ loginPage }) => {
+const Header = ({ isMenuHidden }) => {
   const loginData = JSON.parse(localStorage.getItem("userData"));
   return (
     <header>
@@ -15,7 +15,7 @@ const Header = ({ loginPage }) => {
         </a>
       </div>
       <button className="burger-button">&#9776;</button>
-      {!loginPage && (
+      {!isMenuHidden && (
         <nav className="main-menu">
           <ul>
             <li>
@@ -34,7 +34,7 @@ const Header = ({ loginPage }) => {
             <li>
               <a href="">Profile</a>
             </li>
-            <li onClick={()=>localStorage.clear()}>
+            <li onClick={() => localStorage.clear()}>
               <a href="">Logout</a>
             </li>
           </ul>
