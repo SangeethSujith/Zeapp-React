@@ -116,7 +116,7 @@ const ReasoningExam = () => {
     <div>
       <Header />
       <div className="main-head" style={{ display: "flex" }}>
-        <h1 className="page-header">Career Evaluation Test</h1>
+        <h1 className="page-header">Reasoning Test</h1>
         <div className="timer">
           <div id="app"></div>
         </div>

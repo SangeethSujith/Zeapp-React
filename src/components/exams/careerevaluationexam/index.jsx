@@ -2,7 +2,9 @@ import career from "../../../assets/images/career.png";
 import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
 import Timer from "../../shared/Timer";
+import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 const CareerEvaluationExam = () => {
+  useBeforeUnload("Are you sure you want to leave this page?");
   const loginData = JSON.parse(localStorage.getItem("userData"));
   const token = localStorage.getItem("token");
   return (

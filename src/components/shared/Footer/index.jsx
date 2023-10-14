@@ -12,27 +12,11 @@ const Footer = () => {
             />
           </a>
         </div>
-        <ul className="footer-menu">
-          <li>
-            <a href="" className="active">
-              Home
-            </a>
-          </li>
-          <li>
-            <a href="">Report</a>
-          </li>
-          <li>
-            <a href="">Notification</a>
-          </li>
-          <li>
-            <a href="">Profile</a>
-          </li>
-          <li>
-            <a href="">Logout</a>
-          </li>
-        </ul>
+        
         <div className="app-buttons">
+        <a target='_blank' href="https://play.google.com/store/apps/details?id=com.udyata.myapps.zeapp&pli=1">
           <button className="app-button">Download on Play Store</button>
+        </a>
           <button className="app-button">Download on App Store</button>
         </div>
       </div>
