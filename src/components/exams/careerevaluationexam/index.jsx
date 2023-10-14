@@ -1,12 +1,13 @@
 import career from "../../../assets/images/career.png";
 import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
-import Timer from "../../shared/Timer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
+import Timer from "../../shared/Timer";
 const CareerEvaluationExam = () => {
   useBeforeUnload("Are you sure you want to leave this page?");
   const loginData = JSON.parse(localStorage.getItem("userData"));
   const token = localStorage.getItem("token");
+
   return (
     <div>
       <Header />
@@ -120,7 +121,7 @@ const CareerEvaluationExam = () => {
             padding: "8% 10px",
           }}
         >
-        <Timer/>
+          <Timer initialTime={6} onTimerEnd={() => alert("Timer Ended")} />
           <div className="gif">
             <img src={career} alt="" style={{ width: "300px" }} />
           </div>
