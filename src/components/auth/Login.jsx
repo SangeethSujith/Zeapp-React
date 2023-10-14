@@ -16,7 +16,6 @@ const Login = () => {
     watch,
     formState: { errors },
   } = useForm();
-  console.log("errors", errors);
   const onSubmit = async (data) => {
     try {
       const response = await Axios.post(

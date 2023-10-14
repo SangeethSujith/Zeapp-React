@@ -1,7 +1,7 @@
-import mainLogo from "../../../assets/images/zeapp-logo.png";
 import career from "../../../assets/images/career.png";
 import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
+import Timer from "../../shared/Timer";
 const CareerEvaluationExam = () => {
   const loginData = JSON.parse(localStorage.getItem("userData"));
   const token = localStorage.getItem("token");
@@ -118,6 +118,7 @@ const CareerEvaluationExam = () => {
             padding: "8% 10px",
           }}
         >
+        <Timer/>
           <div className="gif">
             <img src={career} alt="" style={{ width: "300px" }} />
           </div>
