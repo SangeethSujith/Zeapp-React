@@ -27,7 +27,7 @@ const SideMenu = () => {
           <li>
             <a href="">Profile</a>
           </li>
-          <li onClick={localStorage.clear()}>
+          <li onClick={()=>localStorage.clear()}>
             <a
               href=""
             >
