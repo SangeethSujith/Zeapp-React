@@ -35,7 +35,7 @@ const Login = () => {
   };
   return (
     <>
-      <Header loginPage={true} />
+      <Header isMenuHidden={true} />
       <section className="main-section">
         <div className="main-head"></div>
         <div id="login" className="login-container">

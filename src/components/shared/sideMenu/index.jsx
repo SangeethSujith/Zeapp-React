@@ -1,7 +1,7 @@
 import React from "react";
+import {  NavLink } from "react-router-dom";
 
 const SideMenu = () => {
-  const loginData = JSON.parse(localStorage.getItem("userData"));
   return (
     <div className="left">
       <div className="company">
@@ -12,27 +12,29 @@ const SideMenu = () => {
       <div className="navigation">
         <ul>
           <li>
-            <a href="" className="active">
+            <NavLink
+              to="/"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
               Home
-            </a>
+            </NavLink>
           </li>
-          {loginData && loginData.view_report === "Y" && (
-            <li>
-              <a href="">Report</a>
-            </li>
-          )}
+          <li>
+            <NavLink
+              to="/report"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Report
+            </NavLink>
+          </li>
           <li>
             <a href="">Notification</a>
           </li>
           <li>
             <a href="">Profile</a>
           </li>
-          <li onClick={()=>localStorage.clear()}>
-            <a
-              href=""
-            >
-              Logout
-            </a>
+          <li onClick={() => localStorage.clear()}>
+            <a href="">Logout</a>
           </li>
         </ul>
       </div>

@@ -6,15 +6,18 @@ import Loader from "../components/shared/Loader/index";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import { routepath } from "../constants/routepath";
-import Footer from "../components/shared/Footer";
 
 // Lazy-loaded Components
 const Login = lazy(() => import("../components/auth/Login"));
 const Dashboard = lazy(() => import("../components/dashboard"));
 const NotFound = lazy(() => import("../components/shared/notFound"));
 const User = lazy(() => import("../components/users/index"));
-const CareerEvaluationExam = lazy(() => import("../components/exams/careerevaluationexam"));
+const CareerEvaluationExam = lazy(() =>
+  import("../components/exams/careerevaluationexam")
+);
 const ReasoningExam = lazy(() => import("../components/exams/reasoningexam"));
+const ExamReport = lazy(() => import("../components/examreport"));
+
 const routeMapper = () => {
   return [
     {
@@ -83,6 +86,26 @@ const routeMapper = () => {
           element: (
             <Suspense fallback={<Loader />}>
               <CareerEvaluationExam />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: routepath.examReport,
+      element: (
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
+      ),
+      exact: true,
+      children: [
+        {
+          index: true,
+          exact: true,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <ExamReport />
             </Suspense>
           ),
         },

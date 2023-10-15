@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { routepath } from "../../../constants/routepath";
 
-const Header = ({ loginPage }) => {
+const Header = ({ isMenuHidden }) => {
   const loginData = JSON.parse(localStorage.getItem("userData"));
   return (
     <header>
@@ -15,26 +15,30 @@ const Header = ({ loginPage }) => {
         </a>
       </div>
       <button className="burger-button">&#9776;</button>
-      {!loginPage && (
+      {!isMenuHidden && (
         <nav className="main-menu">
           <ul>
             <li>
-              <Link to={routepath.dashboard} className="active">
+              <NavLink
+                to={routepath.dashboard}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
                 Home
-              </Link>
+              </NavLink>
             </li>
-            {loginData && loginData.view_report === "Y" && (
-              <li>
-                <a href="">Report</a>
-              </li>
-            )}
+            <NavLink
+              to={routepath.examReport}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Report
+            </NavLink>
             <li>
               <a href="">Notification</a>
             </li>
             <li>
               <a href="">Profile</a>
             </li>
-            <li onClick={()=>localStorage.clear()}>
+            <li onClick={() => localStorage.clear()}>
               <a href="">Logout</a>
             </li>
           </ul>

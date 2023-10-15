@@ -4,17 +4,22 @@ import { Navigate } from "react-router-dom";
 import Header from "../components/shared/Header";
 import SideMenu from "../components/shared/sideMenu";
 import Footer from "../components/shared/Footer";
+import useBeforeUnload from "../utils/hooks/useBeforeUnload";
 
-const PrivateLayout = ({ children }) => (
-  <div>
-    {/* <Header /> */}
+const PrivateLayout = ({ children }) => {
+  useBeforeUnload(
+    "You will be redirected to Login Page. You Progress May Not Be Saved"
+  );
+  return (
     <div>
-      {/* <SideMenu /> */}
-      <main>{children}
-      </main>
+      {/* <Header /> */}
+      <div>
+        {/* <SideMenu /> */}
+        <main>{children}</main>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const PrivateRoute = ({ children }) => {
   const isLoggedIn = localStorage.getItem("token");
