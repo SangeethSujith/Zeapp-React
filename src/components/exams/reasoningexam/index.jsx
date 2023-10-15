@@ -116,9 +116,7 @@ const ReasoningExam = () => {
       <div className="main-head" style={{ display: "flex" }}>
         <h1 className="page-header">Reasoning Test</h1>
         <div className="timer">
-          <div id="app">
-            <Timer />
-          </div>
+          <Timer initialTime={4} onTimerEnd={() => null} />
         </div>
       </div>
       <div className="container">

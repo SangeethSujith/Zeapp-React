@@ -8,7 +8,10 @@ import useBeforeUnload from "../utils/hooks/useBeforeUnload";
 
 const PrivateLayout = ({ children }) => {
   const isHeaderHidden =
-    location.pathname === "/" || location.pathname === "/report";
+    location.pathname === "/" ||
+    location.pathname === "/report" ||
+    location.pathname === "/profile" ||
+    location.pathname === "/notifications";
   console.log("isHeaderHidden", isHeaderHidden);
   useBeforeUnload(
     "You will be redirected to Login Page. You Progress May Not Be Saved"

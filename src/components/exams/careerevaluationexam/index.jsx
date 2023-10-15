@@ -8,11 +8,10 @@ const CareerEvaluationExam = () => {
 
   return (
     <div>
-      
       <div className="main-head">
         <h1 className="page-header">Career Evaluation Test</h1>
         <div className="timer">
-          <div id="app"></div>
+          <Timer initialTime={4} onTimerEnd={() => null} />
         </div>
       </div>
       <div className="container">
@@ -119,7 +118,6 @@ const CareerEvaluationExam = () => {
             padding: "8% 10px",
           }}
         >
-          <Timer initialTime={4} onTimerEnd={() => alert("")} />
           <div className="gif">
             <img src={career} alt="" style={{ width: "300px" }} />
           </div>

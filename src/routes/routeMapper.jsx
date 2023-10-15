@@ -18,6 +18,7 @@ const CareerEvaluationExam = lazy(() =>
 const ReasoningExam = lazy(() => import("../components/exams/reasoningexam"));
 const ExamReport = lazy(() => import("../components/examreport"));
 const Notifications = lazy(() => import("../components/notifications"));
+const Profile = lazy(() => import("../components/profile"));
 
 const routeMapper = () => {
   return [
@@ -127,6 +128,26 @@ const routeMapper = () => {
           element: (
             <Suspense fallback={<Loader />}>
               <Notifications />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: routepath.profile,
+      element: (
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
+      ),
+      exact: true,
+      children: [
+        {
+          index: true,
+          exact: true,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <Profile />
             </Suspense>
           ),
         },
