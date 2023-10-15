@@ -44,7 +44,6 @@ const ExamReport = () => {
 
   return (
     <div className="center">
-      <SideMenu />
       <div className="right">
         {isReportAvailable ? (
           <button onClick={() => handleDownloadReport(access_token)}>

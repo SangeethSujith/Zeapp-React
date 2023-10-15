@@ -7,14 +7,17 @@ import Footer from "../components/shared/Footer";
 import useBeforeUnload from "../utils/hooks/useBeforeUnload";
 
 const PrivateLayout = ({ children }) => {
+  const isHeaderHidden =
+    location.pathname === "/" || location.pathname === "/report";
+  console.log("isHeaderHidden", isHeaderHidden);
   useBeforeUnload(
     "You will be redirected to Login Page. You Progress May Not Be Saved"
   );
   return (
-    <div>
-      {/* <Header /> */}
+    <div className={isHeaderHidden && "center"}>
+      {isHeaderHidden ? <SideMenu /> : <Header />}
+
       <div>
-        {/* <SideMenu /> */}
         <main>{children}</main>
       </div>
     </div>

@@ -8,7 +8,7 @@ const CareerEvaluationExam = () => {
 
   return (
     <div>
-      <Header />
+      
       <div className="main-head">
         <h1 className="page-header">Career Evaluation Test</h1>
         <div className="timer">

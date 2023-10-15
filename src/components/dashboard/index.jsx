@@ -29,40 +29,37 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="center">
-      <SideMenu />
-      <div className="right">
-        <div className="row column">
-          <div className="graph">
-            <div className="column">
-              <div className="title">
-                Hello, {first_name} from {school_name}
-              </div>
-              <div className="description">Welcome to Zeapp...</div>
+    <div className="right">
+      <div className="row column">
+        <div className="graph">
+          <div className="column">
+            <div className="title">
+              Hello, {first_name} from {school_name}
             </div>
-            <div className="column">
-              <div className="gif">
-                <img src={career} alt="" />
-              </div>
+            <div className="description">Welcome to Zeapp...</div>
+          </div>
+          <div className="column">
+            <div className="gif">
+              <img src={career} alt="" />
             </div>
           </div>
         </div>
-        <div className="row column">
-          {exams.CAREER === "CAREER_CLUSTER" && (
-            <div className="graph">
-              <Link to={routepath.careerEvaluationExam}>
-                <div className="career-exam-card">Take Career Test</div>
-              </Link>
-            </div>
-          )}
-          {exams.EXAM && (
-            <div className="graph">
-              <Link to={routepath.reasoningExam}>
-                <div className="career-exam-card">Take Reasoning Test</div>
-              </Link>
-            </div>
-          )}
-        </div>
+      </div>
+      <div className="row column">
+        {exams.CAREER === "CAREER_CLUSTER" && (
+          <div className="graph">
+            <Link to={routepath.careerEvaluationExam}>
+              <div className="career-exam-card">Take Career Test</div>
+            </Link>
+          </div>
+        )}
+        {exams.EXAM && (
+          <div className="graph">
+            <Link to={routepath.reasoningExam}>
+              <div className="career-exam-card">Take Reasoning Test</div>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
