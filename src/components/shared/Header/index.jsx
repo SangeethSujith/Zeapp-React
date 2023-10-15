@@ -26,17 +26,29 @@ const Header = ({ isMenuHidden }) => {
                 Home
               </NavLink>
             </li>
-            <NavLink
-              to={routepath.examReport}
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Report
-            </NavLink>
             <li>
-              <a href="">Notification</a>
+              <NavLink
+                to={routepath.examReport}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Report
+              </NavLink>
             </li>
             <li>
-              <a href="">Profile</a>
+              <NavLink
+                to={routepath.notifications}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Notifications
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to={routepath.profile}
+                className={({ isActive }) => (isActive ? "active" : "")}
+              >
+                Profile
+              </NavLink>
             </li>
             <li onClick={() => localStorage.clear()}>
               <a href="">Logout</a>

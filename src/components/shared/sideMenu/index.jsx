@@ -1,5 +1,6 @@
 import React from "react";
-import {  NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { routepath } from "../../../constants/routepath";
 
 const SideMenu = () => {
   return (
@@ -13,7 +14,7 @@ const SideMenu = () => {
         <ul>
           <li>
             <NavLink
-              to="/"
+              to={routepath.dashboard}
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               Home
@@ -21,17 +22,27 @@ const SideMenu = () => {
           </li>
           <li>
             <NavLink
-              to="/report"
+              to={routepath.examReport}
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               Report
             </NavLink>
           </li>
           <li>
-            <a href="">Notification</a>
+            <NavLink
+              to={routepath.notifications}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Notifications
+            </NavLink>
           </li>
           <li>
-            <a href="">Profile</a>
+            <NavLink
+              to={routepath.profile}
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Profile
+            </NavLink>
           </li>
           <li onClick={() => localStorage.clear()}>
             <a href="">Logout</a>
