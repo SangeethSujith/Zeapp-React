@@ -17,7 +17,7 @@ const PrivateLayout = ({ children }) => {
     "You will be redirected to Login Page. You Progress May Not Be Saved"
   );
   return (
-    <div className={isHeaderHidden && "center"}>
+    <div className={isHeaderHidden ? "center":""}>
       {isHeaderHidden ? <SideMenu /> : <Header />}
 
       <div>
