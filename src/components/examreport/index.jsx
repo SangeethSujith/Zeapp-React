@@ -7,7 +7,6 @@ import qs from "qs";
 const ExamReport = () => {
   const [isReportAvailable, setisReportAvailable] = useState(null);
   const { access_token } = userData;
-  console.log("isReportAvailable", isReportAvailable);
   useEffect(() => {
     checkIsReportAvailable(access_token);
   }, []);
@@ -19,7 +18,6 @@ const ExamReport = () => {
         qs.stringify({ access_key: token })
       );
       const pull_report = response.data.pull_report === "Y" ? true : false;
-      console.log("pull_report", pull_report);
       setisReportAvailable(pull_report);
     } catch (error) {
       console.error("Error Getting Exams:", error);

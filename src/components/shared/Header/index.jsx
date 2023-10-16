@@ -7,12 +7,12 @@ const Header = ({ isMenuHidden }) => {
   return (
     <header>
       <div className="logo">
-        <a href="">
+        <Link to={routepath.dashboard}>
           <img
             src="../../../src/assets/images/zeapp-logo.png"
             alt="zeapp-Logo"
           />
-        </a>
+        </Link>
       </div>
       <button className="burger-button">&#9776;</button>
       {!isMenuHidden && (

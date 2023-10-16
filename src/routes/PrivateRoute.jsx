@@ -5,14 +5,14 @@ import Header from "../components/shared/Header";
 import SideMenu from "../components/shared/sideMenu";
 import Footer from "../components/shared/Footer";
 import useBeforeUnload from "../utils/hooks/useBeforeUnload";
+import { routepath } from "../constants/routepath";
 
 const PrivateLayout = ({ children }) => {
   const isHeaderHidden =
-    location.pathname === "/" ||
-    location.pathname === "/report" ||
-    location.pathname === "/profile" ||
-    location.pathname === "/notifications";
-  console.log("isHeaderHidden", isHeaderHidden);
+    location.pathname === routepath.dashboard ||
+    location.pathname === routepath.examReport ||
+    location.pathname === routepath.profile ||
+    location.pathname === routepath.notifications;
   useBeforeUnload(
     "You will be redirected to Login Page. You Progress May Not Be Saved"
   );
