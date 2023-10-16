@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import parseJSON from "../../../utils/jsonparser";
 import Header from "../../shared/Header";
-import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import Footer from "../../shared/Footer";
 import Timer from "../../shared/Timer";
+import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 
 const ReasoningExam = () => {
+  useBeforeUnload(
+    "You will be redirected to Login Page. You Progress May Not Be Saved"
+  );
   const response = {
     status: "success",
     data: [

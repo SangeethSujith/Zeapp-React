@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Loader from "./components/shared/Loader";
 import ScrollToTop from "./components/shared/ScrollToTop";
 import { appRoutes } from "./routes";
-import useBeforeUnload from "./utils/hooks/useBeforeUnload";
 
 const App = () => {
 
