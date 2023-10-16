@@ -139,7 +139,6 @@ const ReasoningExam = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

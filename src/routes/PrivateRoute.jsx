@@ -14,11 +14,18 @@ const PrivateLayout = ({ children }) => {
     location.pathname === routepath.notifications;
 
   return (
-    <div className={isHeaderHidden ? "center":""}>
-      {isHeaderHidden ? <SideMenu /> : <Header />}
-
-      <div>
-        <main>{children}</main>
+    <div>
+      <div className="body">
+        {!isHeaderHidden && <Header />}
+        <div className="main">
+          <div
+            style={isHeaderHidden ? { display: "flex" } : { display: "block" }}
+          >
+            {isHeaderHidden && <SideMenu />}
+            <main>{children}</main>
+          </div>
+        </div>
+        <Footer />
       </div>
     </div>
   );
