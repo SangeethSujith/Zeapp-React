@@ -1,5 +1,5 @@
 export const routepath = {
-  login: "/",
+  login: "/login",
   dashboard: "/",
   examReport: "/report",
   careerEvaluationExam: "/career-evaluation-exam",
