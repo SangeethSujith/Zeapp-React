@@ -4,7 +4,7 @@ export const endpoints = {
   getALLReportGroup: "/getALLReportGroup",
   getAssignedExams: "/getAssignedExams",
   getCareerClusterExam: "/getCareerClusterExam",
-  getQuestionsByExam: "/getQuestionsByExam",
+  getReasoningExam: "/getQuestionsByExam",
   saveExamResults: "/saveExamResults",
   saveCareerCluster: "/saveCareerCluster",
   saveCareerInterest: "/saveCareerInterest",
