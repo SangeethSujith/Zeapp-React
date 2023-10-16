@@ -1,133 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import parseJSON from "../../../utils/jsonparser";
-import Header from "../../shared/Header";
 import Footer from "../../shared/Footer";
 import Timer from "../../shared/Timer";
-import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
+import { useParams } from "react-router-dom";
+import { userData } from "../../../utils/loginData";
+import { endpoints } from "../../../constants/endpoints";
+import Axios from "axios";
+import qs from "qs";
+import NumberPad from "./NumberPad";
 
 const ReasoningExam = () => {
-  useBeforeUnload(
-    "You will be redirected to Login Page. You Progress May Not Be Saved"
-  );
-  const response = {
-    status: "success",
-    data: [
-      {
-        id: "64",
-        type: "Multiple Choice Single Answer",
-        question:
-          '<p><img src="../../../../upload/Question_Number_59_in_aspect_ratio9.png" /></p>',
-        options: [
-          {
-            oid: "337",
-            q_option: "<p>(A)</p>",
-          },
-          {
-            oid: "338",
-            q_option: "<p>(B)</p>",
-          },
-          {
-            oid: "339",
-            q_option: "<p>(C)</p>",
-          },
-          {
-            oid: "340",
-            q_option: "<p>(D)</p>",
-          },
-        ],
-      },
-      {
-        id: "63",
-        type: "Multiple Choice Single Answer",
-        question: "<p>test question</p>",
-        options: [
-          {
-            oid: "333",
-            q_option: "<p>test</p>",
-          },
-          {
-            oid: "334",
-            q_option: "<p>test</p>",
-          },
-          {
-            oid: "335",
-            q_option: "<p>test</p>",
-          },
-          {
-            oid: "336",
-            q_option: "<p>test</p>",
-          },
-        ],
-      },
-      {
-        id: "54",
-        type: "Multiple Choice Single Answer",
-        question: '<p><img src="../../../upload/Completion1.jpg" /></p>',
-        options: [
-          {
-            oid: "237",
-            q_option: "<p>(A)</p>",
-          },
-          {
-            oid: "238",
-            q_option: "<p>(B)</p>",
-          },
-          {
-            oid: "239",
-            q_option: "<p>(C)</p>",
-          },
-          {
-            oid: "240",
-            q_option: "<p>(D)</p>",
-          },
-        ],
-      },
-      {
-        id: "53",
-        type: "Multiple Choice Single Answer",
-        question: '<p><img src="../../../../upload/Completion.jpg" /></p>',
-        options: [
-          {
-            oid: "217",
-            q_option: "<p>(A)</p>",
-          },
-          {
-            oid: "218",
-            q_option: "<p>(B)</p>",
-          },
-          {
-            oid: "219",
-            q_option: "<p>(C)</p>",
-          },
-          {
-            oid: "220",
-            q_option: "<p>(D)</p>",
-          },
-        ],
-      },
-    ],
-    http_code: 200,
-  };
+  const [questions, setQuestions] = useState([]);
+  const [loader, setloader] = useState(true)
+  const { quid } = useParams()
+  const { access_token } = userData;
+  useEffect(() => {
+    getReasoningExam(access_token, quid)
+  }, []);
 
-  const parsed = parseJSON(response.data);
-  console.log("parsed", parsed);
-  // useEffect(() => {
-  // }, []);
-
+  const getReasoningExam = async (token, quid) => {
+    try {
+      setloader(true)
+      const response = await Axios.post(
+        `${import.meta.env.VITE_API_URL + endpoints.getReasoningExam}`,
+        qs.stringify({ access_key: token, exam: quid })
+      );
+      if (response.data.status === "success") {
+        console.log('success')
+        const questionsResponse = parseJSON(response.data.data)
+        setQuestions(questionsResponse)
+      } else {
+        localStorage.clear()
+        window.location.reload()     
+      }
+      setloader(false)
+    } catch (error) {
+      console.log(error)
+      setloader(false)
+    }
+  }
+  if(loader==true){
+    return(
+      <div>LOADING</div>
+      )
+  }else{
   return (
     <div>
       <div className="main-head" style={{ display: "flex" }}>
         <h1 className="page-header">Reasoning Test</h1>
         <div className="timer">
-          <Timer initialTime={4} onTimerEnd={() => null} />
+          <Timer initialTime={1000} onTimerEnd={() => null} />
         </div>
       </div>
       <div className="container">
         <div className="column">
           <div className="questions-container">
             <div className="container-head">Question 1 :</div>
-            <p>Study the figure below and answer the following questions</p>
-            <img src="test-image-question.png" alt="" />
+            <div dangerouslySetInnerHTML={{ __html: questions[0].question }}></div>
+            {/* {questions[0].question} */}
+            {/* <p>Study the figure below and answer the following questions</p> */}
+            {/* <img src="./../../../assets/images/test-image-question.png" alt="" /> */}
             <ul className="questions-list">
               <li>
                 Find out the number of families which have all the four things
@@ -137,6 +69,19 @@ const ReasoningExam = () => {
           </div>
           <div className="options-container">
             <div className="options-head">Options :</div>
+            <ul>
+              {questions[0].options.map((option) => (
+                <label key={option.oid}>
+                  <input
+                    type="radio"
+                    className="checkbox-input"
+                    name={questions[0].id}
+                    value={option.q_option}
+                  />
+                  {option.q_option}
+                </label>
+              ))}
+            </ul>
             <ul className="options-list">
               <li>
                 Option 1 <input type="radio" className="radio-button" />
@@ -155,11 +100,8 @@ const ReasoningExam = () => {
         </div>
         <div className="column second-column">
           <div className="button-row">
-            {/* {parsed.map((index)=>{
-            <button key={index} class="button">{index}</button>
-            })} */}
-            {parsed.map((object, index) => (
-              <button className="button">{index}</button>
+            {questions.length !== 0 && questions.map((question, index) => (
+              <NumberPad key={index} questionID={question.id} number={index + 1} />
             ))}
           </div>
           <div className="color-indicator">
@@ -201,5 +143,6 @@ const ReasoningExam = () => {
     </div>
   );
 };
+}
 
 export default ReasoningExam;
