@@ -11,6 +11,7 @@ const CareerInterestExam = () => {
   const { access_token } = userData;
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({ user: "", data: [] });
+  const [isDisabled, setIsDisabled] = useState(false);
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -39,6 +40,7 @@ const CareerInterestExam = () => {
         notificationHelpers.success(
           "Career Career Interest Exam Was Completed Successfully"
         );
+        setIsDisabled(true);
       }
     } catch (error) {
       console.error("Error Sending Answers:", error);
@@ -144,7 +146,7 @@ const CareerInterestExam = () => {
             <button
               className="btn btn-green"
               onClick={() => handleSaveAnswers(answers)}
-              // disabled={questions.length !== answers.data.length}
+              disabled={isDisabled}
             >
               Save
             </button>
