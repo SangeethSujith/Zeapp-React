@@ -12,6 +12,7 @@ const CareerInterestExam = () => {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({ user: "", data: [] });
   const [isDisabled, setIsDisabled] = useState(false);
+  const [timer, setTimer] = useState(null);
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -24,7 +25,11 @@ const CareerInterestExam = () => {
         }`,
         qs.stringify({ access_key: token })
       );
-      setQuestions(parseCareerInterestQuestions(response.data.data));
+
+      const questionsData = response.data.data;
+      const timerFromApi = response.data.time;
+      setTimer(timerFromApi);
+      setQuestions(parseCareerInterestQuestions(questionsData));
     } catch (error) {
       console.error("Error Getting Questions:", error);
     }
@@ -92,7 +97,9 @@ const CareerInterestExam = () => {
       <div className="main-head">
         <h1 className="page-header">Career Interest Test</h1>
         <div className="timer">
-          <Timer initialTime={4} onTimerEnd={() => null} />
+          {timer !== null && (
+            <Timer initialTime={timer} onTimerEnd={() => null} />
+          )}
         </div>
       </div>
       <div className="container">
