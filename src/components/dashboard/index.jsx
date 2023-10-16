@@ -49,7 +49,14 @@ const Dashboard = () => {
         {exams.CAREER === "CAREER_CLUSTER" && (
           <div className="graph">
             <Link to={routepath.careerEvaluationExam}>
-              <div className="career-exam-card">Take Career Test</div>
+              <div className="career-exam-card">Take Career Cluster Test</div>
+            </Link>
+          </div>
+        )}
+        {exams.CAREER === "CAREER_INTEREST" && (
+          <div className="graph">
+            <Link to={routepath.careerInterestExam}>
+              <div className="career-exam-card">Take Career Interest Test</div>
             </Link>
           </div>
         )}

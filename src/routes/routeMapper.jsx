@@ -15,6 +15,9 @@ const User = lazy(() => import("../components/users/index"));
 const CareerEvaluationExam = lazy(() =>
   import("../components/exams/careerevaluationexam")
 );
+const CareerInterestExam = lazy(() =>
+  import("../components/exams/careerinterestexam")
+);
 const ReasoningExam = lazy(() => import("../components/exams/reasoningexam"));
 const ExamReport = lazy(() => import("../components/examreport"));
 const Notifications = lazy(() => import("../components/notifications"));
@@ -168,6 +171,26 @@ const routeMapper = () => {
           element: (
             <Suspense fallback={<Loader />}>
               <ReasoningExam />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: routepath.careerInterestExam,
+      element: (
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
+      ),
+      exact: true,
+      children: [
+        {
+          index: true,
+          exact: true,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <CareerInterestExam />
             </Suspense>
           ),
         },

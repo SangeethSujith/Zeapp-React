@@ -10,7 +10,7 @@ export const endpoints = {
   saveCareerInterest: "/saveCareerInterest",
   savePsycometric: "/savePsycometric",
   getCareerClusterExam: "/getCareerClusterExam",
-  getCareerSurvey: "/getCareerSurvey",
+  getCareerInterestQuestions: "/getCareerSurvey",
   getPsychometricInterest: "/getPsychometricInterest",
   getCareerExamTypesForUser: "/getCareerExamTypesForUser",
 };
