@@ -4,7 +4,7 @@ import { routepath } from "../../../constants/routepath";
 
 const SideMenu = () => {
   return (
-    <div className="left">
+    <div className="left" style={{height:'100vh'}}>
       <div className="company">
         <div className="logo">
           <img src="../../../src/assets/images/zeapp-logo.png" alt="main" />

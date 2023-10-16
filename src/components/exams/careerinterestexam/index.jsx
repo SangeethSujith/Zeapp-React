@@ -17,6 +17,7 @@ const CareerInterestExam = () => {
   const [answers, setAnswers] = useState({ user: "", data: [] });
   const [isDisabled, setIsDisabled] = useState(false);
   const [timer, setTimer] = useState(null);
+  const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(true);
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -30,14 +31,18 @@ const CareerInterestExam = () => {
         qs.stringify({ access_key: token })
       );
 
-      if (response.data.status === "ERROR") {
-        localStorage.clear();
-        window.location.reload();
-      } else {
-        const questionsData = response.data.data;
-        const timerFromApi = response.data.time;
-        setTimer(timerFromApi);
-        setQuestions(parseCareerInterestQuestions(questionsData));
+      const questionsData = response.data.data;
+      const timerFromApi = response.data.time;
+      if (response.data.http_code !== 300) {
+        if (response.data.http_code === 200) {
+          setQuestions(parseCareerInterestQuestions(questionsData));
+          setTimer(timerFromApi);
+          setIsMaxLimitExceeded(false);
+        } else {
+          notificationHelpers.error("An Error Occurred! Try Logging in again.");
+          localStorage.clear();
+          window.location.reload();
+        }
       }
     } catch (error) {
       console.error("Error Getting Questions:", error);
@@ -100,78 +105,82 @@ const CareerInterestExam = () => {
       sendAnswers(answers);
     }
   };
-
-  return (
-    <div>
-      <div className="main-head">
-        <h1 className="page-header">Career Interest Test</h1>
-        <div className="timer">
-          {timer !== null && (
-            <Timer initialTime={timer} onTimerEnd={() => null} />
-          )}
-        </div>
-      </div>
-      <div className="container">
-        <div className="column">
-          <div className="questions-container bg-blue">
-            <p>
-              This activity helps you match your interests to different types of
-              careers. For each item, select the letter of the activity you
-              would rather do
-            </p>
+  if (isMaxLimitExceeded) {
+    return <h1 >Max Limit Exceeded</h1>;
+  } else {
+    return (
+      <div>
+        <div className="main-head">
+          <h1 className="page-header">Career Interest Test</h1>
+          <div className="timer">
+            {timer !== null && (
+              <Timer initialTime={timer} onTimerEnd={() => null} />
+            )}
           </div>
-          <div className="options-wrap">
-            {questions.length !== 0 &&
-              questions.map((question, index) => (
-                <div key={question.srl_no} className="options-container">
-                  <div className="card">
-                    <div className="q-no">{index + 1}</div>
+        </div>
+        <div className="container">
+          <div className="column">
+            <div className="questions-container bg-blue">
+              <p>
+                This activity helps you match your interests to different types
+                of careers. For each item, select the letter of the activity you
+                would rather do
+              </p>
+            </div>
+            <div className="options-wrap">
+              {questions.length !== 0 &&
+                questions.map((question, index) => (
+                  <div key={question.srl_no} className="options-container">
+                    <div className="card">
+                      <div className="q-no">{index + 1}</div>
 
-                    {question.options.map((option, index) => (
-                      <label key={index} className="checkbox-label">
-                        <input
-                          type="radio"
-                          className="checkbox-input"
-                          name={question.srl_no}
-                          value={option.option}
-                          onChange={() =>
-                            handleOptionChange(question.srl_no, option.option)
-                          }
-                        />
-                        {option.desc}
-                      </label>
-                    ))}
+                      {question.options.map((option, index) => (
+                        <label key={index} className="checkbox-label">
+                          <input
+                            type="radio"
+                            className="checkbox-input"
+                            name={question.srl_no}
+                            value={option.option}
+                            onChange={() =>
+                              handleOptionChange(question.srl_no, option.option)
+                            }
+                          />
+                          {option.desc}
+                        </label>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
+          </div>
+          <div
+            className="column second-column"
+            style={{
+              height: "fit-content",
+              textAlign: "center",
+              padding: "8% 10px",
+            }}
+          >
+            <div className="gif">
+              <img src={career} alt="" style={{ width: "300px" }} />
+            </div>
+            <div className="bottom-btn-row">
+              <button className="btn btn-red">Quit</button>
+              <button
+                className="btn btn-green"
+                onClick={() => handleSaveAnswers(answers)}
+                disabled={isDisabled}
+              >
+                Save
+              </button>
+              {isMaxLimitExceeded && <span>Max Limit Exceeded</span>}
+            </div>
           </div>
         </div>
-        <div
-          className="column second-column"
-          style={{
-            height: "fit-content",
-            textAlign: "center",
-            padding: "8% 10px",
-          }}
-        >
-          <div className="gif">
-            <img src={career} alt="" style={{ width: "300px" }} />
-          </div>
-          <div className="bottom-btn-row">
-            <button className="btn btn-red">Quit</button>
-            <button
-              className="btn btn-green"
-              onClick={() => handleSaveAnswers(answers)}
-              disabled={isDisabled}
-            >
-              Save
-            </button>
-          </div>
-        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
 };
 
 export default CareerInterestExam;
