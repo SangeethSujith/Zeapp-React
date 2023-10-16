@@ -11,7 +11,7 @@ import NumberPad from "./NumberPad";
 
 const ReasoningExam = () => {
   const [questions, setQuestions] = useState([]);
-  console.log('questions', questions)
+  const [loader, setloader] = useState(true)
   const { quid } = useParams()
   const { access_token } = userData;
   useEffect(() => {
@@ -20,33 +20,45 @@ const ReasoningExam = () => {
 
   const getReasoningExam = async (token, quid) => {
     try {
+      setloader(true)
       const response = await Axios.post(
         `${import.meta.env.VITE_API_URL + endpoints.getReasoningExam}`,
         qs.stringify({ access_key: token, exam: quid })
       );
-      if(response){
-
+      if (response.data.status === "success") {
+        console.log('success')
         const questionsResponse = parseJSON(response.data.data)
         setQuestions(questionsResponse)
+      } else {
+        localStorage.clear()
+        window.location.reload()     
       }
+      setloader(false)
     } catch (error) {
       console.log(error)
+      setloader(false)
     }
   }
-
+  if(loader==true){
+    return(
+      <div>LOADING</div>
+      )
+  }else{
   return (
     <div>
       <div className="main-head" style={{ display: "flex" }}>
         <h1 className="page-header">Reasoning Test</h1>
         <div className="timer">
-          <Timer initialTime={4} onTimerEnd={() => null} />
+          <Timer initialTime={1000} onTimerEnd={() => null} />
         </div>
       </div>
       <div className="container">
         <div className="column">
           <div className="questions-container">
             <div className="container-head">Question 1 :</div>
-            <p>Study the figure below and answer the following questions</p>
+            <div dangerouslySetInnerHTML={{ __html: questions[0].question }}></div>
+            {/* {questions[0].question} */}
+            {/* <p>Study the figure below and answer the following questions</p> */}
             {/* <img src="./../../../assets/images/test-image-question.png" alt="" /> */}
             <ul className="questions-list">
               <li>
@@ -57,6 +69,19 @@ const ReasoningExam = () => {
           </div>
           <div className="options-container">
             <div className="options-head">Options :</div>
+            <ul>
+              {questions[0].options.map((option) => (
+                <label key={option.oid}>
+                  <input
+                    type="radio"
+                    className="checkbox-input"
+                    name={questions[0].id}
+                    value={option.q_option}
+                  />
+                  {option.q_option}
+                </label>
+              ))}
+            </ul>
             <ul className="options-list">
               <li>
                 Option 1 <input type="radio" className="radio-button" />
@@ -75,8 +100,8 @@ const ReasoningExam = () => {
         </div>
         <div className="column second-column">
           <div className="button-row">
-            { questions.map((question, index) => (
-              <NumberPad key={index} questionID={question.id} number={index+1} />
+            {questions.length !== 0 && questions.map((question, index) => (
+              <NumberPad key={index} questionID={question.id} number={index + 1} />
             ))}
           </div>
           <div className="color-indicator">
@@ -118,5 +143,6 @@ const ReasoningExam = () => {
     </div>
   );
 };
+}
 
 export default ReasoningExam;
