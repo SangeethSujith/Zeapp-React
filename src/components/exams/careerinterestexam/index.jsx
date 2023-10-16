@@ -50,7 +50,6 @@ const CareerInterestExam = () => {
   };
 
   const sendAnswers = async (answers) => {
-    console.log("answers", answers);
     try {
       const response = await Axios.post(
         `${import.meta.env.VITE_API_URL + endpoints.saveCareerInterest}`,
@@ -107,7 +106,7 @@ const CareerInterestExam = () => {
     }
   };
   if (isMaxLimitExceeded) {
-    return <h1>Max Limit Exceeded</h1>;
+    return <h1 >Max Limit Exceeded</h1>;
   } else {
     return (
       <div>

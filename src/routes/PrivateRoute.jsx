@@ -18,7 +18,9 @@ const PrivateLayout = ({ children }) => {
       <div className="body">
         {!isHeaderHidden && <Header />}
         <div className="main">
-          <div style={{ display: "flex" }}>
+          <div
+            style={isHeaderHidden ? { display: "flex" } : { display: "block" }}
+          >
             {isHeaderHidden && <SideMenu />}
             <main>{children}</main>
           </div>
