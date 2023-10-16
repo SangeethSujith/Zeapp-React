@@ -26,7 +26,6 @@ const ReasoningExam = () => {
         qs.stringify({ access_key: token, exam: quid })
       );
       if (response.data.status === "success") {
-        console.log('success')
         const questionsResponse = parseJSON(response.data.data)
         setQuestions(questionsResponse)
       } else {
