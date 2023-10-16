@@ -3,8 +3,8 @@ import "./timer-style.css";
 
 const Timer = ({ initialTime, onTimerEnd }) => {
   const FULL_DASH_ARRAY = 283;
-  const WARNING_THRESHOLD = 15;
-  const ALERT_THRESHOLD = 5;
+  const WARNING_THRESHOLD = initialTime/3;
+  const ALERT_THRESHOLD = initialTime/7;
 
   const COLOR_CODES = {
     info: {
