@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import career from "../../assets/images/career.png";
 import { routepath } from "../../constants/routepath";
-import SideMenu from "../shared/sideMenu";
 import { userData } from "../../utils/loginData";
 import { endpoints } from "../../constants/endpoints";
 import { useEffect, useState } from "react";
@@ -9,6 +8,7 @@ import Axios from "axios";
 import qs from "qs";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const { first_name, school_name, access_token } = userData;
   const [exams, setExams] = useState({});
   console.log("exams", exams);
@@ -22,7 +22,12 @@ const Dashboard = () => {
         `${import.meta.env.VITE_API_URL + endpoints.getAssignedExams}`,
         qs.stringify({ access_key: token })
       );
-      setExams(response.data);
+      if (response.data.status === "ERROR") {
+        localStorage.clear();
+        window.location.reload();
+      } else {
+        setExams(response.data);
+      }
     } catch (error) {
       console.error("Error Getting Exams:", error);
     }

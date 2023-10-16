@@ -7,7 +7,11 @@ import { userData } from "../../../utils/loginData";
 import Axios from "axios";
 import qs from "qs";
 import notificationHelpers from "../../../utils/notification";
+import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 const CareerInterestExam = () => {
+  useBeforeUnload(
+    "You will be redirected to Login Page. You Progress May Not Be Saved"
+  );
   const { access_token } = userData;
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({ user: "", data: [] });
@@ -26,10 +30,15 @@ const CareerInterestExam = () => {
         qs.stringify({ access_key: token })
       );
 
-      const questionsData = response.data.data;
-      const timerFromApi = response.data.time;
-      setTimer(timerFromApi);
-      setQuestions(parseCareerInterestQuestions(questionsData));
+      if (response.data.status === "ERROR") {
+        localStorage.clear();
+        window.location.reload();
+      } else {
+        const questionsData = response.data.data;
+        const timerFromApi = response.data.time;
+        setTimer(timerFromApi);
+        setQuestions(parseCareerInterestQuestions(questionsData));
+      }
     } catch (error) {
       console.error("Error Getting Questions:", error);
     }

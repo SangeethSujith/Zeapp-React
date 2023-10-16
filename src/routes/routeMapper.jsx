@@ -12,9 +12,7 @@ const Login = lazy(() => import("../components/auth/Login"));
 const Dashboard = lazy(() => import("../components/dashboard"));
 const NotFound = lazy(() => import("../components/shared/notFound"));
 const User = lazy(() => import("../components/users/index"));
-const CareerEvaluationExam = lazy(() =>
-  import("../components/exams/careerevaluationexam")
-);
+
 const CareerInterestExam = lazy(() =>
   import("../components/exams/careerinterestexam")
 );
@@ -71,26 +69,6 @@ const routeMapper = () => {
           element: (
             <Suspense fallback={<Loader />}>
               <User />
-            </Suspense>
-          ),
-        },
-      ],
-    },
-    {
-      path: routepath.careerEvaluationExam,
-      element: (
-        <PrivateRoute>
-          <Outlet />
-        </PrivateRoute>
-      ),
-      exact: true,
-      children: [
-        {
-          index: true,
-          exact: true,
-          element: (
-            <Suspense fallback={<Loader />}>
-              <CareerEvaluationExam />
             </Suspense>
           ),
         },
