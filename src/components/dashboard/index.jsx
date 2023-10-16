@@ -1,12 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import career from "../../assets/images/career.png";
 import { routepath } from "../../constants/routepath";
-import SideMenu from "../shared/sideMenu";
 import { userData } from "../../utils/loginData";
 import { endpoints } from "../../constants/endpoints";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import qs from "qs";
+import qs from "qs";  
 
 const Dashboard = () => {
   const { first_name, school_name, access_token } = userData;
@@ -62,7 +61,7 @@ const Dashboard = () => {
         )}
         {exams.EXAM && (
           <div className="graph">
-            <Link to={routepath.reasoningExam}>
+            <Link to={routepath.reasoningExam + "/" + exams.EXAM[0].quid}>
               <div className="career-exam-card">Take Reasoning Test</div>
             </Link>
           </div>
