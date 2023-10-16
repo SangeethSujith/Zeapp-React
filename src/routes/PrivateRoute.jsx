@@ -4,7 +4,6 @@ import { Navigate } from "react-router-dom";
 import Header from "../components/shared/Header";
 import SideMenu from "../components/shared/sideMenu";
 import Footer from "../components/shared/Footer";
-import useBeforeUnload from "../utils/hooks/useBeforeUnload";
 import { routepath } from "../constants/routepath";
 
 const PrivateLayout = ({ children }) => {
@@ -13,9 +12,7 @@ const PrivateLayout = ({ children }) => {
     location.pathname === routepath.examReport ||
     location.pathname === routepath.profile ||
     location.pathname === routepath.notifications;
-  useBeforeUnload(
-    "You will be redirected to Login Page. You Progress May Not Be Saved"
-  );
+
   return (
     <div className={isHeaderHidden ? "center":""}>
       {isHeaderHidden ? <SideMenu /> : <Header />}

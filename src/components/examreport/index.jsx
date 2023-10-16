@@ -17,8 +17,13 @@ const ExamReport = () => {
         `${import.meta.env.VITE_API_URL + endpoints.canUserPullReport}`,
         qs.stringify({ access_key: token })
       );
-      const pull_report = response.data.pull_report === "Y" ? true : false;
-      setisReportAvailable(pull_report);
+      if (response.data.status === "ERROR") {
+        localStorage.clear();
+        window.location.reload();
+      } else {
+        const pull_report = response.data.pull_report === "Y" ? true : false;
+        setisReportAvailable(pull_report);
+      }
     } catch (error) {
       console.error("Error Getting Exams:", error);
     }
@@ -48,7 +53,9 @@ const ExamReport = () => {
             download report
           </button>
         ) : (
-          <h1>report not available</h1>
+          <h1>
+            Report not ready yet. Please complete the exams and check again.
+          </h1>
         )}
       </div>
     </div>
