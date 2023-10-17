@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import parseJSON from "../../../utils/jsonparser";
-import Footer from "../../shared/Footer";
 import Timer from "../../shared/Timer";
 import { useParams } from "react-router-dom";
 import { userData } from "../../../utils/loginData";
