@@ -53,7 +53,7 @@ const Dashboard = () => {
       <div className="row column">
         {exams.CAREER === "CAREER_CLUSTER" && (
           <div className="graph">
-            <Link to={routepath.careerEvaluationExam}>
+            <Link to={routepath.careerClusterExam}>
               <div className="career-exam-card">Take Career Cluster Test</div>
             </Link>
           </div>

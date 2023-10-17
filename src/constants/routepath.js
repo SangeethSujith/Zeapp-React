@@ -2,7 +2,7 @@ export const routepath = {
   login: "/login",
   dashboard: "/",
   examReport: "/report",
-  careerEvaluationExam: "/career-evaluation-exam",
+  careerClusterExam: "/career-cluster-exam",
   careerInterestExam: "/career-interest-exam",
   psycometricExam: "/pyscometric-exam",
   reasoningExam: "/reasoning-exam",

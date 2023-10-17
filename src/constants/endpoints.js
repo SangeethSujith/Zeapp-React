@@ -6,7 +6,7 @@ export const endpoints = {
   getCareerClusterExam: "/getCareerClusterExam",
   getReasoningExam: "/getQuestionsByExam",
   saveExamResults: "/saveExamResults",
-  saveCareerCluster: "/saveCareerCluster",
+  saveCareerClusterExam: "/saveCareerCluster",
   saveCareerInterest: "/saveCareerInterest",
   savePsycometricExam: "/savePsycometric",
   getCareerClusterExam: "/getCareerClusterExam",

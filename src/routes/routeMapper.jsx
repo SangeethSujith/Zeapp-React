@@ -22,6 +22,10 @@ const ReasoningExam = lazy(() => import("../components/exams/reasoningexam"));
 const PsycometricExam = lazy(() =>
   import("../components/exams/psycometricexam")
 );
+const CareerClusterExam = lazy(() =>
+  import("../components/exams/careerclusterexam")
+);
+
 const routeMapper = () => {
   return [
     {
@@ -170,6 +174,26 @@ const routeMapper = () => {
           element: (
             <Suspense fallback={<Loader />}>
               <PsycometricExam />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: routepath.careerClusterExam,
+      element: (
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
+      ),
+      exact: true,
+      children: [
+        {
+          index: true,
+          exact: true,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <CareerClusterExam />
             </Suspense>
           ),
         },
