@@ -5,7 +5,7 @@ import { userData } from "../../utils/loginData";
 import { endpoints } from "../../constants/endpoints";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import qs from "qs";
+import qs from "qs";  
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const Dashboard = () => {
         )}
         {exams.EXAM && (
           <div className="graph">
-            <Link to={routepath.reasoningExam}>
+            <Link to={routepath.reasoningExam + "/" + exams.EXAM[0].quid}>
               <div className="career-exam-card">Take Reasoning Test</div>
             </Link>
           </div>
