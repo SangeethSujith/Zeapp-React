@@ -111,6 +111,8 @@ const PsycometricExam = () => {
 
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
+  } else if (questions.length === 0) {
+    return <p>Loading...</p>;
   } else {
     return (
       <div>
