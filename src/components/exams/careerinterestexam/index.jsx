@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Timer from "../../shared/Timer";
-import career from "../../../assets/images/career.png";
-import Footer from "../../shared/Footer";
-import { endpoints } from "../../../constants/endpoints";
-import { userData } from "../../../utils/loginData";
 import Axios from "axios";
 import qs from "qs";
-import notificationHelpers from "../../../utils/notification";
+import React, { useEffect, useState } from "react";
+import career from "../../../assets/images/career.png";
+import { endpoints } from "../../../constants/endpoints";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
+import { userData } from "../../../utils/loginData";
+import notificationHelpers from "../../../utils/notification";
+import Timer from "../../shared/Timer";
 const CareerInterestExam = () => {
   useBeforeUnload(
     "You will be redirected to Login Page. You Progress May Not Be Saved"
