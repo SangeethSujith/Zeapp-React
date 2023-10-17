@@ -12,10 +12,10 @@ body {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #F1F4FA;
+  background-color: #f1f4fa;
 }
 
 header {
@@ -52,7 +52,7 @@ nav li a:hover {
 }
 
 nav li a.active {
-  color: #5546E9;
+  color: #5546e9;
 }
 
 h1 {
@@ -74,7 +74,7 @@ h1 {
   width: 80%;
   font-size: 40px;
   font-weight: 600;
-  color: #5546E9;
+  color: #5546e9;
   margin: 60px 0;
 }
 
@@ -111,7 +111,6 @@ h1 {
   font-weight: 600;
   color: #707070;
   padding-bottom: 20px;
-
 }
 
 .options-container {
@@ -224,11 +223,10 @@ textarea:focus-visible {
   margin: 5px;
   cursor: pointer;
   border: none;
-
 }
 
 .btn-blue {
-  background-color: #E8F5FF;
+  background-color: #e8f5ff;
   color: #249ef2;
   /* border: 1px solid #249ef2 !important; */
 }
@@ -238,7 +236,7 @@ textarea:focus-visible {
 }
 
 .btn-red {
-  background-color: #FFEDEC;
+  background-color: #ffedec;
   color: #f57572;
 }
 
@@ -246,10 +244,17 @@ textarea:focus-visible {
   background-color: #ffd8d6;
 }
 
-
 .btn-green {
-  background-color: #EBF8F1;
+  background-color: #ebf8f1;
   color: #53d380;
+}
+.btn-disabled {
+  background-color: lightslategray;
+  color: white;
+  cursor: not-allowed;
+}
+.btn-disabled:hover {
+  cursor: not-allowed;
 }
 
 .btn-green:hover {
@@ -309,8 +314,6 @@ textarea:focus-visible {
 
 .app-button:hover {
   background-color: #9193ce;
-
-
 }
 
 .burger-button,
@@ -318,13 +321,7 @@ textarea:focus-visible {
   display: none;
 }
 
-
-
-
 /* dashboard */
-
-
-
 
 * {
   box-sizing: border-box;
@@ -375,7 +372,7 @@ textarea:focus-visible {
 }
 
 .navigation li a.active {
-  color: #5546E9;
+  color: #5546e9;
 }
 
 .right {
@@ -415,7 +412,7 @@ textarea:focus-visible {
   padding: 25px;
 }
 
-.right .graph+.graph {
+.right .graph + .graph {
   margin-left: 10px;
 }
 
@@ -428,7 +425,6 @@ textarea:focus-visible {
 }
 
 /* dashboard-ends */
-
 
 /* career-evaluation */
 .options-container .card {
@@ -450,7 +446,6 @@ textarea:focus-visible {
   overflow-y: scroll;
   padding: 10px;
   margin-top: 10px;
-
 }
 
 .q-no {
@@ -462,14 +457,10 @@ textarea:focus-visible {
   background-color: #c3d6fd;
 }
 
-
-
 /* login */
-
 
 .main-section {
   height: 90vh;
-
 }
 
 .login-container {
@@ -527,8 +518,7 @@ textarea:focus-visible {
 }
 
 .login-input:focus-visible {
-  outline-color: #6259EC;
-
+  outline-color: #6259ec;
 }
 
 .forgot-pswd {
@@ -551,10 +541,9 @@ textarea:focus-visible {
 }
 
 .login-button:hover {
-  background-color: #6259EC;
+  background-color: #6259ec;
   color: #fff;
 }
-
 
 /* --------career-test-start--------*/
 .container-sw {
@@ -575,8 +564,6 @@ textarea:focus-visible {
   background-color: aliceblue;
   padding: 10px 20px;
   border-radius: 10px;
-
-
 }
 
 .number-box {
@@ -598,116 +585,110 @@ textarea:focus-visible {
 }
 
 .number-box.active {
-
   background-color: #4d83f74f;
-  border: 1px solid #5546E9;
-  color: #5546E9;
-  border: 1px solid #5546E9
+  border: 1px solid #5546e9;
+  color: #5546e9;
+  border: 1px solid #5546e9;
 }
 
 /* ==========ends============ */
 
-
 @media (max-width: 768px) {
   .container {
-      flex-direction: column;
+    flex-direction: column;
   }
 
   .page-header {
-      text-align: left;
-      width: 60%;
-      font-size: 30px;
-      padding-left: 20px;
+    text-align: left;
+    width: 60%;
+    font-size: 30px;
+    padding-left: 20px;
   }
 
-
   .second-column {
-      margin-top: 20px;
+    margin-top: 20px;
   }
 
   .main-menu {
-      display: none;
-
+    display: none;
   }
 
   .burger-button {
-      display: block;
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
+    display: block;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
   }
 
   .menu {
-      display: none;
-      flex-direction: column;
-      align-items: center;
+    display: none;
+    flex-direction: column;
+    align-items: center;
   }
 
   .menu.active {
-      z-index: 222;
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      right: 0;
-      top: 12%;
-      background-color: #ffffff;
-      border-radius: 0 0 10px 10px;
-      width: 30%;
-      text-align: left;
-      box-shadow: 0px 4px 15px -4px rgba(0, 0, 0, 0.06);
+    z-index: 222;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    right: 0;
+    top: 12%;
+    background-color: #ffffff;
+    border-radius: 0 0 10px 10px;
+    width: 30%;
+    text-align: left;
+    box-shadow: 0px 4px 15px -4px rgba(0, 0, 0, 0.06);
   }
 
-
   .menu.active ul {
-      display: flex;
-      flex-direction: column;
-      padding-left: 0 !important;
+    display: flex;
+    flex-direction: column;
+    padding-left: 0 !important;
   }
 
   .burger-button.active {
-      color: #252525;
+    color: #252525;
   }
 
   .footer-menu {
-      display: none;
+    display: none;
   }
 
   .app-buttons {
-      justify-content: center;
-      width: 80%;
+    justify-content: center;
+    width: 80%;
   }
 
   .menu li {
-      margin: 10px 0;
+    margin: 10px 0;
   }
 
   .right .title {
-      font-size: 18px;
-      font-weight: 500;
+    font-size: 18px;
+    font-weight: 500;
   }
 
   .gif img {
-      width: 80px;
+    width: 80px;
   }
 
   .login-card {
-      width: 90%;
+    width: 90%;
   }
 
   .container-sw {
-      padding: 0;
+    padding: 0;
   }
 
   .number-box {
-      width: 30px;
-      height: 30px;
-      line-height: 30px;
-      font-size: 16px;
-      margin: 5px;
-      border-radius: 4px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    margin: 5px;
+    border-radius: 4px;
   }
-
 }
 
 /* for buuton-row buttons */

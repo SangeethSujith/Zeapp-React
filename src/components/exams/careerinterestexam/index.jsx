@@ -171,13 +171,12 @@ const CareerInterestExam = () => {
             <div className="bottom-btn-row">
               <button className="btn btn-red">Quit</button>
               <button
-                className="btn btn-green"
+                className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 onClick={() => handleSaveAnswers(answers)}
                 disabled={isDisabled}
               >
                 Save
               </button>
-              {isMaxLimitExceeded && <span>Max Limit Exceeded</span>}
             </div>
           </div>
         </div>
