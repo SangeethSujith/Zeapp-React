@@ -184,7 +184,6 @@ const CareerInterestExam = () => {
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }
