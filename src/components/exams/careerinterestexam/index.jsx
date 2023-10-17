@@ -17,7 +17,7 @@ const CareerInterestExam = () => {
   const [answers, setAnswers] = useState({ user: "", data: [] });
   const [isDisabled, setIsDisabled] = useState(false);
   const [timer, setTimer] = useState(null);
-  const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(true);
+  const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(null);
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -84,13 +84,15 @@ const CareerInterestExam = () => {
   };
 
   const handleOptionChange = (qid, option) => {
-    const updatedData = answers.data.filter((item) => item.qid !== qid);
+    const updatedData = answers.data.filter(
+      (item) => parseInt(item.qid) !== parseInt(qid)
+    );
     const updatedAnswers = {
       user: access_token,
       data: [
         ...updatedData,
         {
-          qid: qid,
+          qid: parseInt(qid),
           option: option,
         },
       ],
@@ -100,13 +102,15 @@ const CareerInterestExam = () => {
 
   const handleSaveAnswers = (answers) => {
     if (questions.length !== answers.data.length) {
-      notificationHelpers.warning("please answer all questions");
+      notificationHelpers.warning(
+        ` ${questions.length}/${answers.data.length} please answer all questions`
+      );
     } else {
       sendAnswers(answers);
     }
   };
-  if (isMaxLimitExceeded) {
-    return <h1 >Max Limit Exceeded</h1>;
+  if (isMaxLimitExceeded === true) {
+    return <h1>Max Limit Exceeded</h1>;
   } else {
     return (
       <div>
