@@ -7,12 +7,16 @@ import { endpoints } from "../../../constants/endpoints";
 import Axios from "axios";
 import qs from "qs";
 import NumberPad from "./NumberPad";
+import notificationHelpers from "../../../utils/notification";
 
-const ReasoningExam = () => {
+const ReasoningExam = ({ }) => {
   const [questions, setQuestions] = useState([]);
   const [loader, setloader] = useState(true)
+  const [currentQuestionID, setcurrentQuestionID] = useState('')
+  const [currentNumber, setcurrentNumber] = useState(1)
   const { quid } = useParams()
   const { access_token } = userData;
+  const [answers, setAnswers] = useState({ user: access_token,exam:quid, data: [] });
   useEffect(() => {
     getReasoningExam(access_token, quid)
   }, []);
@@ -28,14 +32,31 @@ const ReasoningExam = () => {
         const questionsResponse = parseJSON(response.data.data)
         setQuestions(questionsResponse)
       } else {
-        localStorage.clear()
-        window.location.reload()
+        notificationHelpers.error("An Error Occurred! Try Logging in again.");
+        localStorage.clear();
+        window.location.reload();
       }
       setloader(false)
     } catch (error) {
       console.log(error)
       setloader(false)
     }
+  }
+  const handleOptionChange = (oid, qid) => {
+    const updatedData = answers.data.filter((item) => item.qid !== qid);
+    const updatedAnswers = {
+      user: access_token,
+      exam: quid,
+      data: [
+        ...updatedData,
+        {
+          qid: qid,
+          opt: oid,
+        },
+      ],
+    };
+    setAnswers(updatedAnswers)
+    console.log('updatedAnswers', updatedAnswers)
   }
   if (loader == true) {
     return (
@@ -47,38 +68,30 @@ const ReasoningExam = () => {
         <div className="main-head" style={{ display: "flex" }}>
           <h1 className="page-header">Reasoning Test</h1>
           <div className="timer">
-            <Timer initialTime={1000} onTimerEnd={() => null} />
+            <Timer initialTime={3600} onTimerEnd={() => null} />
           </div>
         </div>
         <div className="container">
           <div className="column">
             <div className="questions-container">
-              <div className="container-head">Question 1 :</div>
-              <div dangerouslySetInnerHTML={{ __html: questions[0].question }}></div>
-              {/* {questions[0].question} */}
-              {/* <p>Study the figure below and answer the following questions</p> */}
-              {/* <img src="./../../../assets/images/test-image-question.png" alt="" /> */}
-              {/* <ul className="questions-list">
-              <li>
-                Find out the number of families which have all the four things
-                mentioned in the diagram
-              </li>
-            </ul> */}
+              <div className="container-head">Question {currentNumber + 1} :</div>
+              <div dangerouslySetInnerHTML={{ __html: questions[currentNumber].question }}></div>
             </div>
             <div className="options-container">
               <div className="options-head">Options :</div>
-              <div 
+              <div
               // className="options-list"
               >
-                {questions[0].options.map((option) => (
+                {questions[currentNumber].options.map((option) => (
                   <label key={option.oid} >
                     <input
                       type="radio"
                       // className="radio-button"
-                      name={questions[0].id}
+                      name={questions[currentNumber].id}
                       value={option.q_option}
+                      onChange={() => { handleOptionChange( option.oid, questions[currentNumber].id) }}
                     />
-                  <span htmlFor={questions[0].id} dangerouslySetInnerHTML={{ __html: option.q_option }} />
+                    <span htmlFor={questions[currentNumber].id} dangerouslySetInnerHTML={{ __html: option.q_option }} />
                     {/* <li className="radio-button" dangerouslySetInnerHTML={{ __html: option.q_option }}/> */}
                   </label>
                 ))}
@@ -95,7 +108,9 @@ const ReasoningExam = () => {
           <div className="column second-column">
             <div className="button-row">
               {questions.length !== 0 && questions.map((question, index) => (
-                <NumberPad key={index} questionID={question.id} number={index + 1} />
+                <NumberPad key={index} questionID={question.id} number={index + 1} setcurrentNumber={setcurrentNumber}
+                  setcurrentQuestionID={setcurrentQuestionID} />
+
               ))}
             </div>
             <div className="color-indicator">
