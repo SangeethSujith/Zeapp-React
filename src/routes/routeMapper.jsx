@@ -135,7 +135,7 @@ const routeMapper = () => {
       ],
     },
     {
-      path: routepath.reasoningExam+"/:quid",
+      path: routepath.reasoningExam+"/:quid"+"/:tottime",
       element: (
         <PrivateRoute>
           <Outlet />

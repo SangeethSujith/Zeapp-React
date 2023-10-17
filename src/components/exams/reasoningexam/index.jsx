@@ -13,12 +13,13 @@ const ReasoningExam = ({ }) => {
   const [questions, setQuestions] = useState([]);
   const [loader, setloader] = useState(true)
   const [currentQuestionID, setcurrentQuestionID] = useState('')
-  const [currentNumber, setcurrentNumber] = useState(1)
-  const { quid } = useParams()
+  const [currentNumber, setcurrentNumber] = useState(0)
+  const { quid,tottime } = useParams()
   const { access_token } = userData;
   const [answers, setAnswers] = useState({ user: access_token, exam: quid, data: [] });
   useEffect(() => {
     getReasoningExam(access_token, quid)
+    console.log('quid,tottime', quid,tottime)
   }, []);
 
   const getReasoningExam = async (token, quid) => {
@@ -68,7 +69,7 @@ const ReasoningExam = ({ }) => {
         <div className="main-head" style={{ display: "flex" }}>
           <h1 className="page-header">Reasoning Test</h1>
           <div className="timer">
-            <Timer initialTime={3600} onTimerEnd={() => null} />
+            <Timer initialTime={tottime*60} onTimerEnd={() => null} />
           </div>
         </div>
         <div className="container">
