@@ -8,7 +8,7 @@ export const endpoints = {
   saveExamResults: "/saveExamResults",
   saveCareerCluster: "/saveCareerCluster",
   saveCareerInterest: "/saveCareerInterest",
-  savePsycometric: "/savePsycometric",
+  savePsycometricExam: "/savePsycometric",
   getCareerClusterExam: "/getCareerClusterExam",
   getCareerInterestQuestions: "/getCareerSurvey",
   getPsychometricInterest: "/getPsychometricInterest",

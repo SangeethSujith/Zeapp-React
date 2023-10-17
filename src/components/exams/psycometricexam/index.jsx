@@ -10,15 +10,12 @@ const PsycometricExam = () => {
   const [questions, setQuestions] = useState([]);
   const [timer, setTimer] = useState(null);
   const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(null);
-  const [selectedAnswers, setSelectedAnswers] = useState({
+  const [answers, setAnswers] = useState({
     data: [],
     user: access_token,
   });
-  console.log("selectedAnswers", selectedAnswers);
-  // console.log(
-  //   "data.find",
-  //   (selectedAnswers.data.find((item) => item.qid === 10)).option
-  // );
+  const [isDisabled, setIsDisabled] = useState(false);
+
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -35,7 +32,7 @@ const PsycometricExam = () => {
       if (response.data.http_code !== 300) {
         if (response.data.http_code === 200) {
           setQuestions(questionsData);
-          // setTimer(timerFromApi);
+          setTimer(timerFromApi);
           setIsMaxLimitExceeded(false);
         } else {
           notificationHelpers.error("An Error Occurred! Try Logging in again.");
@@ -48,30 +45,30 @@ const PsycometricExam = () => {
     }
   };
   const handleNumberBoxClick = (questionId, number) => {
-    setSelectedAnswers((prevSelectedAnswers) => {
-      const existingAnswerIndex = prevSelectedAnswers.data.findIndex(
+    setAnswers((prevAnswers) => {
+      const existingAnswerIndex = prevAnswers.data.findIndex(
         (answer) => answer.qid === parseInt(questionId)
       );
 
       if (existingAnswerIndex !== -1) {
         // If an answer for the question ID already exists, update the existing answer
-        const updatedData = [...prevSelectedAnswers.data];
+        const updatedData = [...prevAnswers.data];
         updatedData[existingAnswerIndex] = {
           qid: parseInt(questionId),
           option: number,
         };
 
         return {
-          ...prevSelectedAnswers,
+          ...prevAnswers,
           data: updatedData,
           user: access_token,
         };
       } else {
         // If no answer for the question ID exists, add a new answer
         return {
-          ...prevSelectedAnswers,
+          ...prevAnswers,
           data: [
-            ...prevSelectedAnswers.data,
+            ...prevAnswers.data,
             {
               qid: parseInt(questionId),
               option: number,
@@ -83,6 +80,33 @@ const PsycometricExam = () => {
     });
   };
 
+  const sendAnswers = async (answers) => {
+    try {
+      const response = await Axios.post(
+        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`,
+        qs.stringify(answers)
+      );
+      if (response.data.status === "success") {
+        notificationHelpers.success(
+          "Psycometric Exam Was Completed Successfully"
+        );
+        setIsDisabled(true);
+      }
+    } catch (error) {
+      console.error("Error Sending Answers:", error);
+    }
+  };
+
+  const handleSaveAnswers = (answers) => {
+    if (questions.length !== answers.data.length) {
+      notificationHelpers.warning(
+        `${answers.data.length}/${questions.length} please answer all questions`
+      );
+    } else {
+      sendAnswers(answers);
+    }
+  };
+
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
   } else {
@@ -91,7 +115,9 @@ const PsycometricExam = () => {
         <div className="main-head">
           <h1 className="page-header">Interest Test</h1>
           <div className="timer">
-            <Timer />
+            {timer !== null && (
+              <Timer initialTime={timer} onTimerEnd={() => null} />
+            )}
           </div>
         </div>
         <div className="container container-sw">
@@ -131,8 +157,8 @@ const PsycometricExam = () => {
                       <div
                         key={number}
                         className={`number-box ${
-                          selectedAnswers.data.length !== 0 &&
-                          selectedAnswers.data.some(
+                          answers.data.length !== 0 &&
+                          answers.data.some(
                             (item) =>
                               item.qid === parseInt(question.id) &&
                               item.option === number
@@ -152,6 +178,16 @@ const PsycometricExam = () => {
               </div>
             ))}
           </div>
+        </div>
+        <div className="bottom-btn-row">
+          <button className="btn btn-red">Quit</button>
+          <button
+            className="btn btn-green"
+            onClick={() => handleSaveAnswers(answers)}
+            disabled={isDisabled}
+          >
+            Save
+          </button>
         </div>
       </div>
     );

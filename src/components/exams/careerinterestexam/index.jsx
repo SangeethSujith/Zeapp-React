@@ -57,7 +57,7 @@ const CareerInterestExam = () => {
       );
       if (response.data.status === "success") {
         notificationHelpers.success(
-          "Career Career Interest Exam Was Completed Successfully"
+          "Career Interest Exam Was Completed Successfully"
         );
         setIsDisabled(true);
       }
@@ -103,7 +103,7 @@ const CareerInterestExam = () => {
   const handleSaveAnswers = (answers) => {
     if (questions.length !== answers.data.length) {
       notificationHelpers.warning(
-        ` ${questions.length}/${answers.data.length} please answer all questions`
+        `${answers.data.length}/${questions.length} please answer all questions`
       );
     } else {
       sendAnswers(answers);
