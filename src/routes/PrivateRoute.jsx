@@ -14,7 +14,7 @@ const PrivateLayout = ({ children }) => {
     location.pathname === routepath.notifications;
 
   return (
-    <div>
+    <div className="body-bg">
       <div className="body">
         {!isHeaderHidden && <Header />}
         <div className="main">
