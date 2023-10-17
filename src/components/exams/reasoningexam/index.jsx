@@ -16,7 +16,7 @@ const ReasoningExam = ({ }) => {
   const [currentNumber, setcurrentNumber] = useState(1)
   const { quid } = useParams()
   const { access_token } = userData;
-  const [answers, setAnswers] = useState({ user: access_token,exam:quid, data: [] });
+  const [answers, setAnswers] = useState({ user: access_token, exam: quid, data: [] });
   useEffect(() => {
     getReasoningExam(access_token, quid)
   }, []);
@@ -89,7 +89,7 @@ const ReasoningExam = ({ }) => {
                       // className="radio-button"
                       name={questions[currentNumber].id}
                       value={option.q_option}
-                      onChange={() => { handleOptionChange( option.oid, questions[currentNumber].id) }}
+                      onChange={() => { handleOptionChange(option.oid, questions[currentNumber].id) }}
                     />
                     <span htmlFor={questions[currentNumber].id} dangerouslySetInnerHTML={{ __html: option.q_option }} />
                     {/* <li className="radio-button" dangerouslySetInnerHTML={{ __html: option.q_option }}/> */}
@@ -108,9 +108,9 @@ const ReasoningExam = ({ }) => {
           <div className="column second-column">
             <div className="button-row">
               {questions.length !== 0 && questions.map((question, index) => (
-                <NumberPad key={index} questionID={question.id} number={index + 1} setcurrentNumber={setcurrentNumber}
-                  setcurrentQuestionID={setcurrentQuestionID} />
-
+                <div style={{ backgroundColor: index == currentNumber ? "cyan" : "white", borderRadius: 10 }}>
+                  <NumberPad key={index} questionID={question.id} number={index} current={currentNumber} setcurrentNumber={setcurrentNumber} setcurrentQuestionID={setcurrentQuestionID} />
+                </div>
               ))}
             </div>
             <div className="color-indicator">
