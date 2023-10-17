@@ -39,6 +39,8 @@ const PsycometricExam = () => {
           localStorage.clear();
           window.location.reload();
         }
+      } else {
+        setIsMaxLimitExceeded(true);
       }
     } catch (error) {
       console.error("Error Getting Questions:", error);
@@ -113,7 +115,7 @@ const PsycometricExam = () => {
     return (
       <div>
         <div className="main-head">
-          <h1 className="page-header">Interest Test</h1>
+          <h1 className="page-header">Psycometrictest Test</h1>
           <div className="timer">
             {timer !== null && (
               <Timer initialTime={timer} onTimerEnd={() => null} />

@@ -43,6 +43,8 @@ const CareerInterestExam = () => {
           localStorage.clear();
           window.location.reload();
         }
+      } else {
+        setIsMaxLimitExceeded(true);
       }
     } catch (error) {
       console.error("Error Getting Questions:", error);
