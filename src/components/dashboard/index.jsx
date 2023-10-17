@@ -5,7 +5,7 @@ import { userData } from "../../utils/loginData";
 import { endpoints } from "../../constants/endpoints";
 import { useEffect, useState } from "react";
 import Axios from "axios";
-import qs from "qs";  
+import qs from "qs";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -55,6 +55,13 @@ const Dashboard = () => {
           <div className="graph">
             <Link to={routepath.careerEvaluationExam}>
               <div className="career-exam-card">Take Career Cluster Test</div>
+            </Link>
+          </div>
+        )}
+        {exams.CAREER === "PSYCOMETRIC" && (
+          <div className="graph">
+            <Link to={routepath.psycometricExam}>
+              <div className="career-exam-card">Take Psycometric Test</div>
             </Link>
           </div>
         )}
