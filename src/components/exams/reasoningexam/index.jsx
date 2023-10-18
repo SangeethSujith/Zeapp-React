@@ -132,14 +132,14 @@ const ReasoningExam = ({ }) => {
               <div className="color-box-wrap">
                 <div
                   className="color-box"
-                  style={{ backgroundColor: "#f8b551" }}
+                  style={{ backgroundColor: "cyan" }}
                 ></div>
-                <div className="color-caption">Review-later</div>
+                <div className="color-caption">Current</div>
               </div>
               <div className="color-box-wrap">
                 <div
                   className="color-box"
-                  style={{ backgroundColor: "#249ef2" }}
+                  style={{ backgroundColor: "#fdfdfd" }}
                 ></div>
                 <div className="color-caption">Not-visited</div>
               </div>
