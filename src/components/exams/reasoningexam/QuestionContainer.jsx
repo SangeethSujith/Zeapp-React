@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react'
-
-const QuestionContainer = ({currentNumber,questions,handleOptionChange}) => {
+const QuestionContainer = ({currentNumber,questions,handleOptionChange,progress}) => {
+  const [elapsedTime, setElapsedTime] = useState(0);
+  
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setElapsedTime(prev => prev + 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    },[]);
     return(
         <div className="column">
             <div className="questions-container">
@@ -44,7 +51,7 @@ const QuestionContainer = ({currentNumber,questions,handleOptionChange}) => {
               <button
                 className="btn btn-blue"
                 onClick={() => {
-                  setcurrentNumber(currentNumber - 1);
+                  progress("minus");
                 }}
               >
                 Previous
@@ -52,7 +59,7 @@ const QuestionContainer = ({currentNumber,questions,handleOptionChange}) => {
               <button
                 className="btn btn-blue"
                 onClick={() => {
-                  setcurrentNumber(currentNumber + 1);
+                  progress("plus");
                 }}
               >
                 Next
