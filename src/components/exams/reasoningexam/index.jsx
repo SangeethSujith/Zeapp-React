@@ -91,7 +91,7 @@ const ReasoningExam = ({ }) => {
   };
   const progress = (condition) => {
     if (condition == "plus") {
-      if (currentNumber < questions.length-1) {
+      if (currentNumber < questions.length - 1) {
         setcurrentNumber(currentNumber + 1)
       } else {
         notificationHelpers.info("You are already on the last question")
@@ -100,7 +100,7 @@ const ReasoningExam = ({ }) => {
     else {
       if (currentNumber >= 1) {
         setcurrentNumber(currentNumber - 1)
-      } else{
+      } else {
         notificationHelpers.info("You are already on the first question")
       }
     }
@@ -117,9 +117,9 @@ const ReasoningExam = ({ }) => {
           </div>
         </div>
         <div className="container">
-        <div className="column">
-          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} />
-          <div className="bottom-btn-row">
+          <div className="column">
+            <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} />
+            <div className="bottom-btn-row">
               <button
                 className="btn btn-blue"
                 onClick={() => {
@@ -137,9 +137,9 @@ const ReasoningExam = ({ }) => {
                 Next
               </button>
               <button className="btn btn-red">Quit</button>
-              <button className="btn btn-green" onClick={()=>sendReasoningExam()}>Save</button>
+              <button className="btn btn-green" onClick={() => sendReasoningExam()}>Save</button>
             </div>
-            </div>
+          </div>
           <div className="column second-column">
             <div className="button-row">
               {questions.length !== 0 &&
