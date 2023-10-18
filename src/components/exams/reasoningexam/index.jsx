@@ -137,7 +137,7 @@ const ReasoningExam = ({ }) => {
                 Next
               </button>
               <button className="btn btn-red">Quit</button>
-              <button className="btn btn-green">Save</button>
+              <button className="btn btn-green" onClick={()=>sendReasoningExam()}>Save</button>
             </div>
             </div>
           <div className="column second-column">
