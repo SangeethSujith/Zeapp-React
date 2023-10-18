@@ -6,7 +6,6 @@ import { userData } from "../../../utils/loginData";
 import { endpoints } from "../../../constants/endpoints";
 import Axios from "axios";
 import qs from "qs";
-// import NumberPad from "./NumberPad";
 import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
 
@@ -56,7 +55,7 @@ const ReasoningExam = ({ }) => {
       setloader(true)
       const response = await Axios.post(
         `${import.meta.env.VITE_API_URL + endpoints.saveExamResults}`,
-        qs.stringify(answers))  
+        qs.stringify(answers))
       if (response.data.status === "success") {
         notificationHelpers.success("Answers Submitted Successfully")
       } else {
@@ -87,10 +86,25 @@ const ReasoningExam = ({ }) => {
     setAnswers(updatedAnswers);
     console.log("updatedAnswers", updatedAnswers);
   };
-
   const handleClick = (num) => {
     setcurrentNumber(num);
   };
+  const progress = (condition) => {
+    if (condition == "plus") {
+      if (currentNumber < questions.length-1) {
+        setcurrentNumber(currentNumber + 1)
+      } else {
+        notificationHelpers.info("You are already on the last question")
+      }
+    }
+    else {
+      if (currentNumber >= 1) {
+        setcurrentNumber(currentNumber - 1)
+      } else{
+        notificationHelpers.info("You are already on the first question")
+      }
+    }
+  }
   if (loader == true) {
     return <div>LOADING</div>;
   } else {
@@ -104,7 +118,7 @@ const ReasoningExam = ({ }) => {
         </div>
         <div className="container">
 
-          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} />
+          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} progress={progress} />
           <div className="column second-column">
             <div className="button-row">
               {questions.length !== 0 &&
