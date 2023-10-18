@@ -6,20 +6,19 @@ import { userData } from "../../../utils/loginData";
 import { endpoints } from "../../../constants/endpoints";
 import Axios from "axios";
 import qs from "qs";
-import NumberPad from "./NumberPad";
+// import NumberPad from "./NumberPad";
 import notificationHelpers from "../../../utils/notification";
 
 const ReasoningExam = ({ }) => {
   const [questions, setQuestions] = useState([]);
   const [loader, setloader] = useState(true)
-  const [currentQuestionID, setcurrentQuestionID] = useState('')
   const [currentNumber, setcurrentNumber] = useState(0)
-  const { quid,tottime } = useParams()
+  const { quid, tottime } = useParams()
   const { access_token } = userData;
   const [answers, setAnswers] = useState({ user: access_token, exam: quid, data: [] });
   useEffect(() => {
     getReasoningExam(access_token, quid)
-    console.log('quid,tottime', quid,tottime)
+    console.log('quid,tottime', quid, tottime)
   }, []);
 
   const getReasoningExam = async (token, quid) => {
@@ -59,6 +58,14 @@ const ReasoningExam = ({ }) => {
     setAnswers(updatedAnswers)
     console.log('updatedAnswers', updatedAnswers)
   }
+  const checkQid = ({ data,qid }) => {
+    const isQidPresent = data.some(item => item.qid === questions[currentNumber].id);
+    // console.log('isQidPresent', isQidPresent, data, qid)
+    return isQidPresent
+  }
+  const handleClick = (num,qid) => {
+    setcurrentNumber(num)
+  }
   if (loader == true) {
     return (
       <div>LOADING</div>
@@ -69,7 +76,7 @@ const ReasoningExam = ({ }) => {
         <div className="main-head" style={{ display: "flex" }}>
           <h1 className="page-header">Reasoning Test</h1>
           <div className="timer">
-            <Timer initialTime={tottime*60} onTimerEnd={() => null} />
+            <Timer initialTime={tottime * 60} onTimerEnd={() => null} />
           </div>
         </div>
         <div className="container">
@@ -100,8 +107,8 @@ const ReasoningExam = ({ }) => {
 
             </div>
             <div className="bottom-btn-row">
-              <button className="btn btn-blue">Previous</button>
-              <button className="btn btn-blue">Next</button>
+              <button className="btn btn-blue" onClick={()=>{setcurrentNumber(currentNumber-1)}}>Previous</button>
+              <button className="btn btn-blue" onClick={()=>{setcurrentNumber(currentNumber+1)}}>Next</button>
               <button className="btn btn-red">Quit</button>
               <button className="btn btn-green">Save</button>
             </div>
@@ -110,7 +117,8 @@ const ReasoningExam = ({ }) => {
             <div className="button-row">
               {questions.length !== 0 && questions.map((question, index) => (
                 <div style={{ backgroundColor: index == currentNumber ? "cyan" : "white", borderRadius: 10 }}>
-                  <NumberPad key={index} questionID={question.id} number={index} current={currentNumber} setcurrentNumber={setcurrentNumber} setcurrentQuestionID={setcurrentQuestionID} />
+                  {/* <NumberPad key={index} questionID={question.id} number={index} current={currentNumber} setcurrentNumber={setcurrentNumber} /> */}
+                  <button className={`button ${checkQid(answers,question.id)&&"btn-answered"}`} onClick={()=>{handleClick(index,question.id)}}>{index+1}</button>
                 </div>
               ))}
             </div>
