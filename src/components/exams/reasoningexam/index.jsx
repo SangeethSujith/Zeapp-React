@@ -117,8 +117,29 @@ const ReasoningExam = ({ }) => {
           </div>
         </div>
         <div className="container">
-
-          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} progress={progress} />
+        <div className="column">
+          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} />
+          <div className="bottom-btn-row">
+              <button
+                className="btn btn-blue"
+                onClick={() => {
+                  progress("minus");
+                }}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-blue"
+                onClick={() => {
+                  progress("plus");
+                }}
+              >
+                Next
+              </button>
+              <button className="btn btn-red">Quit</button>
+              <button className="btn btn-green">Save</button>
+            </div>
+            </div>
           <div className="column second-column">
             <div className="button-row">
               {questions.length !== 0 &&
