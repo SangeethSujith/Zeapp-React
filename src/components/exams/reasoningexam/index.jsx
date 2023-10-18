@@ -67,7 +67,7 @@ const ReasoningExam = ({}) => {
     console.log("updatedAnswers", updatedAnswers);
   };
 
-  const handleClick = (num, qid) => {
+  const handleClick = (num) => {
     setcurrentNumber(num);
   };
   if (loader == true) {
