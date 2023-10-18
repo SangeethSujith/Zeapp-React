@@ -203,7 +203,14 @@ const CareerClusterExam = () => {
   } else {
     return (
       <div>
-        <h1 className="heading">Career Cluster Test</h1>
+        <div className="main-head">
+          <h1 className="page-header">Career Cluster Test</h1>
+          <div className="timer">
+            {timer !== null && (
+              <Timer initialTime={timer} onTimerEnd={() => null} />
+            )}
+          </div>
+        </div>
         <div>
           {questions.map((group, index) => (
             <div key={group.grp_id} className="columns">
