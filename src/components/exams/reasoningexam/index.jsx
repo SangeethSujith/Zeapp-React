@@ -137,7 +137,7 @@ const ReasoningExam = ({ }) => {
                 Next
               </button>
               <button className="btn btn-red">Quit</button>
-              <button className="btn btn-green" onClick={() => sendReasoningExam()}>Save</button>
+              <button className={`btn ${answers.data.length==questions.length&&"btn-green"}`} disabled={answers.data.length==questions.length?false:true} onClick={() => sendReasoningExam()}>Save</button>
             </div>
           </div>
           <div className="column second-column">
