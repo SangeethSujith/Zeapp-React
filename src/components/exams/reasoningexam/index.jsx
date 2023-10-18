@@ -6,41 +6,68 @@ import { userData } from "../../../utils/loginData";
 import { endpoints } from "../../../constants/endpoints";
 import Axios from "axios";
 import qs from "qs";
-import NumberPad from "./NumberPad";
 import notificationHelpers from "../../../utils/notification";
+import QuestionContainer from "./QuestionContainer";
 
 const ReasoningExam = ({ }) => {
   const [questions, setQuestions] = useState([]);
-  const [loader, setloader] = useState(true)
-  const [currentQuestionID, setcurrentQuestionID] = useState('')
-  const [currentNumber, setcurrentNumber] = useState(0)
-  const { quid,tottime } = useParams()
+  const [loader, setloader] = useState(true);
+  const [currentNumber, setcurrentNumber] = useState(0);
+  const { quid, tottime } = useParams();
   const { access_token } = userData;
-  const [answers, setAnswers] = useState({ user: access_token, exam: quid, data: [] });
+  const [answers, setAnswers] = useState({
+    user: access_token,
+    exam: quid,
+    data: [],
+  });
+  console.log(
+    "answers",
+    answers.data.some((item) => item.qid === "418")
+  );
   useEffect(() => {
-    getReasoningExam(access_token, quid)
-    console.log('quid,tottime', quid,tottime)
+    getReasoningExam(access_token, quid);
+    console.log("quid,tottime", quid, tottime);
   }, []);
 
   const getReasoningExam = async (token, quid) => {
     try {
-      setloader(true)
+      setloader(true);
       const response = await Axios.post(
         `${import.meta.env.VITE_API_URL + endpoints.getReasoningExam}`,
         qs.stringify({ access_key: token, exam: quid })
       );
       if (response.data.status === "success") {
-        const questionsResponse = parseJSON(response.data.data)
-        setQuestions(questionsResponse)
+        const questionsResponse = parseJSON(response.data.data);
+        setQuestions(questionsResponse);
       } else {
         notificationHelpers.error("An Error Occurred! Try Logging in again.");
         localStorage.clear();
         window.location.reload();
       }
-      setloader(false)
+      setloader(false);
     } catch (error) {
-      console.log(error)
-      setloader(false)
+      console.log(error);
+      setloader(false);
+    }
+  };
+  const sendReasoningExam = async () => {
+    try {
+      setloader(true)
+      const response = await Axios.post(
+        `${import.meta.env.VITE_API_URL + endpoints.saveExamResults}`,
+        qs.stringify(answers))
+      if (response.data.status === "success") {
+        notificationHelpers.success("Answers Submitted Successfully")
+      } else {
+        notificationHelpers.error("An Error Occurred! Try Logging in again.");
+        localStorage.clear();
+        window.location.reload();
+      }
+      setloader(false);
+    } catch (error) {
+      console.log(error);
+      notificationHelpers.error("Something went wrong");
+      setloader(false);
     }
   }
   const handleOptionChange = (oid, qid) => {
@@ -56,63 +83,88 @@ const ReasoningExam = ({ }) => {
         },
       ],
     };
-    setAnswers(updatedAnswers)
-    console.log('updatedAnswers', updatedAnswers)
+    setAnswers(updatedAnswers);
+    console.log("updatedAnswers", updatedAnswers);
+  };
+  const handleClick = (num) => {
+    setcurrentNumber(num);
+  };
+  const progress = (condition) => {
+    if (condition == "plus") {
+      if (currentNumber < questions.length - 1) {
+        setcurrentNumber(currentNumber + 1)
+      } else {
+        notificationHelpers.info("You are already on the last question")
+      }
+    }
+    else {
+      if (currentNumber >= 1) {
+        setcurrentNumber(currentNumber - 1)
+      } else {
+        notificationHelpers.info("You are already on the first question")
+      }
+    }
   }
   if (loader == true) {
-    return (
-      <div>LOADING</div>
-    )
+    return <div>LOADING</div>;
   } else {
     return (
       <div>
         <div className="main-head" style={{ display: "flex" }}>
           <h1 className="page-header">Reasoning Test</h1>
           <div className="timer">
-            <Timer initialTime={tottime*60} onTimerEnd={() => null} />
+            <Timer initialTime={tottime * 60} onTimerEnd={() => null} />
           </div>
         </div>
         <div className="container">
           <div className="column">
-            <div className="questions-container">
-              <div className="container-head">Question {currentNumber + 1} :</div>
-              <div dangerouslySetInnerHTML={{ __html: questions[currentNumber].question }}></div>
-            </div>
-            <div className="options-container">
-              <div className="options-head">Options :</div>
-              <div
-              // className="options-list"
-              >
-                {questions[currentNumber].options.map((option) => (
-                  <label key={option.oid} >
-                    <input
-                      type="radio"
-                      // className="radio-button"
-                      name={questions[currentNumber].id}
-                      value={option.q_option}
-                      onChange={() => { handleOptionChange(option.oid, questions[currentNumber].id) }}
-                    />
-                    <span htmlFor={questions[currentNumber].id} dangerouslySetInnerHTML={{ __html: option.q_option }} />
-                    {/* <li className="radio-button" dangerouslySetInnerHTML={{ __html: option.q_option }}/> */}
-                  </label>
-                ))}
-              </div>
-
-            </div>
+            <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} />
             <div className="bottom-btn-row">
-              <button className="btn btn-blue">Previous</button>
-              <button className="btn btn-blue">Next</button>
+              <button
+                className="btn btn-blue"
+                onClick={() => {
+                  progress("minus");
+                }}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-blue"
+                onClick={() => {
+                  progress("plus");
+                }}
+              >
+                Next
+              </button>
               <button className="btn btn-red">Quit</button>
-              <button className="btn btn-green">Save</button>
+              <button className="btn btn-green" onClick={() => sendReasoningExam()}>Save</button>
             </div>
           </div>
           <div className="column second-column">
             <div className="button-row">
-              {questions.length !== 0 && questions.map((question, index) => (
-                <div style={{ backgroundColor: index == currentNumber ? "cyan" : "white", borderRadius: 10 }}>
-                  <NumberPad key={index} questionID={question.id} number={index} current={currentNumber} setcurrentNumber={setcurrentNumber} setcurrentQuestionID={setcurrentQuestionID} />
-                </div>
-              ))}
+              {questions.length !== 0 &&
+                questions.map((question, index) => (
+                  <div
+                    key={question.id}
+                    style={{
+                      backgroundColor:
+                        index == currentNumber ? "#5546e9" : "white",
+                      borderRadius: 10,
+                    }}
+                  >
+                    <button
+                      className={`button ${answers.data.some((item) => item.qid === question.id) &&
+                        "btn-answered"
+                        }
+                      `}
+                      onClick={() => {
+                        handleClick(index, question.id);
+                      }}
+                    >
+                      {index + 1}
+                    </button>
+                  </div>
+                ))}
             </div>
             <div className="color-indicator">
               <div className="color-box-wrap">
@@ -132,7 +184,7 @@ const ReasoningExam = ({ }) => {
               <div className="color-box-wrap">
                 <div
                   className="color-box"
-                  style={{ backgroundColor: "cyan" }}
+                  style={{ backgroundColor: "#5546e9" }}
                 ></div>
                 <div className="color-caption">Current</div>
               </div>
@@ -151,7 +203,7 @@ const ReasoningExam = ({ }) => {
         </div>
       </div>
     );
-  };
-}
+  }
+};
 
 export default ReasoningExam;
