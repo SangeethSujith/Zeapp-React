@@ -706,7 +706,6 @@ textarea:focus-visible {
 body {
   font-family: Arial, sans-serif;
   margin: 0 !important;
-
 }
 
 .body-bg {
@@ -718,7 +717,7 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #E0F0FE;
+  background-color: #e0f0fe;
   color: #fff;
 }
 
@@ -731,7 +730,7 @@ body {
   list-style: none;
   display: flex;
   justify-content: center;
-  color: #6E6C9E;
+  color: #6e6c9e;
 }
 
 .menu li {
@@ -741,16 +740,16 @@ body {
 .menu li a,
 .footer-menu li a {
   text-decoration: none;
-  color: #6E6C9E;
-  font-weight: 600
+  color: #6e6c9e;
+  font-weight: 600;
 }
 
 .menu li a.active {
-  color: #302C9F;
+  color: #302c9f;
 }
 
 .heading {
-  color: #6D6AAD;
+  color: #6d6aad;
   text-align: center;
   font-size: 40px;
   font-weight: 600;
@@ -773,7 +772,7 @@ body {
 .column h2 {
   font-size: 20px;
   font-weight: 600;
-  color: #302C9F;
+  color: #302c9f;
 }
 
 .list-item {
@@ -784,7 +783,7 @@ body {
   display: flex;
   justify-content: space-between;
   cursor: pointer;
-  color: #302C9F;
+  color: #302c9f;
   font-size: 16px;
   font-weight: 600;
 }
@@ -798,17 +797,16 @@ body {
   font-size: 18px;
 }
 
-
 .buttons {
   margin: 80px;
   display: flex;
   justify-content: center;
 }
 
-.buttons button {
+.save-button {
   margin: 0 30px;
   font-size: 16px;
-  color: #302C9F;
+  color: #302c9f;
   font-weight: 600;
   width: 190px;
   height: 58px;
@@ -873,4 +871,64 @@ body {
   color: #bdbdbd;
   text-align: center;
   padding: 20px 0;
+}
+/* Pagination */
+.pagination {
+  user-select: none;
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.pagination li {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.pagination a {
+  font-size: 16px;
+  color: #302c9f;
+  font-weight: 600;
+  width: 190px;
+  height: 58px;
+  padding: 10px 20px; /* Added padding */
+  border: none;
+  border-radius: 10px; /* Added rounded corners */
+  background-color: #ededed;
+  cursor: pointer;
+  text-align: center;
+  line-height: 38px; /* Adjusted line height */
+  text-decoration: none;
+}
+
+.pagination a.active {
+  background-color: #007bff;
+  color: green;
+}
+
+.pagination a.active:hover {
+  background-color: #007bff;
+}
+.button-active {
+  border: 2px solid #007bff;
+  border-radius: 10px; /* Added rounded corners */
+}
+
+.pagination a:hover {
+  background-color: #f4f4f4;
+  color: #007bff;
+}
+
+.pagination li.disabled a {
+  color: #ccc;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+/* Pagination End */
+.cce-buttons-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
 }

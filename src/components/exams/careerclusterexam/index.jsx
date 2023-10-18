@@ -7,6 +7,7 @@ import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import { userData } from "../../../utils/loginData";
 import notificationHelpers from "../../../utils/notification";
 import Timer from "../../shared/Timer";
+import ReactPaginate from "react-paginate";
 const CareerClusterExam = () => {
   useBeforeUnload(
     "You will be redirected to Login Page. You Progress May Not Be Saved"
@@ -20,6 +21,7 @@ const CareerClusterExam = () => {
     data: [],
     user: access_token,
   });
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
     getQuestions(access_token);
@@ -196,6 +198,19 @@ const CareerClusterExam = () => {
       }
     }
   };
+  // PAGINATION
+  const itemsPerPage = 1; // Number of groups to display per page
+  const pageCount = Math.ceil(questions.length / itemsPerPage);
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const displayedGroups = questions.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
@@ -212,7 +227,7 @@ const CareerClusterExam = () => {
           </div>
         </div>
         <div>
-          {questions.map((group, index) => (
+          {displayedGroups.map((group, index) => (
             <div key={group.grp_id} className="columns">
               {group.subgroups.map((subgroup, index) => (
                 <div key={subgroup.sub_group_id} className="column">
@@ -263,10 +278,21 @@ const CareerClusterExam = () => {
             </div>
           ))}
         </div>
-        <div className="buttons">
-          <button>Previous</button>
-          <button onClick={handleSaveProgress}>Save Progress</button>
-          <button>Next</button>
+        <div className="cce-buttons-container" draggable={false}>
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel="next >"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={5}
+            pageCount={pageCount}
+            previousLabel="< previous"
+            renderOnZeroPageCount={null}
+            containerClassName={"pagination"}
+            activeClassName={"button-active"}
+          />
+          <button className="save-button" onClick={handleSaveProgress}>
+            Save Progress
+          </button>
         </div>
       </div>
     );
