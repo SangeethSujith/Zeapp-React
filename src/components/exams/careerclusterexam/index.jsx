@@ -13,11 +13,14 @@ const CareerClusterExam = () => {
   );
   const { access_token } = userData;
   const [questions, setQuestions] = useState([]);
-  const [answers, setAnswers] = useState({ user: "", data: [] });
   const [isDisabled, setIsDisabled] = useState(false);
   const [timer, setTimer] = useState(null);
   const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(null);
-  console.log("questions", questions);
+  const [answers, setAnswers] = useState({
+    data: [],
+    user: access_token,
+  });
+
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -28,7 +31,6 @@ const CareerClusterExam = () => {
         `${import.meta.env.VITE_API_URL + endpoints.getCareerClusterExam}`,
         qs.stringify({ access_key: token })
       );
-
       const questionsData = parseData(response.data.data);
       const timerFromApi = response.data.time;
       if (response.data.http_code !== 300) {
@@ -117,121 +119,149 @@ const CareerClusterExam = () => {
     return parsedData;
   }
 
-  // const sendAnswers = async (answers) => {
-  //   try {
-  //     const response = await Axios.post(
-  //       `${import.meta.env.VITE_API_URL + endpoints.saveCareerInterest}`,
-  //       qs.stringify(answers)
-  //     );
-  //     if (response.data.status === "success") {
-  //       notificationHelpers.success(
-  //         "Career Interest Exam Was Completed Successfully"
-  //       );
-  //       setIsDisabled(true);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error Sending Answers:", error);
-  //   }
-  // };
+  const handleOptionClick = (group_id, sub_group_id, question_id) => {
+    const existingAnswerIndex = answers.data.findIndex(
+      (answer) =>
+        answer.group_id === group_id &&
+        answer.sub_group_id === sub_group_id &&
+        answer.question_id === question_id
+    );
 
-  // const parseCareerInterestQuestions = (data) => {
-  //   const groupedData = {};
+    if (existingAnswerIndex !== -1) {
+      const newData = [...answers.data];
+      newData.splice(existingAnswerIndex, 1);
+      setAnswers({ ...answers, data: newData });
+    } else {
+      setAnswers({
+        ...answers,
+        data: [...answers.data, { group_id, sub_group_id, question_id }],
+      });
+    }
+  };
+  const sendAnswers = async (data) => {
+    try {
+      const response = await Axios.post(
+        `${import.meta.env.VITE_API_URL + endpoints.saveCareerClusterExam}`,
+        qs.stringify(answers)
+      );
+      if (response.data.status === "success") {
+        notificationHelpers.success(
+          "Career Cluster Exam Was Completed Successfully"
+        );
+        setIsDisabled(true);
+      }
+    } catch (error) {
+      console.error("Error Sending Answers:", error);
+    }
+  };
 
-  //   data.forEach((item) => {
-  //     const srl_no = item.srl_no;
-  //     const option = { desc: item.desc, option: item.option };
+  function countAnsweredQuestions(answerData) {
+    const uniqueGroupIds = new Set(answerData.map((answer) => answer.group_id));
+    return uniqueGroupIds.size;
+  }
+  function checkIfOneAnsweredPerSubgroup(answerData, questionData) {
+    const answered = questionData.every((group) => {
+      const { grp_id, subgroups } = group;
 
-  //     if (!groupedData[srl_no]) {
-  //       groupedData[srl_no] = { srl_no, options: [] };
-  //     }
+      return subgroups.every((subgroup) => {
+        return subgroup.questions.some((question) => {
+          return answerData.some(
+            (answer) =>
+              answer.group_id === grp_id &&
+              answer.question_id === question.question_id
+          );
+        });
+      });
+    });
 
-  //     groupedData[srl_no].options.push(option);
-  //   });
-
-  //   return Object.values(groupedData);
-  // };
-
-  // const handleOptionChange = (qid, option) => {
-  //   const updatedData = answers.data.filter(
-  //     (item) => parseInt(item.qid) !== parseInt(qid)
-  //   );
-  //   const updatedAnswers = {
-  //     user: access_token,
-  //     data: [
-  //       ...updatedData,
-  //       {
-  //         qid: parseInt(qid),
-  //         option: option,
-  //       },
-  //     ],
-  //   };
-  //   setAnswers(updatedAnswers);
-  // };
-
-  // const handleSaveAnswers = (answers) => {
-  //   if (questions.length !== answers.data.length) {
-  //     notificationHelpers.warning(
-  //       `${answers.data.length}/${questions.length} please answer all questions`
-  //     );
-  //   } else {
-  //     sendAnswers(answers);
-  //   }
-  // };
+    return answered;
+  }
+  const handleSaveProgress = () => {
+    const uniqueGroupCount = countAnsweredQuestions(answers.data);
+    const isAllSubquestionsAnswered = checkIfOneAnsweredPerSubgroup(
+      answers.data,
+      questions
+    );
+    if (questions.length !== uniqueGroupCount) {
+      notificationHelpers.warning(
+        `${uniqueGroupCount}/${questions.length} Groups has been Completed. Please answer all Groups`
+      );
+    } else {
+      if (isAllSubquestionsAnswered) {
+        sendAnswers(answers);
+      } else {
+        notificationHelpers.warning(
+          `You have pending subquestions to be answered`
+        );
+      }
+    }
+  };
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
     return <p>Loading...</p>; // Add a loading state
   } else {
     return (
-      <>
+      <div>
         <h1 className="heading">Career Cluster Test</h1>
-        <div className="columns">
-          <div className="column">
-            <h2>Activities that describe what I like to do:</h2>
-            <div
-              className="list-item selected"
-              onClick={() => this.toggleBackgroundColor(this)}
-            >
-              Learn how things grow and stay alive
-              <span className="green-tick " style={{ display: "inline" }}>
-                &#10004;
-              </span>
+        <div>
+          {questions.map((group, index) => (
+            <div key={group.grp_id} className="columns">
+              {group.subgroups.map((subgroup, index) => (
+                <div key={subgroup.sub_group_id} className="column">
+                  <h2>{subgroup.sub_group_name}</h2>
+                  {subgroup.questions.map((question, index) => (
+                    <div
+                      key={question.question_id}
+                      className={`list-item 
+                      ${
+                        answers.data.length !== 0 &&
+                        answers.data.some(
+                          (item) =>
+                            item.group_id === group.grp_id &&
+                            item.question_id === question.question_id
+                        )
+                          ? "selected"
+                          : ""
+                      }`}
+                      onClick={() =>
+                        handleOptionClick(
+                          group.grp_id,
+                          subgroup.sub_group_id,
+                          question.question_id
+                        )
+                      }
+                    >
+                      {question.options}
+                      <span
+                        className="green-tick "
+                        style={
+                          answers.data.length !== 0 &&
+                          answers.data.some(
+                            (item) =>
+                              item.group_id === group.grp_id &&
+                              item.question_id === question.question_id
+                          )
+                            ? { display: "inline" }
+                            : { display: "none" }
+                        }
+                      >
+                        &#10004;
+                      </span>
+                    </div>
+                  ))}
+                  {/* Repeat the pattern for other activities */}
+                </div>
+              ))}
             </div>
-            {/* Repeat the pattern for other activities */}
-          </div>
-          <div className="column">
-            <h2>Personal qualities that describe me:</h2>
-            <div
-              className="list-item"
-              onClick={() => this.toggleBackgroundColor(this)}
-            >
-              Self-reliant
-              <span className="green-tick" style={{ display: "none" }}>
-                &#10004;
-              </span>
-            </div>
-            {/* Repeat the pattern for other qualities */}
-          </div>
-          <div className="column">
-            <h2>School subjects that I like:</h2>
-            <div
-              className="list-item"
-              onClick={() => this.toggleBackgroundColor(this)}
-            >
-              Math
-              <span className="green-tick" style={{ display: "none" }}>
-                &#10004;
-              </span>
-            </div>
-            {/* Repeat the pattern for other subjects */}
-          </div>
+          ))}
         </div>
         <div className="buttons">
           <button>Previous</button>
-          <button>Save Progress</button>
+          <button onClick={handleSaveProgress}>Save Progress</button>
           <button>Next</button>
         </div>
-      </>
+      </div>
     );
   }
 };
