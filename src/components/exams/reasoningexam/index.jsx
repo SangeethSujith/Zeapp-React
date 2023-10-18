@@ -8,6 +8,7 @@ import Axios from "axios";
 import qs from "qs";
 // import NumberPad from "./NumberPad";
 import notificationHelpers from "../../../utils/notification";
+import QuestionContainer from "./QuestionContainer";
 
 const ReasoningExam = ({}) => {
   const [questions, setQuestions] = useState([]);
@@ -82,7 +83,7 @@ const ReasoningExam = ({}) => {
           </div>
         </div>
         <div className="container">
-          <div className="column">
+          {/* <div className="column">
             <div className="questions-container">
               <div className="container-head">
                 Question {currentNumber + 1} :
@@ -96,13 +97,13 @@ const ReasoningExam = ({}) => {
             <div className="options-container">
               <div className="options-head">Options :</div>
               <div
-              // className="options-list"
+              className="options-list"
               >
                 {questions[currentNumber].options.map((option) => (
                   <label key={option.oid}>
                     <input
                       type="radio"
-                      // className="radio-button"
+                      className="radio-button"
                       name={questions[currentNumber].id}
                       value={option.q_option}
                       onChange={() => {
@@ -116,7 +117,6 @@ const ReasoningExam = ({}) => {
                       htmlFor={questions[currentNumber].id}
                       dangerouslySetInnerHTML={{ __html: option.q_option }}
                     />
-                    {/* <li className="radio-button" dangerouslySetInnerHTML={{ __html: option.q_option }}/> */}
                   </label>
                 ))}
               </div>
@@ -141,7 +141,8 @@ const ReasoningExam = ({}) => {
               <button className="btn btn-red">Quit</button>
               <button className="btn btn-green">Save</button>
             </div>
-          </div>
+          </div> */}
+          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange}/>
           <div className="column second-column">
             <div className="button-row">
               {questions.length !== 0 &&
@@ -150,11 +151,10 @@ const ReasoningExam = ({}) => {
                     key={question.id}
                     style={{
                       backgroundColor:
-                        index == currentNumber ? "cyan" : "white",
+                        index == currentNumber ? "#5546e9" : "white",
                       borderRadius: 10,
                     }}
                   >
-                    {/* <NumberPad key={index} questionID={question.id} number={index} current={currentNumber} setcurrentNumber={setcurrentNumber} /> */}
                     <button
                       className={`button ${
                         answers.data.some((item) => item.qid === question.id) &&
@@ -188,7 +188,7 @@ const ReasoningExam = ({}) => {
               <div className="color-box-wrap">
                 <div
                   className="color-box"
-                  style={{ backgroundColor: "cyan" }}
+                  style={{ backgroundColor: "#5546e9" }}
                 ></div>
                 <div className="color-caption">Current</div>
               </div>
