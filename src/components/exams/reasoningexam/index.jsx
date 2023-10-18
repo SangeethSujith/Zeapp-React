@@ -10,7 +10,7 @@ import qs from "qs";
 import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
 
-const ReasoningExam = ({}) => {
+const ReasoningExam = ({ }) => {
   const [questions, setQuestions] = useState([]);
   const [loader, setloader] = useState(true);
   const [currentNumber, setcurrentNumber] = useState(0);
@@ -51,6 +51,26 @@ const ReasoningExam = ({}) => {
       setloader(false);
     }
   };
+  const sendReasoningExam = async () => {
+    try {
+      setloader(true)
+      const response = await Axios.post(
+        `${import.meta.env.VITE_API_URL + endpoints.saveExamResults}`,
+        qs.stringify(answers))  
+      if (response.data.status === "success") {
+        notificationHelpers.success("Answers Submitted Successfully")
+      } else {
+        notificationHelpers.error("An Error Occurred! Try Logging in again.");
+        localStorage.clear();
+        window.location.reload();
+      }
+      setloader(false);
+    } catch (error) {
+      console.log(error);
+      notificationHelpers.error("Something went wrong");
+      setloader(false);
+    }
+  }
   const handleOptionChange = (oid, qid) => {
     const updatedData = answers.data.filter((item) => item.qid !== qid);
     const updatedAnswers = {
@@ -83,66 +103,8 @@ const ReasoningExam = ({}) => {
           </div>
         </div>
         <div className="container">
-          {/* <div className="column">
-            <div className="questions-container">
-              <div className="container-head">
-                Question {currentNumber + 1} :
-              </div>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: questions[currentNumber].question,
-                }}
-              ></div>
-            </div>
-            <div className="options-container">
-              <div className="options-head">Options :</div>
-              <div
-              className="options-list"
-              >
-                {questions[currentNumber].options.map((option) => (
-                  <label key={option.oid}>
-                    <input
-                      type="radio"
-                      className="radio-button"
-                      name={questions[currentNumber].id}
-                      value={option.q_option}
-                      onChange={() => {
-                        handleOptionChange(
-                          option.oid,
-                          questions[currentNumber].id
-                        );
-                      }}
-                    />
-                    <span
-                      htmlFor={questions[currentNumber].id}
-                      dangerouslySetInnerHTML={{ __html: option.q_option }}
-                    />
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div className="bottom-btn-row">
-              <button
-                className="btn btn-blue"
-                onClick={() => {
-                  setcurrentNumber(currentNumber - 1);
-                }}
-              >
-                Previous
-              </button>
-              <button
-                className="btn btn-blue"
-                onClick={() => {
-                  setcurrentNumber(currentNumber + 1);
-                }}
-              >
-                Next
-              </button>
-              <button className="btn btn-red">Quit</button>
-              <button className="btn btn-green">Save</button>
-            </div>
-          </div> */}
-          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange}/>
+
+          <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} />
           <div className="column second-column">
             <div className="button-row">
               {questions.length !== 0 &&
@@ -156,10 +118,9 @@ const ReasoningExam = ({}) => {
                     }}
                   >
                     <button
-                      className={`button ${
-                        answers.data.some((item) => item.qid === question.id) &&
+                      className={`button ${answers.data.some((item) => item.qid === question.id) &&
                         "btn-answered"
-                      }
+                        }
                       `}
                       onClick={() => {
                         handleClick(index, question.id);
