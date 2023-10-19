@@ -281,13 +281,16 @@ const CareerClusterExam = () => {
         <div className="cce-buttons-container" draggable={false}>
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel="NEXT"
+            nextClassName="pagination-buttons pagination-normal"
             onPageChange={handlePageClick}
             pageRangeDisplayed={5}
             pageCount={pageCount}
-            previousLabel="< previous"
+            previousLabel="PREVIOUS"
+            previousClassName="pagination-buttons pagination-normal"
             renderOnZeroPageCount={null}
             containerClassName={"pagination"}
+            pageClassName={"pagination-buttons pagination-normal"}
             activeClassName={"button-active"}
           />
           <button className="save-button" onClick={handleSaveProgress}>

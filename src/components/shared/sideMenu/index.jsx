@@ -1,13 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { routepath } from "../../../constants/routepath";
+import ZeappLogo from "../../../assets/images/zeapp-logo.png";
 
 const SideMenu = () => {
   return (
-    <div className="left" style={{height:'100vh'}}>
+    <div className="left" style={{ height: "100vh" }}>
       <div className="company">
         <div className="logo">
-          <img src="../../../src/assets/images/zeapp-logo.png" alt="main" />
+          <img src={ZeappLogo} alt="main" />
         </div>
       </div>
       <div className="navigation">
