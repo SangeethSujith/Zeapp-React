@@ -884,7 +884,7 @@ body {
   margin-right: 5px;
 }
 
-.pagination a {
+.pagination-buttons a {
   font-size: 16px;
   color: #302c9f;
   font-weight: 600;
@@ -892,14 +892,23 @@ body {
   height: 58px;
   padding: 10px 20px; /* Added padding */
   border: none;
-  border-radius: 10px; /* Added rounded corners */
-  background-color: #ededed;
   cursor: pointer;
   text-align: center;
+  border-radius: 10px; /* Added rounded corners */
   line-height: 38px; /* Adjusted line height */
   text-decoration: none;
 }
 
+.pagination-normal{
+  background-color: #ededed;
+  border-radius: 10px;
+
+}
+.pagination-answered{
+  background-color: #53d380;
+  border-radius: 10px; /* Added rounded corners */
+
+}
 .pagination a.active {
   background-color: #007bff;
   color: green;
