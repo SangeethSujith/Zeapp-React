@@ -148,7 +148,7 @@ const ReasoningExam = ({}) => {
         answer["ind_time"] = eval(total.join("+")) * 1000; // You can store the total time in a new property like "totalTime" for each answer
         return answer;
       });
-      // sendAnswers(AnswerWithTime)
+      sendAnswers(AnswerWithTime)
     }
   };
 
