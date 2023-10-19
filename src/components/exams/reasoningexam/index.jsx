@@ -165,13 +165,6 @@ const ReasoningExam = ({ }) => {
         start: startTime,
         subject:0
       }
-      // setAnswers({
-      //   ...answers, // Spread the current state
-      //   data: AnswerWithTime,
-      //   end:getCurrentTimeUnix(),
-      //   tot_time:getCurrentTimeUnix()-startTime
-      // });
-      // console.log('AnswerWithTime', answers)
       sendAnswers(finalData);
     }
   };
@@ -198,7 +191,7 @@ const ReasoningExam = ({ }) => {
               handleOptionChange={handleOptionChange}
               answers={answers.data}
             />
-            <div className="bottom-btn-row">
+            {/* <div className="bottom-btn-row">
               <button
                 className="btn btn-blue"
                 onClick={() => {
@@ -223,7 +216,7 @@ const ReasoningExam = ({ }) => {
               >
                 Save
               </button>
-            </div>
+            </div> */}
           </div>
           <div className="column second-column">
             <div className="button-row">
@@ -253,6 +246,7 @@ const ReasoningExam = ({ }) => {
                   </div>
                 ))}
             </div>
+            
             <div className="color-indicator">
               <div className="color-box-wrap">
                 <div
@@ -282,6 +276,32 @@ const ReasoningExam = ({ }) => {
                 ></div>
                 <div className="color-caption">Not-visited</div>
               </div>
+            </div>
+            <div className="bottom-btn-row">
+              <button
+                className="btn btn-blue"
+                onClick={() => {
+                  progress("minus");
+                }}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-blue"
+                onClick={() => {
+                  progress("plus");
+                }}
+              >
+                Next
+              </button>
+              <button className="btn btn-red">Quit</button>
+              <button
+                className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
+                disabled={isDisabled}
+                onClick={handleSaveAnswers}
+              >
+                Save
+              </button>
             </div>
             <div className="textarea-row" style={{ display: "none" }}>
               <textarea placeholder="Enter text"></textarea>

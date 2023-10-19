@@ -222,7 +222,7 @@ const CareerClusterExam = () => {
           <h1 className="page-header">Career Cluster Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer} onTimerEnd={() => null} />
+              <Timer initialTime={timer} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
             )}
           </div>
         </div>
@@ -236,16 +236,15 @@ const CareerClusterExam = () => {
                     <div
                       key={question.question_id}
                       className={`list-item 
-                      ${
-                        answers.data.length !== 0 &&
-                        answers.data.some(
-                          (item) =>
-                            item.group_id === group.grp_id &&
-                            item.question_id === question.question_id
-                        )
+                      ${answers.data.length !== 0 &&
+                          answers.data.some(
+                            (item) =>
+                              item.group_id === group.grp_id &&
+                              item.question_id === question.question_id
+                          )
                           ? "selected"
                           : ""
-                      }`}
+                        }`}
                       onClick={() =>
                         handleOptionClick(
                           group.grp_id,
@@ -259,11 +258,11 @@ const CareerClusterExam = () => {
                         className="green-tick "
                         style={
                           answers.data.length !== 0 &&
-                          answers.data.some(
-                            (item) =>
-                              item.group_id === group.grp_id &&
-                              item.question_id === question.question_id
-                          )
+                            answers.data.some(
+                              (item) =>
+                                item.group_id === group.grp_id &&
+                                item.question_id === question.question_id
+                            )
                             ? { display: "inline" }
                             : { display: "none" }
                         }

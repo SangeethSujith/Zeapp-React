@@ -24,8 +24,7 @@ const CareerInterestExam = () => {
   const getQuestions = async (token) => {
     try {
       const response = await Axios.post(
-        `${
-          import.meta.env.VITE_API_URL + endpoints.getCareerInterestQuestions
+        `${import.meta.env.VITE_API_URL + endpoints.getCareerInterestQuestions
         }`,
         qs.stringify({ access_key: token })
       );
@@ -121,7 +120,7 @@ const CareerInterestExam = () => {
           <h1 className="page-header">Career Interest Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer} onTimerEnd={() => null} />
+              <Timer initialTime={timer} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
             )}
           </div>
         </div>

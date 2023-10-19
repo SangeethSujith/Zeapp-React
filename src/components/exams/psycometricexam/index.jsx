@@ -120,7 +120,7 @@ const PsycometricExam = () => {
           <h1 className="page-header">Psycometrictest Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer} onTimerEnd={() => null} />
+              <Timer initialTime={timer} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
             )}
           </div>
         </div>
@@ -160,16 +160,15 @@ const PsycometricExam = () => {
                     {[1, 2, 3, 4, 5].map((number) => (
                       <div
                         key={number}
-                        className={`number-box ${
-                          answers.data.length !== 0 &&
-                          answers.data.some(
-                            (item) =>
-                              item.qid === parseInt(question.id) &&
-                              item.option === number
-                          )
+                        className={`number-box ${answers.data.length !== 0 &&
+                            answers.data.some(
+                              (item) =>
+                                item.qid === parseInt(question.id) &&
+                                item.option === number
+                            )
                             ? "active"
                             : ""
-                        }`}
+                          }`}
                         onClick={() =>
                           handleNumberBoxClick(question.id, number)
                         }
