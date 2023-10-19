@@ -26,7 +26,6 @@ const CareerClusterExam = () => {
     user: access_token,
   });
   const [currentPage, setCurrentPage] = useState(0);
-
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -62,7 +61,7 @@ const CareerClusterExam = () => {
       (answer) =>
         answer.group_id === group_id &&
         answer.sub_group_id === sub_group_id &&
-        answer.option__id === question_id
+        answer.option_id === question_id
     );
 
     if (existingAnswerIndex !== -1) {
@@ -141,7 +140,7 @@ const CareerClusterExam = () => {
           <div className="timer">
             {timer !== null && (
               <Timer
-                initialTime={timer}
+                initialTime={timer * 60}
                 onTimerEnd={() => notificationHelpers.warning("Time Ran Out")}
               />
             )}

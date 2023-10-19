@@ -120,7 +120,7 @@ const CareerInterestExam = () => {
           <h1 className="page-header">Career Interest Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
+              <Timer initialTime={timer*60} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
             )}
           </div>
         </div>
