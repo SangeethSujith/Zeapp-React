@@ -11,8 +11,8 @@ import QuestionContainer from "./QuestionContainer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import { routepath } from "../../../constants/routepath";
 
-const ReasoningExam = ({ }) => {
-  const navigate = useNavigate()
+const ReasoningExam = ({}) => {
+  const navigate = useNavigate();
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
   );
@@ -21,8 +21,8 @@ const ReasoningExam = ({ }) => {
   const [currentNumber, setcurrentNumber] = useState(0);
   const { quid, tottime } = useParams();
   const { access_token } = userData;
-  const [startTime, setStartTime] = useState(null)
-  const [endTime, setEndTime] = useState(null)
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
   const [answers, setAnswers] = useState({
     user: access_token,
     exam: quid,
@@ -34,7 +34,7 @@ const ReasoningExam = ({ }) => {
 
   useEffect(() => {
     getReasoningExam(access_token, quid);
-    setStartTime(getCurrentTimeUnix())
+    setStartTime(getCurrentTimeUnix());
   }, []);
 
   const getReasoningExam = async (token, quid) => {
@@ -89,7 +89,6 @@ const ReasoningExam = ({ }) => {
           opt: oid,
         },
       ],
-
     }));
   };
   const handleClick = (num) => {
@@ -112,8 +111,8 @@ const ReasoningExam = ({ }) => {
   };
   const getCurrentTimeUnix = () => {
     const date = new Date();
-    return date.getTime()
-  }
+    return date.getTime();
+  };
   // sending exams
 
   const sendAnswers = async (answers) => {
@@ -127,6 +126,7 @@ const ReasoningExam = ({ }) => {
           "Reasoning Exam Was Completed Successfully"
         );
         setIsDisabled(true);
+        navigate(routepath.dashboard);
       }
     } catch (error) {
       console.error("Error Sending Answers:", error);
@@ -135,7 +135,6 @@ const ReasoningExam = ({ }) => {
   };
 
   const handleSaveAnswers = () => {
-
     if (questions.length !== answers.data.length) {
       setIsUnAnswered(true);
       notificationHelpers.warning(
@@ -156,7 +155,7 @@ const ReasoningExam = ({ }) => {
         const total = totalTimes[answer.qid] || 0;
         answer["ind_time"] = eval(total.join("+")) * 1000; // You can store the total time in a new property like "totalTime" for each answer
         // return answer
-        return answer
+        return answer;
       });
       const finalData = {
         data: AnswerWithTime,
@@ -165,12 +164,12 @@ const ReasoningExam = ({ }) => {
         user: access_token,
         exam: quid,
         start: startTime,
-        subject: 0
-      }
+        subject: 0,
+      };
       sendAnswers(finalData);
     }
   };
-  
+
   if (loader === true) {
     return <div>LOADING</div>;
   } else {
@@ -233,10 +232,11 @@ const ReasoningExam = ({ }) => {
                     }}
                   >
                     <button
-                      className={`button ${answers.data.some((item) => item.qid === question.id)
-                        ? "btn-answered"
-                        : isUnAnswered && "btn-un-answered"
-                        }
+                      className={`button ${
+                        answers.data.some((item) => item.qid === question.id)
+                          ? "btn-answered"
+                          : isUnAnswered && "btn-un-answered"
+                      }
 
                       `}
                       onClick={() => {
@@ -296,7 +296,16 @@ const ReasoningExam = ({ }) => {
               >
                 Next
               </button>
-              <button className="btn btn-red" onClick={()=>exitConfirmation()}>Quit</button>
+              <button
+                className="btn btn-red"
+                onClick={() =>
+                  window.confirm(
+                    "Your answer may not be saved, Are you sure you want to quit?"
+                  ) && navigate(routepath.dashboard)
+                }
+              >
+                Quit
+              </button>
               <button
                 className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 disabled={isDisabled}

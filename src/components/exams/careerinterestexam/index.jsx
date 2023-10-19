@@ -7,7 +7,10 @@ import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import { userData } from "../../../utils/loginData";
 import notificationHelpers from "../../../utils/notification";
 import Timer from "../../shared/Timer";
+import { useNavigate } from "react-router-dom";
+import { routepath } from "../../../constants/routepath";
 const CareerInterestExam = () => {
+  const navigate = useNavigate();
   useBeforeUnload(
     "You will be redirected to Login Page. You Progress May Not Be Saved"
   );
@@ -24,7 +27,8 @@ const CareerInterestExam = () => {
   const getQuestions = async (token) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.getCareerInterestQuestions
+        `${
+          import.meta.env.VITE_API_URL + endpoints.getCareerInterestQuestions
         }`,
         qs.stringify({ access_key: token })
       );
@@ -60,6 +64,8 @@ const CareerInterestExam = () => {
           "Career Interest Exam Was Completed Successfully"
         );
         setIsDisabled(true);
+        navigate(routepath.dashboard)
+
       }
     } catch (error) {
       console.error("Error Sending Answers:", error);
@@ -109,12 +115,7 @@ const CareerInterestExam = () => {
       sendAnswers(answers);
     }
   };
-  const exitConfirmation = () => {
-    const userConfirmed = window.confirm("Your answer may not be saved, Are you sure you want to quit?")
-    if (userConfirmed) {
-      navigate(routepath.dashboard)
-    }
-  }
+
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
@@ -126,7 +127,10 @@ const CareerInterestExam = () => {
           <h1 className="page-header">Career Interest Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer*60} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
+              <Timer
+                initialTime={timer * 60}
+                onTimerEnd={() => notificationHelpers.warning("Time Ran Out")}
+              />
             )}
           </div>
         </div>
@@ -177,7 +181,16 @@ const CareerInterestExam = () => {
               <img src={career} alt="" style={{ width: "300px" }} />
             </div>
             <div className="bottom-btn-row">
-              <button className="btn btn-red" onClick={()=>exitConfirmation()}>Quit</button>
+              <button
+                className="btn btn-red"
+                onClick={() =>
+                  window.confirm(
+                    "Your answer may not be saved, Are you sure you want to quit?"
+                  ) && navigate(routepath.dashboard)
+                }
+              >
+                Quit
+              </button>
               <button
                 className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 onClick={() => handleSaveAnswers(answers)}

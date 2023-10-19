@@ -12,7 +12,10 @@ import {
   checkIfOneAnsweredPerSubgroup,
   countAnsweredQuestions,
 } from "../../../utils/careerClusterAnswerConditions";
+import { useNavigate } from "react-router-dom";
+import { routepath } from "../../../constants/routepath";
 const CareerClusterExam = () => {
+  const navigate = useNavigate();
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
   );
@@ -89,6 +92,8 @@ const CareerClusterExam = () => {
           "Career Cluster Exam Was Completed Successfully"
         );
         setIsDisabled(true);
+        navigate(routepath.dashboard)
+
       }
     } catch (error) {
       console.error("Error Sending Answers:", error);
@@ -115,12 +120,7 @@ const CareerClusterExam = () => {
       }
     }
   };
-  const exitConfirmation = () => {
-    const userConfirmed = window.confirm("Your answer may not be saved, Are you sure you want to quit?")
-    if (userConfirmed) {
-      navigate(routepath.dashboard)
-    }
-  }
+
   // PAGINATION
   const itemsPerPage = 1; // Number of groups to display per page
   const pageCount = Math.ceil(questions.length / itemsPerPage);
@@ -219,13 +219,34 @@ const CareerClusterExam = () => {
             pageClassName={"pagination-buttons pagination-normal"}
             activeClassName={"button-active"}
           />
-          <button className="btn btn-red" onClick={() => exitConfirmation()}>Quit</button>
-          <button 
-               className={`save-button ${isDisabled ? "btn-disabled" : "btn-green"}`}
-               disabled={isDisabled}
-          onClick={handleSaveProgress}>
-            Save Progress
-          </button>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: "10px",
+            }}
+          >
+            <button
+              className="save-button btn-red"
+              onClick={() =>
+                window.confirm(
+                  "Your answer may not be saved, Are you sure you want to quit?"
+                ) && navigate(routepath.dashboard)
+              }
+            >
+              Quit
+            </button>
+            <button
+              className={`save-button ${
+                isDisabled ? "btn-disabled" : "btn-green"
+              }`}
+              disabled={isDisabled}
+              onClick={handleSaveProgress}
+            >
+              Save Progress
+            </button>
+          </div>
         </div>
       </div>
     );

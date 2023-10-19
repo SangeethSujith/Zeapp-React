@@ -5,7 +5,10 @@ import Axios from "axios";
 import qs from "qs";
 import notificationHelpers from "../../../utils/notification";
 import { endpoints } from "../../../constants/endpoints";
+import { useNavigate } from "react-router-dom";
+import { routepath } from "../../../constants/routepath";
 const PsycometricExam = () => {
+  const navigate = useNavigate();
   const { access_token } = userData;
   const [questions, setQuestions] = useState([]);
   const [timer, setTimer] = useState(null);
@@ -93,6 +96,7 @@ const PsycometricExam = () => {
           "Psycometric Exam Was Completed Successfully"
         );
         setIsDisabled(true);
+        navigate(routepath.dashboard)
       }
     } catch (error) {
       console.error("Error Sending Answers:", error);
@@ -108,12 +112,6 @@ const PsycometricExam = () => {
       sendAnswers(answers);
     }
   };
-  const exitConfirmation = () => {
-    const userConfirmed = window.confirm("Your answer may not be saved, Are you sure you want to quit?")
-    if (userConfirmed) {
-      navigate(routepath.dashboard)
-    }
-  }
 
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
@@ -126,7 +124,10 @@ const PsycometricExam = () => {
           <h1 className="page-header">Psycometrictest Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer * 60} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
+              <Timer
+                initialTime={timer * 60}
+                onTimerEnd={() => notificationHelpers.warning("Time Ran Out")}
+              />
             )}
           </div>
         </div>
@@ -166,15 +167,16 @@ const PsycometricExam = () => {
                     {[1, 2, 3, 4, 5].map((number) => (
                       <div
                         key={number}
-                        className={`number-box ${answers.data.length !== 0 &&
+                        className={`number-box ${
+                          answers.data.length !== 0 &&
                           answers.data.some(
                             (item) =>
                               item.qid === parseInt(question.id) &&
                               item.option === number
                           )
-                          ? "active"
-                          : ""
-                          }`}
+                            ? "active"
+                            : ""
+                        }`}
                         onClick={() =>
                           handleNumberBoxClick(question.id, number)
                         }
@@ -189,7 +191,16 @@ const PsycometricExam = () => {
           </div>
         </div>
         <div className="bottom-btn-row">
-          <button className="btn btn-red" onClick={() => exitConfirmation()}>Quit</button>
+          <button
+            className="btn btn-red"
+            onClick={() =>
+              window.confirm(
+                "Your answer may not be saved, Are you sure you want to quit?"
+              ) && navigate(routepath.dashboard)
+            }
+          >
+            Quit
+          </button>
           <button
             className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
             onClick={() => handleSaveAnswers(answers)}
