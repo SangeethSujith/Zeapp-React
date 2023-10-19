@@ -8,8 +8,12 @@ import Axios from "axios";
 import qs from "qs";
 import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
+import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 
 const ReasoningExam = ({ }) => {
+  useBeforeUnload(
+    "You will be redirected to Login Page. Your Progress May Not Be Saved"
+  );
   const [questions, setQuestions] = useState([]);
   const [loader, setloader] = useState(true);
   const [currentNumber, setcurrentNumber] = useState(0);
