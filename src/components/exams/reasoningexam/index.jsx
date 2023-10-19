@@ -20,10 +20,8 @@ const ReasoningExam = ({ }) => {
     exam: quid,
     data: [],
   });
-  console.log(
-    "answers",
-    answers.data.some((item) => item.qid === "418")
-  );
+  const [timerWithID, setTimerWithID] = useState([])
+  console.log('timerWithID', timerWithID)
   useEffect(() => {
     getReasoningExam(access_token, quid);
     console.log("quid,tottime", quid, tottime);
@@ -70,21 +68,23 @@ const ReasoningExam = ({ }) => {
       setloader(false);
     }
   }
-  const handleOptionChange = (oid, qid) => {
-    const updatedData = answers.data.filter((item) => item.qid !== qid);
-    const updatedAnswers = {
-      user: access_token,
-      exam: quid,
-      data: [
-        ...updatedData,
-        {
-          qid: qid,
-          opt: oid,
-        },
-      ],
-    };
-    setAnswers(updatedAnswers);
-    console.log("updatedAnswers", updatedAnswers);
+  const handleOptionChange = (oid, qid, time) => {
+    // const updatedData = answers.data.filter((item) => item.qid !== qid);
+
+    setTimerWithID((prevTimerWithID) => [...prevTimerWithID.filter(item => item.qid !== qid), { qid, time }])
+
+    setAnswers(prevAnswers =>({
+        user: access_token,
+        exam: quid,
+        data: [
+          ...prevAnswers.data.filter((item) => item.qid !== qid),
+          {
+            qid: qid,
+            opt: oid,
+          },
+        ],
+      }))
+    // console.log("updatedAnswers", updatedAnswers);
   };
   const handleClick = (num) => {
     setcurrentNumber(num);
@@ -105,6 +105,8 @@ const ReasoningExam = ({ }) => {
       }
     }
   }
+console.log('answers', answers)
+
   if (loader == true) {
     return <div>LOADING</div>;
   } else {
@@ -137,7 +139,7 @@ const ReasoningExam = ({ }) => {
                 Next
               </button>
               <button className="btn btn-red">Quit</button>
-              <button className={`btn ${answers.data.length==questions.length&&"btn-green"}`} disabled={answers.data.length==questions.length?false:true} onClick={() => sendReasoningExam()}>Save</button>
+              <button className={`btn ${answers.data.length == questions.length && "btn-green"}`} disabled={answers.data.length == questions.length ? false : true} onClick={() => sendReasoningExam()}>Save</button>
             </div>
           </div>
           <div className="column second-column">
