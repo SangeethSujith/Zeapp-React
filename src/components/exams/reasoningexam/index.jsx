@@ -113,7 +113,7 @@ const ReasoningExam = ({ }) => {
         <div className="main-head" style={{ display: "flex" }}>
           <h1 className="page-header">Reasoning Test</h1>
           <div className="timer">
-            <Timer initialTime={tottime * 60} onTimerEnd={() => null} />
+            <Timer initialTime={tottime * 60} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
           </div>
         </div>
         <div className="container">
