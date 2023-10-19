@@ -148,7 +148,7 @@ const ReasoningExam = ({}) => {
         answer["ind_time"] = eval(total.join("+")) * 1000; // You can store the total time in a new property like "totalTime" for each answer
         return answer;
       });
-      sendAnswers(AnswerWithTime)
+      sendAnswers(AnswerWithTime);
     }
   };
 
@@ -172,6 +172,7 @@ const ReasoningExam = ({}) => {
               currentNumber={currentNumber}
               questions={questions}
               handleOptionChange={handleOptionChange}
+              answers={answers.data}
             />
             <div className="bottom-btn-row">
               <button

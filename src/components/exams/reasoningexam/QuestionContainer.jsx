@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
-const QuestionContainer = ({ currentNumber, questions, handleOptionChange }) => {
+import React, { useEffect, useState } from "react";
+const QuestionContainer = ({
+  currentNumber,
+  questions,
+  handleOptionChange,
+  answers,
+}) => {
   const [elapsedTime, setElapsedTime] = useState(0);
-
   useEffect(() => {
     let interval;
     const startTimer = () => {
       interval = setInterval(() => {
-        setElapsedTime(prevTime => prevTime + 1);
+        setElapsedTime((prevTime) => prevTime + 1);
       }, 1000);
     };
 
@@ -16,14 +20,11 @@ const QuestionContainer = ({ currentNumber, questions, handleOptionChange }) => 
       clearInterval(interval); // Clear the interval on component cleanup
       setElapsedTime(0); // Reset the elapsed time
     };
-  }, [currentNumber]); 
-  // console.log('elapsedTime', elapsedTime)
-  return (
+  }, [currentNumber]);
+  return ( 
     <>
       <div className="questions-container">
-        <div className="container-head">
-          Question {currentNumber + 1} :
-        </div>
+        <div className="container-head">Question {currentNumber + 1} :</div>
         <div
           dangerouslySetInnerHTML={{
             __html: questions[currentNumber].question,
@@ -32,13 +33,12 @@ const QuestionContainer = ({ currentNumber, questions, handleOptionChange }) => 
       </div>
       <div className="options-container">
         <div className="options-head">Options :</div>
-        <div
-          className="options-list"
-        >
+        <div className="options-list">
           {questions[currentNumber].options.map((option) => (
             <label key={option.oid}>
               <input
                 type="radio"
+                checked={answers.some((item) => item.opt === option.oid)}
                 className="radio-button"
                 name={questions[currentNumber].id}
                 value={option.q_option}
@@ -46,7 +46,7 @@ const QuestionContainer = ({ currentNumber, questions, handleOptionChange }) => 
                   handleOptionChange(
                     option.oid,
                     questions[currentNumber].id,
-                   elapsedTime
+                    elapsedTime
                   );
                 }}
               />
@@ -58,8 +58,8 @@ const QuestionContainer = ({ currentNumber, questions, handleOptionChange }) => 
           ))}
         </div>
       </div>
-      </>
-  )
-}
+    </>
+  );
+};
 
-export default QuestionContainer
+export default QuestionContainer;
