@@ -10,7 +10,7 @@ import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 
-const ReasoningExam = ({}) => {
+const ReasoningExam = ({ }) => {
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
   );
@@ -19,6 +19,8 @@ const ReasoningExam = ({}) => {
   const [currentNumber, setcurrentNumber] = useState(0);
   const { quid, tottime } = useParams();
   const { access_token } = userData;
+  const [startTime, setStartTime] = useState(null)
+  const [endTime, setEndTime] = useState(null)
   const [answers, setAnswers] = useState({
     user: access_token,
     exam: quid,
@@ -30,6 +32,7 @@ const ReasoningExam = ({}) => {
 
   useEffect(() => {
     getReasoningExam(access_token, quid);
+    setStartTime(getCurrentTimeUnix())
   }, []);
 
   const getReasoningExam = async (token, quid) => {
@@ -76,6 +79,7 @@ const ReasoningExam = ({}) => {
     setAnswers((prevAnswers) => ({
       user: access_token,
       exam: quid,
+      start: startTime,
       data: [
         ...prevAnswers.data.filter((item) => item.qid !== qid),
         {
@@ -83,8 +87,8 @@ const ReasoningExam = ({}) => {
           opt: oid,
         },
       ],
+
     }));
-    // console.log("updatedAnswers", updatedAnswers);
   };
   const handleClick = (num) => {
     setcurrentNumber(num);
@@ -104,7 +108,10 @@ const ReasoningExam = ({}) => {
       }
     }
   };
-
+  const getCurrentTimeUnix = () => {
+    const date = new Date();
+    return date.getTime()
+  }
   // sending exams
 
   const sendAnswers = async (answers) => {
@@ -126,6 +133,7 @@ const ReasoningExam = ({}) => {
   };
 
   const handleSaveAnswers = () => {
+
     if (questions.length !== answers.data.length) {
       setIsUnAnswered(true);
       notificationHelpers.warning(
@@ -133,7 +141,6 @@ const ReasoningExam = ({}) => {
       );
     } else {
       const totalTimes = {};
-
       timerWithID.forEach((item) => {
         if (totalTimes[item.qid]) {
           totalTimes[item.qid] += item.time;
@@ -146,9 +153,26 @@ const ReasoningExam = ({}) => {
       const AnswerWithTime = answers.data.map((answer) => {
         const total = totalTimes[answer.qid] || 0;
         answer["ind_time"] = eval(total.join("+")) * 1000; // You can store the total time in a new property like "totalTime" for each answer
-        return answer;
+        // return answer
+        return answer
       });
-      sendAnswers(AnswerWithTime);
+      const finalData = {
+        data: AnswerWithTime,
+        endTime: getCurrentTimeUnix(),
+        tot_time: getCurrentTimeUnix() - startTime,
+        user: access_token,
+        exam: quid,
+        start: startTime,
+        subject:0
+      }
+      // setAnswers({
+      //   ...answers, // Spread the current state
+      //   data: AnswerWithTime,
+      //   end:getCurrentTimeUnix(),
+      //   tot_time:getCurrentTimeUnix()-startTime
+      // });
+      // console.log('AnswerWithTime', answers)
+      sendAnswers(finalData);
     }
   };
 
@@ -214,11 +238,10 @@ const ReasoningExam = ({}) => {
                     }}
                   >
                     <button
-                      className={`button ${
-                        answers.data.some((item) => item.qid === question.id)
-                          ? "btn-answered"
-                          : isUnAnswered && "btn-un-answered"
-                      }
+                      className={`button ${answers.data.some((item) => item.qid === question.id)
+                        ? "btn-answered"
+                        : isUnAnswered && "btn-un-answered"
+                        }
 
                       `}
                       onClick={() => {
