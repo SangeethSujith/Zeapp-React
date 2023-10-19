@@ -213,7 +213,10 @@ const CareerClusterExam = () => {
             pageClassName={"pagination-buttons pagination-normal"}
             activeClassName={"button-active"}
           />
-          <button className="save-button" onClick={handleSaveProgress}>
+          <button 
+               className={`save-button ${isDisabled ? "btn-disabled" : "btn-green"}`}
+               disabled={isDisabled}
+          onClick={handleSaveProgress}>
             Save Progress
           </button>
         </div>
