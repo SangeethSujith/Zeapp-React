@@ -115,6 +115,12 @@ const CareerClusterExam = () => {
       }
     }
   };
+  const exitConfirmation = () => {
+    const userConfirmed = window.confirm("Your answer may not be saved, Are you sure you want to quit?")
+    if (userConfirmed) {
+      navigate(routepath.dashboard)
+    }
+  }
   // PAGINATION
   const itemsPerPage = 1; // Number of groups to display per page
   const pageCount = Math.ceil(questions.length / itemsPerPage);
@@ -213,6 +219,7 @@ const CareerClusterExam = () => {
             pageClassName={"pagination-buttons pagination-normal"}
             activeClassName={"button-active"}
           />
+          <button className="btn btn-red" onClick={() => exitConfirmation()}>Quit</button>
           <button 
                className={`save-button ${isDisabled ? "btn-disabled" : "btn-green"}`}
                disabled={isDisabled}

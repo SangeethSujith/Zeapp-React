@@ -108,6 +108,12 @@ const PsycometricExam = () => {
       sendAnswers(answers);
     }
   };
+  const exitConfirmation = () => {
+    const userConfirmed = window.confirm("Your answer may not be saved, Are you sure you want to quit?")
+    if (userConfirmed) {
+      navigate(routepath.dashboard)
+    }
+  }
 
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
@@ -120,7 +126,7 @@ const PsycometricExam = () => {
           <h1 className="page-header">Psycometrictest Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer*60} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
+              <Timer initialTime={timer * 60} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
             )}
           </div>
         </div>
@@ -161,13 +167,13 @@ const PsycometricExam = () => {
                       <div
                         key={number}
                         className={`number-box ${answers.data.length !== 0 &&
-                            answers.data.some(
-                              (item) =>
-                                item.qid === parseInt(question.id) &&
-                                item.option === number
-                            )
-                            ? "active"
-                            : ""
+                          answers.data.some(
+                            (item) =>
+                              item.qid === parseInt(question.id) &&
+                              item.option === number
+                          )
+                          ? "active"
+                          : ""
                           }`}
                         onClick={() =>
                           handleNumberBoxClick(question.id, number)
@@ -183,7 +189,7 @@ const PsycometricExam = () => {
           </div>
         </div>
         <div className="bottom-btn-row">
-          <button className="btn btn-red">Quit</button>
+          <button className="btn btn-red" onClick={() => exitConfirmation()}>Quit</button>
           <button
             className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
             onClick={() => handleSaveAnswers(answers)}

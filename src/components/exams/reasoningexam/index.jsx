@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import parseJSON from "../../../utils/jsonparser";
 import Timer from "../../shared/Timer";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { userData } from "../../../utils/loginData";
 import { endpoints } from "../../../constants/endpoints";
 import Axios from "axios";
@@ -9,8 +9,10 @@ import qs from "qs";
 import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
+import { routepath } from "../../../constants/routepath";
 
 const ReasoningExam = ({ }) => {
+  const navigate = useNavigate()
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
   );
@@ -163,12 +165,12 @@ const ReasoningExam = ({ }) => {
         user: access_token,
         exam: quid,
         start: startTime,
-        subject:0
+        subject: 0
       }
       sendAnswers(finalData);
     }
   };
-
+  e
   if (loader === true) {
     return <div>LOADING</div>;
   } else {
@@ -246,7 +248,7 @@ const ReasoningExam = ({ }) => {
                   </div>
                 ))}
             </div>
-            
+
             <div className="color-indicator">
               <div className="color-box-wrap">
                 <div
@@ -294,7 +296,7 @@ const ReasoningExam = ({ }) => {
               >
                 Next
               </button>
-              <button className="btn btn-red">Quit</button>
+              <button className="btn btn-red" onClick={()=>exitConfirmation()}>Quit</button>
               <button
                 className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 disabled={isDisabled}

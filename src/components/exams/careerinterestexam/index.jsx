@@ -109,6 +109,12 @@ const CareerInterestExam = () => {
       sendAnswers(answers);
     }
   };
+  const exitConfirmation = () => {
+    const userConfirmed = window.confirm("Your answer may not be saved, Are you sure you want to quit?")
+    if (userConfirmed) {
+      navigate(routepath.dashboard)
+    }
+  }
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
@@ -171,7 +177,7 @@ const CareerInterestExam = () => {
               <img src={career} alt="" style={{ width: "300px" }} />
             </div>
             <div className="bottom-btn-row">
-              <button className="btn btn-red">Quit</button>
+              <button className="btn btn-red" onClick={()=>exitConfirmation()}>Quit</button>
               <button
                 className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 onClick={() => handleSaveAnswers(answers)}
