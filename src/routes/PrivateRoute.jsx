@@ -22,7 +22,7 @@ const PrivateLayout = ({ children }) => {
             style={isHeaderHidden ? { display: "flex" } : { display: "block" }}
           >
             {isHeaderHidden && <SideMenu />}
-            <main>{children}</main>
+            <main className="right">{children}</main>
           </div>
         </div>
         <Footer />

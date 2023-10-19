@@ -34,7 +34,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="right">
+    <div   className="">
       <div className="row column">
         <div className="graph">
           <div className="column">
