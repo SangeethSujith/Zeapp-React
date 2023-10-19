@@ -30,7 +30,7 @@ const Login = () => {
         notificationHelpers.error(response.data.message);
       }
     } catch (error) {
-      notificationHelpers.error("Something Went Wrong")
+      notificationHelpers.error("Something Went Wrong!")
       console.error("Error sending POST request:", error);
     }
   };

@@ -10,12 +10,12 @@ import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 
-const ReasoningExam = ({ }) => {
+const ReasoningExam = ({}) => {
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
   );
   const [questions, setQuestions] = useState([]);
-  const [loader, setloader] = useState(true);
+  const [loader, setLoader] = useState(true);
   const [currentNumber, setcurrentNumber] = useState(0);
   const { quid, tottime } = useParams();
   const { access_token } = userData;
@@ -24,18 +24,16 @@ const ReasoningExam = ({ }) => {
     exam: quid,
     data: [],
   });
-  const[ isUnAnswered, setIsUnAnswered]=useState(false)
-  const [timerWithID, setTimerWithID] = useState([])
-  const [isDisabled, setIsDisabled] = useState(false)
+  const [isUnAnswered, setIsUnAnswered] = useState(false);
+  const [timerWithID, setTimerWithID] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     getReasoningExam(access_token, quid);
-    console.log("quid,tottime", quid, tottime);
   }, []);
 
   const getReasoningExam = async (token, quid) => {
     try {
-      setloader(true);
       const response = await Axios.post(
         `${import.meta.env.VITE_API_URL + endpoints.getReasoningExam}`,
         qs.stringify({ access_key: token, exam: quid })
@@ -48,21 +46,22 @@ const ReasoningExam = ({ }) => {
         localStorage.clear();
         window.location.reload();
       }
-      setloader(false);
+      setLoader(false);
     } catch (error) {
       console.log(error);
-      setloader(false);
+
+      setLoader(false);
     }
   };
-
-
 
   const handleOptionChange = (oid, qid, time) => {
     // const updatedData = answers.data.filter((item) => item.qid !== qid);
 
     setTimerWithID((prevTimerWithID) => {
       // Check if an object with the same qid exists in the array
-      const existingObjectIndex = prevTimerWithID.findIndex(item => item.qid === qid);
+      const existingObjectIndex = prevTimerWithID.findIndex(
+        (item) => item.qid === qid
+      );
 
       if (existingObjectIndex !== -1) {
         // If an object with the same qid exists, add the time to its time array
@@ -73,8 +72,8 @@ const ReasoningExam = ({ }) => {
       }
 
       return prevTimerWithID;
-    })
-    setAnswers(prevAnswers => ({
+    });
+    setAnswers((prevAnswers) => ({
       user: access_token,
       exam: quid,
       data: [
@@ -84,7 +83,7 @@ const ReasoningExam = ({ }) => {
           opt: oid,
         },
       ],
-    }))
+    }));
     // console.log("updatedAnswers", updatedAnswers);
   };
   const handleClick = (num) => {
@@ -93,24 +92,20 @@ const ReasoningExam = ({ }) => {
   const progress = (condition) => {
     if (condition == "plus") {
       if (currentNumber < questions.length - 1) {
-        setcurrentNumber(currentNumber + 1)
+        setcurrentNumber(currentNumber + 1);
       } else {
-        notificationHelpers.info("You are already on the last question")
+        notificationHelpers.info("You are already on the last question");
       }
-    }
-    else {
+    } else {
       if (currentNumber >= 1) {
-        setcurrentNumber(currentNumber - 1)
+        setcurrentNumber(currentNumber - 1);
       } else {
-        notificationHelpers.info("You are already on the first question")
+        notificationHelpers.info("You are already on the first question");
       }
     }
-  }
-
-
+  };
 
   // sending exams
-
 
   const sendAnswers = async (answers) => {
     try {
@@ -127,20 +122,16 @@ const ReasoningExam = ({ }) => {
     } catch (error) {
       console.error("Error Sending Answers:", error);
       notificationHelpers.error("Something went wrong");
-
     }
   };
 
   const handleSaveAnswers = () => {
-
     if (questions.length !== answers.data.length) {
-      setIsUnAnswered(true)
+      setIsUnAnswered(true);
       notificationHelpers.warning(
         `${answers.data.length}/${questions.length} please answer all questions`
       );
-      
     } else {
-
       const totalTimes = {};
 
       timerWithID.forEach((item) => {
@@ -154,20 +145,12 @@ const ReasoningExam = ({ }) => {
       // Step 2: Map answers.data and add the total time
       const AnswerWithTime = answers.data.map((answer) => {
         const total = totalTimes[answer.qid] || 0;
-        answer["ind_time"] = eval(total.join("+"))*1000; // You can store the total time in a new property like "totalTime" for each answer
+        answer["ind_time"] = eval(total.join("+")) * 1000; // You can store the total time in a new property like "totalTime" for each answer
         return answer;
       });
       // sendAnswers(AnswerWithTime)
     }
   };
-
-
-
-
-
-
-
-
 
   if (loader === true) {
     return <div>LOADING</div>;
@@ -177,12 +160,19 @@ const ReasoningExam = ({ }) => {
         <div className="main-head" style={{ display: "flex" }}>
           <h1 className="page-header">Reasoning Test</h1>
           <div className="timer">
-            <Timer initialTime={tottime * 60} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
+            <Timer
+              initialTime={tottime * 60}
+              onTimerEnd={() => notificationHelpers.warning("Time Ran Out")}
+            />
           </div>
         </div>
         <div className="container">
           <div className="column">
-            <QuestionContainer currentNumber={currentNumber} questions={questions} handleOptionChange={handleOptionChange} />
+            <QuestionContainer
+              currentNumber={currentNumber}
+              questions={questions}
+              handleOptionChange={handleOptionChange}
+            />
             <div className="bottom-btn-row">
               <button
                 className="btn btn-blue"
@@ -202,8 +192,12 @@ const ReasoningExam = ({ }) => {
               </button>
               <button className="btn btn-red">Quit</button>
               <button
-              className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
-                disabled={isDisabled} onClick={handleSaveAnswers}>Save</button>
+                className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
+                disabled={isDisabled}
+                onClick={handleSaveAnswers}
+              >
+                Save
+              </button>
             </div>
           </div>
           <div className="column second-column">
@@ -219,9 +213,11 @@ const ReasoningExam = ({ }) => {
                     }}
                   >
                     <button
-                      className={`button ${answers.data.some((item) => item.qid === question.id) ?
-                        "btn-answered": isUnAnswered && "btn-un-answered"
-                        }
+                      className={`button ${
+                        answers.data.some((item) => item.qid === question.id)
+                          ? "btn-answered"
+                          : isUnAnswered && "btn-un-answered"
+                      }
 
                       `}
                       onClick={() => {
