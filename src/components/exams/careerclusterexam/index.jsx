@@ -10,7 +10,7 @@ import Timer from "../../shared/Timer";
 import ReactPaginate from "react-paginate";
 const CareerClusterExam = () => {
   useBeforeUnload(
-    "You will be redirected to Login Page. You Progress May Not Be Saved"
+    "You will be redirected to Login Page. Your Progress May Not Be Saved"
   );
   const { access_token } = userData;
   const [questions, setQuestions] = useState([]);
