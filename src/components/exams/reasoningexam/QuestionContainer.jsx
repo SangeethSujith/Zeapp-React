@@ -3,11 +3,21 @@ const QuestionContainer = ({ currentNumber, questions, handleOptionChange }) => 
   const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setElapsedTime(prev => prev + 1);
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+    let interval;
+    const startTimer = () => {
+      interval = setInterval(() => {
+        setElapsedTime(prevTime => prevTime + 1);
+      }, 1000);
+    };
+
+    startTimer();
+
+    return () => {
+      clearInterval(interval); // Clear the interval on component cleanup
+      setElapsedTime(0); // Reset the elapsed time
+    };
+  }, [currentNumber]); 
+  // console.log('elapsedTime', elapsedTime)
   return (
     <>
       <div className="questions-container">
@@ -35,7 +45,8 @@ const QuestionContainer = ({ currentNumber, questions, handleOptionChange }) => 
                 onChange={() => {
                   handleOptionChange(
                     option.oid,
-                    questions[currentNumber].id
+                    questions[currentNumber].id,
+                   elapsedTime
                   );
                 }}
               />

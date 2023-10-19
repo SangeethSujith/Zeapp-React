@@ -24,10 +24,10 @@ const ReasoningExam = ({ }) => {
     exam: quid,
     data: [],
   });
-  console.log(
-    "answers",
-    answers.data.some((item) => item.qid === "418")
-  );
+  const[ isUnAnswered, setIsUnAnswered]=useState(false)
+  const [timerWithID, setTimerWithID] = useState([])
+  const [isDisabled, setIsDisabled] = useState(false)
+
   useEffect(() => {
     getReasoningExam(access_token, quid);
     console.log("quid,tottime", quid, tottime);
@@ -54,41 +54,38 @@ const ReasoningExam = ({ }) => {
       setloader(false);
     }
   };
-  const sendReasoningExam = async () => {
-    try {
-      setloader(true)
-      const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.saveExamResults}`,
-        qs.stringify(answers))
-      if (response.data.status === "success") {
-        notificationHelpers.success("Answers Submitted Successfully")
+
+
+
+  const handleOptionChange = (oid, qid, time) => {
+    // const updatedData = answers.data.filter((item) => item.qid !== qid);
+
+    setTimerWithID((prevTimerWithID) => {
+      // Check if an object with the same qid exists in the array
+      const existingObjectIndex = prevTimerWithID.findIndex(item => item.qid === qid);
+
+      if (existingObjectIndex !== -1) {
+        // If an object with the same qid exists, add the time to its time array
+        prevTimerWithID[existingObjectIndex].time.push(time);
       } else {
-        notificationHelpers.error("An Error Occurred! Try Logging in again.");
-        localStorage.clear();
-        window.location.reload();
+        // If no object with the same qid exists, create a new object and add it to the array
+        prevTimerWithID.push({ qid, time: [time] });
       }
-      setloader(false);
-    } catch (error) {
-      console.log(error);
-      notificationHelpers.error("Something went wrong");
-      setloader(false);
-    }
-  }
-  const handleOptionChange = (oid, qid) => {
-    const updatedData = answers.data.filter((item) => item.qid !== qid);
-    const updatedAnswers = {
+
+      return prevTimerWithID;
+    })
+    setAnswers(prevAnswers => ({
       user: access_token,
       exam: quid,
       data: [
-        ...updatedData,
+        ...prevAnswers.data.filter((item) => item.qid !== qid),
         {
           qid: qid,
           opt: oid,
         },
       ],
-    };
-    setAnswers(updatedAnswers);
-    console.log("updatedAnswers", updatedAnswers);
+    }))
+    // console.log("updatedAnswers", updatedAnswers);
   };
   const handleClick = (num) => {
     setcurrentNumber(num);
@@ -109,7 +106,70 @@ const ReasoningExam = ({ }) => {
       }
     }
   }
-  if (loader == true) {
+
+
+
+  // sending exams
+
+
+  const sendAnswers = async (answers) => {
+    try {
+      const response = await Axios.post(
+        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`,
+        qs.stringify(answers)
+      );
+      if (response.data.status === "success") {
+        notificationHelpers.success(
+          "Reasoning Exam Was Completed Successfully"
+        );
+        setIsDisabled(true);
+      }
+    } catch (error) {
+      console.error("Error Sending Answers:", error);
+      notificationHelpers.error("Something went wrong");
+
+    }
+  };
+
+  const handleSaveAnswers = () => {
+
+    if (questions.length !== answers.data.length) {
+      setIsUnAnswered(true)
+      notificationHelpers.warning(
+        `${answers.data.length}/${questions.length} please answer all questions`
+      );
+      
+    } else {
+
+      const totalTimes = {};
+
+      timerWithID.forEach((item) => {
+        if (totalTimes[item.qid]) {
+          totalTimes[item.qid] += item.time;
+        } else {
+          totalTimes[item.qid] = item.time;
+        }
+      });
+
+      // Step 2: Map answers.data and add the total time
+      const AnswerWithTime = answers.data.map((answer) => {
+        const total = totalTimes[answer.qid] || 0;
+        answer["ind_time"] = eval(total.join("+"))*1000; // You can store the total time in a new property like "totalTime" for each answer
+        return answer;
+      });
+      // sendAnswers(AnswerWithTime)
+    }
+  };
+
+
+
+
+
+
+
+
+
+  if (loader === true) {
     return <div>LOADING</div>;
   } else {
     return (
@@ -141,7 +201,9 @@ const ReasoningExam = ({ }) => {
                 Next
               </button>
               <button className="btn btn-red">Quit</button>
-              <button className={`btn ${answers.data.length==questions.length&&"btn-green"}`} disabled={answers.data.length==questions.length?false:true} onClick={() => sendReasoningExam()}>Save</button>
+              <button
+              className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
+                disabled={isDisabled} onClick={handleSaveAnswers}>Save</button>
             </div>
           </div>
           <div className="column second-column">
@@ -152,14 +214,15 @@ const ReasoningExam = ({ }) => {
                     key={question.id}
                     style={{
                       backgroundColor:
-                        index == currentNumber ? "#5546e9" : "white",
+                        index == currentNumber ? "#5272F2" : "white",
                       borderRadius: 10,
                     }}
                   >
                     <button
-                      className={`button ${answers.data.some((item) => item.qid === question.id) &&
-                        "btn-answered"
+                      className={`button ${answers.data.some((item) => item.qid === question.id) ?
+                        "btn-answered": isUnAnswered && "btn-un-answered"
                         }
+
                       `}
                       onClick={() => {
                         handleClick(index, question.id);
