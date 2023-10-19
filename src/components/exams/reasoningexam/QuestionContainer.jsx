@@ -21,7 +21,7 @@ const QuestionContainer = ({
       setElapsedTime(0); // Reset the elapsed time
     };
   }, [currentNumber]);
-  return ( 
+  return (
     <>
       <div className="questions-container">
         <div className="container-head">Question {currentNumber + 1} :</div>
@@ -35,7 +35,7 @@ const QuestionContainer = ({
         <div className="options-head">Options :</div>
         <div className="options-list">
           {questions[currentNumber].options.map((option) => (
-            <label key={option.oid}>
+            <div style={{display:'flex',justifyContent:'start', alignItems:'center'}} key={option.oid}>
               <input
                 type="radio"
                 checked={answers.some((item) => item.opt === option.oid)}
@@ -50,11 +50,12 @@ const QuestionContainer = ({
                   );
                 }}
               />
-              <span
+              <label
+              style={{padding:'6px 0 0 4px'}}
                 htmlFor={questions[currentNumber].id}
                 dangerouslySetInnerHTML={{ __html: option.q_option }}
               />
-            </label>
+            </div>
           ))}
         </div>
       </div>
