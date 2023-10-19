@@ -2,16 +2,14 @@ import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import { routepath } from "../../../constants/routepath";
 
+import ZeappLogo from "../../../assets/images/zeapp-logo.png";
 const Header = ({ isMenuHidden }) => {
   const loginData = JSON.parse(localStorage.getItem("userData"));
   return (
     <header>
       <div className="logo">
         <Link to={routepath.dashboard}>
-          <img
-            src="../../../src/assets/images/zeapp-logo.png"
-            alt="zeapp-Logo"
-          />
+          <img src={ZeappLogo} alt="zeapp-Logo" />
         </Link>
       </div>
       <button className="burger-button">&#9776;</button>
