@@ -1,13 +1,17 @@
 import Axios from "axios";
 import qs from "qs";
 import React, { useEffect, useState } from "react";
-import career from "../../../assets/images/career.png";
 import { endpoints } from "../../../constants/endpoints";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import { userData } from "../../../utils/loginData";
 import notificationHelpers from "../../../utils/notification";
 import Timer from "../../shared/Timer";
 import ReactPaginate from "react-paginate";
+import { parseData } from "../../../utils/jsonParserForCareerCluster";
+import {
+  checkIfOneAnsweredPerSubgroup,
+  countAnsweredQuestions,
+} from "../../../utils/careerClusterAnswerConditions";
 const CareerClusterExam = () => {
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
@@ -53,80 +57,12 @@ const CareerClusterExam = () => {
     }
   };
 
-  function parseData(jsonData) {
-    // Initialize an array to store the parsed data
-    const parsedData = [];
-
-    // Loop through each item in the JSON array
-    jsonData.forEach((item) => {
-      // Extract relevant information
-      const groupId = item.grp_id;
-      const groupName = item.group_name;
-      const subgroupId = item.sub_grp_id;
-      const subGroupName = item.sub_group_name;
-      const questionId = item.quid;
-      const options = item.options;
-
-      // Check if the group exists in the parsed data
-      const groupIndex = parsedData.findIndex(
-        (group) => group.grp_id === groupId
-      );
-
-      // If the group doesn't exist, add it
-      if (groupIndex === -1) {
-        parsedData.push({
-          grp_id: groupId,
-          group_name: groupName,
-          subgroups: [
-            {
-              sub_group_id: subgroupId,
-              sub_group_name: subGroupName,
-              questions: [
-                {
-                  question_id: questionId,
-                  options: options,
-                },
-              ],
-            },
-          ],
-        });
-      } else {
-        // Check if the subgroup exists in the group
-        const subgroupIndex = parsedData[groupIndex].subgroups.findIndex(
-          (subgroup) => subgroup.sub_group_id === subgroupId
-        );
-
-        // If the subgroup doesn't exist, add it
-        if (subgroupIndex === -1) {
-          parsedData[groupIndex].subgroups.push({
-            sub_group_id: subgroupId,
-            sub_group_name: subGroupName,
-            questions: [
-              {
-                question_id: questionId,
-                options: options,
-              },
-            ],
-          });
-        } else {
-          // Add the question to the existing subgroup
-          parsedData[groupIndex].subgroups[subgroupIndex].questions.push({
-            question_id: questionId,
-            options: options,
-          });
-        }
-      }
-    });
-
-    return parsedData;
-  }
-
   const handleOptionClick = (group_id, sub_group_id, question_id) => {
     const existingAnswerIndex = answers.data.findIndex(
       (answer) =>
         answer.group_id === group_id &&
         answer.sub_group_id === sub_group_id &&
-        answer.question_id === question_id
+        answer.option__id === question_id
     );
 
     if (existingAnswerIndex !== -1) {
@@ -136,7 +72,10 @@ const CareerClusterExam = () => {
     } else {
       setAnswers({
         ...answers,
-        data: [...answers.data, { group_id, sub_group_id, question_id }],
+        data: [
+          ...answers.data,
+          { group_id, sub_group_id, option_id: question_id },
+        ],
       });
     }
   };
@@ -157,27 +96,6 @@ const CareerClusterExam = () => {
     }
   };
 
-  function countAnsweredQuestions(answerData) {
-    const uniqueGroupIds = new Set(answerData.map((answer) => answer.group_id));
-    return uniqueGroupIds.size;
-  }
-  function checkIfOneAnsweredPerSubgroup(answerData, questionData) {
-    const answered = questionData.every((group) => {
-      const { grp_id, subgroups } = group;
-
-      return subgroups.every((subgroup) => {
-        return subgroup.questions.some((question) => {
-          return answerData.some(
-            (answer) =>
-              answer.group_id === grp_id &&
-              answer.question_id === question.question_id
-          );
-        });
-      });
-    });
-
-    return answered;
-  }
   const handleSaveProgress = () => {
     const uniqueGroupCount = countAnsweredQuestions(answers.data);
     const isAllSubquestionsAnswered = checkIfOneAnsweredPerSubgroup(
@@ -222,7 +140,10 @@ const CareerClusterExam = () => {
           <h1 className="page-header">Career Cluster Test</h1>
           <div className="timer">
             {timer !== null && (
-              <Timer initialTime={timer} onTimerEnd={() => notificationHelpers.warning("Time Ran Out")} />
+              <Timer
+                initialTime={timer}
+                onTimerEnd={() => notificationHelpers.warning("Time Ran Out")}
+              />
             )}
           </div>
         </div>
@@ -236,15 +157,16 @@ const CareerClusterExam = () => {
                     <div
                       key={question.question_id}
                       className={`list-item 
-                      ${answers.data.length !== 0 &&
-                          answers.data.some(
-                            (item) =>
-                              item.group_id === group.grp_id &&
-                              item.question_id === question.question_id
-                          )
+                      ${
+                        answers.data.length !== 0 &&
+                        answers.data.some(
+                          (item) =>
+                            item.group_id === group.grp_id &&
+                            item.option_id === question.question_id
+                        )
                           ? "selected"
                           : ""
-                        }`}
+                      }`}
                       onClick={() =>
                         handleOptionClick(
                           group.grp_id,
@@ -258,11 +180,11 @@ const CareerClusterExam = () => {
                         className="green-tick "
                         style={
                           answers.data.length !== 0 &&
-                            answers.data.some(
-                              (item) =>
-                                item.group_id === group.grp_id &&
-                                item.question_id === question.question_id
-                            )
+                          answers.data.some(
+                            (item) =>
+                              item.group_id === group.grp_id &&
+                              item.option_id === question.question_id
+                          )
                             ? { display: "inline" }
                             : { display: "none" }
                         }
