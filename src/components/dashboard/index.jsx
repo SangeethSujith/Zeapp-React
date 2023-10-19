@@ -11,7 +11,6 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const { first_name, school_name, access_token } = userData;
   const [exams, setExams] = useState({});
-  console.log("exams", exams);
   useEffect(() => {
     getDashBoardExams(access_token);
   }, []);
