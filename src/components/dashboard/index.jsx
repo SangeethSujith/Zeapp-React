@@ -74,7 +74,7 @@ const Dashboard = () => {
         )}
         {exams.EXAM && (
           <div className="graph">
-            <Link to={routepath.reasoningExam + "/" + exams.EXAM[0].quid}>
+            <Link to={routepath.reasoningExam + "/" + exams.EXAM[0].quid + "/" + exams.EXAM[0].duration}>
               <div className="career-exam-card">Take Reasoning Test</div>
             </Link>
           </div>

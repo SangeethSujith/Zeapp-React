@@ -11,8 +11,6 @@ const App = () => {
 
   const router = createBrowserRouter(appRoutes());
   const { loaders } = useSelector((state) => state.common);
-  console.log("loaders", loaders);
-
   return (
     <React.StrictMode>
       {loaders.length > 0 && <Loader />}
