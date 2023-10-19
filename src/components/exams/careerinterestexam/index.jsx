@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Timer from "../../shared/Timer";
-import career from "../../../assets/images/career.png";
-import Footer from "../../shared/Footer";
-import { endpoints } from "../../../constants/endpoints";
-import { userData } from "../../../utils/loginData";
 import Axios from "axios";
 import qs from "qs";
-import notificationHelpers from "../../../utils/notification";
+import React, { useEffect, useState } from "react";
+import career from "../../../assets/images/career.png";
+import { endpoints } from "../../../constants/endpoints";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
+import { userData } from "../../../utils/loginData";
+import notificationHelpers from "../../../utils/notification";
+import Timer from "../../shared/Timer";
 const CareerInterestExam = () => {
   useBeforeUnload(
     "You will be redirected to Login Page. You Progress May Not Be Saved"
@@ -17,7 +16,7 @@ const CareerInterestExam = () => {
   const [answers, setAnswers] = useState({ user: "", data: [] });
   const [isDisabled, setIsDisabled] = useState(false);
   const [timer, setTimer] = useState(null);
-  const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(true);
+  const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(null);
   useEffect(() => {
     getQuestions(access_token);
   }, []);
@@ -43,6 +42,8 @@ const CareerInterestExam = () => {
           localStorage.clear();
           window.location.reload();
         }
+      } else {
+        setIsMaxLimitExceeded(true);
       }
     } catch (error) {
       console.error("Error Getting Questions:", error);
@@ -57,7 +58,7 @@ const CareerInterestExam = () => {
       );
       if (response.data.status === "success") {
         notificationHelpers.success(
-          "Career Career Interest Exam Was Completed Successfully"
+          "Career Interest Exam Was Completed Successfully"
         );
         setIsDisabled(true);
       }
@@ -84,13 +85,15 @@ const CareerInterestExam = () => {
   };
 
   const handleOptionChange = (qid, option) => {
-    const updatedData = answers.data.filter((item) => item.qid !== qid);
+    const updatedData = answers.data.filter(
+      (item) => parseInt(item.qid) !== parseInt(qid)
+    );
     const updatedAnswers = {
       user: access_token,
       data: [
         ...updatedData,
         {
-          qid: qid,
+          qid: parseInt(qid),
           option: option,
         },
       ],
@@ -100,13 +103,17 @@ const CareerInterestExam = () => {
 
   const handleSaveAnswers = (answers) => {
     if (questions.length !== answers.data.length) {
-      notificationHelpers.warning("please answer all questions");
+      notificationHelpers.warning(
+        `${answers.data.length}/${questions.length} please answer all questions`
+      );
     } else {
       sendAnswers(answers);
     }
   };
-  if (isMaxLimitExceeded) {
-    return <h1 >Max Limit Exceeded</h1>;
+  if (isMaxLimitExceeded === true) {
+    return <h1>Max Limit Exceeded</h1>;
+  } else if (questions.length === 0) {
+    return <p>Loading...</p>; // Add a loading state
   } else {
     return (
       <div>
@@ -167,17 +174,15 @@ const CareerInterestExam = () => {
             <div className="bottom-btn-row">
               <button className="btn btn-red">Quit</button>
               <button
-                className="btn btn-green"
+                className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 onClick={() => handleSaveAnswers(answers)}
                 disabled={isDisabled}
               >
                 Save
               </button>
-              {isMaxLimitExceeded && <span>Max Limit Exceeded</span>}
             </div>
           </div>
         </div>
-        <Footer />
       </div>
     );
   }

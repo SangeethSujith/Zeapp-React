@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import SideMenu from "../shared/sideMenu";
 import { endpoints } from "../../constants/endpoints";
 import { userData } from "../../utils/loginData";
 import Axios from "axios";

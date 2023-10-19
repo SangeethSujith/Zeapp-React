@@ -6,20 +6,25 @@ import Loader from "../components/shared/Loader/index";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
 import { routepath } from "../constants/routepath";
-
 // Lazy-loaded Components
 const Login = lazy(() => import("../components/auth/Login"));
 const Dashboard = lazy(() => import("../components/dashboard"));
 const NotFound = lazy(() => import("../components/shared/notFound"));
 const User = lazy(() => import("../components/users/index"));
-
+const ExamReport = lazy(() => import("../components/examreport"));
+const Notifications = lazy(() => import("../components/notifications"));
+const Profile = lazy(() => import("../components/profile"));
+// exams
 const CareerInterestExam = lazy(() =>
   import("../components/exams/careerinterestexam")
 );
 const ReasoningExam = lazy(() => import("../components/exams/reasoningexam"));
-const ExamReport = lazy(() => import("../components/examreport"));
-const Notifications = lazy(() => import("../components/notifications"));
-const Profile = lazy(() => import("../components/profile"));
+const PsycometricExam = lazy(() =>
+  import("../components/exams/psycometricexam")
+);
+const CareerClusterExam = lazy(() =>
+  import("../components/exams/careerclusterexam")
+);
 
 const routeMapper = () => {
   return [
@@ -149,6 +154,46 @@ const routeMapper = () => {
           element: (
             <Suspense fallback={<Loader />}>
               <ReasoningExam />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: routepath.psycometricExam,
+      element: (
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
+      ),
+      exact: true,
+      children: [
+        {
+          index: true,
+          exact: true,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <PsycometricExam />
+            </Suspense>
+          ),
+        },
+      ],
+    },
+    {
+      path: routepath.careerClusterExam,
+      element: (
+        <PrivateRoute>
+          <Outlet />
+        </PrivateRoute>
+      ),
+      exact: true,
+      children: [
+        {
+          index: true,
+          exact: true,
+          element: (
+            <Suspense fallback={<Loader />}>
+              <CareerClusterExam />
             </Suspense>
           ),
         },
