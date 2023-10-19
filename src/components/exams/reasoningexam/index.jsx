@@ -170,7 +170,7 @@ const ReasoningExam = ({ }) => {
       sendAnswers(finalData);
     }
   };
-  e
+  
   if (loader === true) {
     return <div>LOADING</div>;
   } else {
