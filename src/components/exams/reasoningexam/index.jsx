@@ -118,7 +118,7 @@ const ReasoningExam = ({}) => {
   const sendAnswers = async (answers) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`,
+        `${import.meta.env.VITE_API_URL + endpoints.saveExamResults}`,
         qs.stringify(answers)
       );
       if (response.data.status === "success") {
