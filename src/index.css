@@ -220,6 +220,25 @@ textarea:focus-visible {
   cursor: pointer;
   border: none;
 }
+.career-cluster {
+  /* padding: 8% 1%; */
+  text-align: center;
+  /* background-color: #fff; */
+  border-radius: 20px;
+  margin: -20px 0 0;
+}
+
+.career-cluster .btn {
+  width: 100%;
+  max-width: 120px;
+  font-size: 14px;
+  font-weight: 600;
+  height: 50px;
+  border-radius: 10px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+}
 
 .btn-blue {
   background-color: #e8f5ff;
@@ -899,15 +918,13 @@ body {
   text-decoration: none;
 }
 
-.pagination-normal{
+.pagination-normal {
   background-color: #ededed;
   border-radius: 10px;
-
 }
-.pagination-answered{
+.pagination-answered {
   background-color: #53d380;
   border-radius: 10px; /* Added rounded corners */
-
 }
 .pagination a.active {
   background-color: #007bff;

@@ -92,8 +92,7 @@ const CareerClusterExam = () => {
           "Career Cluster Exam Was Completed Successfully"
         );
         setIsDisabled(true);
-        navigate(routepath.dashboard)
-
+        navigate(routepath.dashboard);
       }
     } catch (error) {
       console.error("Error Sending Answers:", error);
@@ -219,34 +218,25 @@ const CareerClusterExam = () => {
             pageClassName={"pagination-buttons pagination-normal"}
             activeClassName={"button-active"}
           />
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: "10px",
-            }}
+        </div>
+        <div className="career-cluster">
+          <button
+            className="btn btn-red"
+            onClick={() =>
+              window.confirm(
+                "Your answer may not be saved, Are you sure you want to quit?"
+              ) && navigate(routepath.dashboard)
+            }
           >
-            <button
-              className="save-button btn-red"
-              onClick={() =>
-                window.confirm(
-                  "Your answer may not be saved, Are you sure you want to quit?"
-                ) && navigate(routepath.dashboard)
-              }
-            >
-              Quit
-            </button>
-            <button
-              className={`save-button ${
-                isDisabled ? "btn-disabled" : "btn-green"
-              }`}
-              disabled={isDisabled}
-              onClick={handleSaveProgress}
-            >
-              Save Progress
-            </button>
-          </div>
+            Quit
+          </button>
+          <button
+            className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
+            onClick={handleSaveProgress}
+            disabled={isDisabled}
+          >
+            Save
+          </button>
         </div>
       </div>
     );
