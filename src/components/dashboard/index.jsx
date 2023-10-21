@@ -4,6 +4,8 @@ import { routepath } from "../../constants/routepath";
 import { userData } from "../../utils/loginData";
 import { endpoints } from "../../constants/endpoints";
 import { useEffect, useState } from "react";
+import exam_career from "../../assets/images/exam-career.png"
+import exam_reasoning from "../../assets/images/exam-reas.png"
 import Axios from "axios";
 import qs from "qs";
 
@@ -56,7 +58,7 @@ const Dashboard = () => {
               <Link to={routepath.careerClusterExam}>
                 <div className="career-exam-card">Take Career Cluster Test</div>
                 <div class="gif exam-tab">
-                  <img src={career} alt="" />
+                  <img src={exam_career} alt="" />
                 </div>
               </Link>
             </div>
@@ -66,7 +68,7 @@ const Dashboard = () => {
               <Link to={routepath.psycometricExam}>
                 <div className="career-exam-card">Take Psycometric Test</div>
                 <div class="gif exam-tab">
-                  <img src={career} alt="" />
+                  <img src={exam_career} alt="" />
                 </div>
               </Link>
             </div>
@@ -76,7 +78,7 @@ const Dashboard = () => {
               <Link to={routepath.careerInterestExam}>
                 <div className="career-exam-tab">Take Career Interest Test</div>
                 <div class="gif exam-tab">
-                  <img src={career} alt="" />
+                  <img src={exam_career} alt="" />
                 </div>
               </Link>
             </div>
@@ -86,7 +88,7 @@ const Dashboard = () => {
               <Link to={routepath.reasoningExam + "/" + exams.EXAM[0].quid + "/" + exams.EXAM[0].duration}>
                 <div className="career-exam-card">Take Reasoning Test</div>
                 <div class="gif exam-tab">
-                  <img src={career} alt="" />
+                  <img src={exam_reasoning} alt="" />
                 </div>
               </Link>
             </div>
