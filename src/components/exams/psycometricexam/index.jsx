@@ -88,9 +88,7 @@ const PsycometricExam = () => {
   const sendAnswers = async (answers) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`,
-        qs.stringify(answers)
-      );
+        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`,answers);
       if (response.data.status === "success") {
         notificationHelpers.success(
           "Psycometric Exam Was Completed Successfully"

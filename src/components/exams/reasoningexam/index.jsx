@@ -31,6 +31,7 @@ const ReasoningExam = ({}) => {
   const [isUnAnswered, setIsUnAnswered] = useState(false);
   const [timerWithID, setTimerWithID] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isMaxLimitExceeded, setIsMaxLimitExceeded] = useState(null);
 
   useEffect(() => {
     getReasoningExam(access_token, quid);
@@ -43,18 +44,23 @@ const ReasoningExam = ({}) => {
         `${import.meta.env.VITE_API_URL + endpoints.getReasoningExam}`,
         qs.stringify({ access_key: token, exam: quid })
       );
-      if (response.data.status === "success") {
-        const questionsResponse = parseJSON(response.data.data);
-        setQuestions(questionsResponse);
+      if (response.data.http_code !== 300) {
+        if (response.data.http_code === 200) {
+          const questionsResponse = parseJSON(response.data.data);
+          setQuestions(questionsResponse);
+          setIsMaxLimitExceeded(false);
+        } else {
+          notificationHelpers.error("An Error Occurred! Try Logging in again.");
+          localStorage.clear();
+          window.location.reload();
+        }
       } else {
-        notificationHelpers.error("An Error Occurred! Try Logging in again.");
-        localStorage.clear();
-        window.location.reload();
+        setIsMaxLimitExceeded(true);
       }
+
       setLoader(false);
     } catch (error) {
       console.log(error);
-
       setLoader(false);
     }
   };
@@ -119,7 +125,7 @@ const ReasoningExam = ({}) => {
     try {
       const response = await Axios.post(
         `${import.meta.env.VITE_API_URL + endpoints.saveExamResults}`,
-        qs.stringify(answers)
+        answers
       );
       if (response.data.status === "success") {
         notificationHelpers.success(
@@ -159,7 +165,7 @@ const ReasoningExam = ({}) => {
       });
       const finalData = {
         data: AnswerWithTime,
-        endTime: getCurrentTimeUnix(),
+        end: getCurrentTimeUnix(),
         tot_time: getCurrentTimeUnix() - startTime,
         user: access_token,
         exam: quid,
@@ -169,8 +175,9 @@ const ReasoningExam = ({}) => {
       sendAnswers(finalData);
     }
   };
-
-  if (loader === true) {
+  if (isMaxLimitExceeded == true) {
+    return <h1>Max Limit Exceeded</h1>;
+  } else if (loader === true) {
     return <div>LOADING</div>;
   } else {
     return (

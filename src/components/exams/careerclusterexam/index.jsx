@@ -84,9 +84,7 @@ const CareerClusterExam = () => {
   const sendAnswers = async (data) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.saveCareerClusterExam}`,
-        qs.stringify(answers)
-      );
+        `${import.meta.env.VITE_API_URL + endpoints.saveCareerClusterExam}`,answers);
       if (response.data.status === "success") {
         notificationHelpers.success(
           "Career Cluster Exam Was Completed Successfully"

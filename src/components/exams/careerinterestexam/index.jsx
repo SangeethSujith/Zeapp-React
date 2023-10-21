@@ -56,9 +56,7 @@ const CareerInterestExam = () => {
   const sendAnswers = async (answers) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.saveCareerInterest}`,
-        qs.stringify(answers)
-      );
+        `${import.meta.env.VITE_API_URL + endpoints.saveCareerInterest}`,answers);
       if (response.data.status === "success") {
         notificationHelpers.success(
           "Career Interest Exam Was Completed Successfully"
