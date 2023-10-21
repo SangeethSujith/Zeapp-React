@@ -45,11 +45,14 @@ const ExamReport = () => {
   };
 
   return (
-    <div className="center">
-      <div className="right">
+    <div 
+    // style={{display:"flex",flex:1,justifyContent:"center",alignItems:"center"}}
+    style={{display:"flex", height:"80%",justifyContent:"center",alignItems:"center"}}
+    >
+      <div>
         {isReportAvailable ? (
-          <button onClick={() => handleDownloadReport(access_token)}>
-            download report
+          <button style={{width:300,height:50, backgroundColor:"#5546e9", borderRadius:10}} onClick={() => handleDownloadReport(access_token)}>
+           <span style={{color:"white",fontSize:18}}> Download Report </span>
           </button>
         ) : (
           <h1>
