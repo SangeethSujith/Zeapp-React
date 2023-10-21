@@ -11,7 +11,7 @@ import QuestionContainer from "./QuestionContainer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import { routepath } from "../../../constants/routepath";
 
-const ReasoningExam = ({}) => {
+const ReasoningExam = ({ }) => {
   const navigate = useNavigate();
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
@@ -177,8 +177,14 @@ const ReasoningExam = ({}) => {
   };
   if (isMaxLimitExceeded == true) {
     return <h1>Max Limit Exceeded</h1>;
-  } else if (loader === true) {
-    return <div>LOADING</div>;
+  } else if (loader == true) {
+    return (
+      <div style={{display:"flex",height:"100%",justifyContent:"center",alignItems:"center"}}>
+        <div class="loader-container">
+          <span class="loader"></span>
+        </div>
+      </div>
+    )
   } else {
     return (
       <div>
@@ -239,11 +245,10 @@ const ReasoningExam = ({}) => {
                     }}
                   >
                     <button
-                      className={`button ${
-                        answers.data.some((item) => item.qid === question.id)
+                      className={`button ${answers.data.some((item) => item.qid === question.id)
                           ? "btn-answered"
                           : isUnAnswered && "btn-un-answered"
-                      }
+                        }
 
                       `}
                       onClick={() => {

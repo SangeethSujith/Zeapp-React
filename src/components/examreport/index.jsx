@@ -46,7 +46,6 @@ const ExamReport = () => {
 
   return (
     <div 
-    // style={{display:"flex",flex:1,justifyContent:"center",alignItems:"center"}}
     style={{display:"flex", height:"80%",justifyContent:"center",alignItems:"center"}}
     >
       <div>

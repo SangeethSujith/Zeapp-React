@@ -134,7 +134,13 @@ const CareerClusterExam = () => {
   if (isMaxLimitExceeded === true) {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
-    return <p>Loading...</p>; // Add a loading state
+    return (
+      <div style={{display:"flex",height:"100%",justifyContent:"center",alignItems:"center"}}>
+        <div class="loader-container">
+          <span class="loader"></span>
+        </div>
+      </div>
+    ) // Add a loading state
   } else {
     return (
       <div>
