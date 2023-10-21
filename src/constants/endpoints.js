@@ -5,7 +5,7 @@ export const endpoints = {
   getAssignedExams: "/getAssignedExams",
   getCareerClusterExam: "/getCareerClusterExam",
   getReasoningExam: "/getQuestionsByExam",
-  saveExamResults: "/saveExamResults",
+  saveExamResults: "/saveExamResultsReact",
   saveCareerClusterExam: "/saveCareerCluster",
   saveCareerInterest: "/saveCareerInterest",
   savePsycometricExam: "/savePsycometric",
