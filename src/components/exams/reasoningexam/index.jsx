@@ -164,7 +164,7 @@ const ReasoningExam = ({}) => {
         user: access_token,
         exam: quid,
         start: startTime,
-        subject: 0,
+        subject: quid,
       };
       sendAnswers(finalData);
     }
