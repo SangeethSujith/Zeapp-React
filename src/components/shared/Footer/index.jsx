@@ -21,7 +21,7 @@ const Footer = () => {
           <button className="app-button">Download on App Store</button>
         </div>
       </div>
-      <div className="footer2">&copy; 2023 Zeapp All Rights Reserved.</div>
+      <div className="footer2">&copy; 2023 Zeapp All Rights Reserved. Version 1.0</div>
     </>
   );
 };
