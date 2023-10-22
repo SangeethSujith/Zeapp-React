@@ -27,8 +27,7 @@ const CareerInterestExam = () => {
   const getQuestions = async (token) => {
     try {
       const response = await Axios.post(
-        `${
-          import.meta.env.VITE_API_URL + endpoints.getCareerInterestQuestions
+        `${import.meta.env.VITE_API_URL + endpoints.getCareerInterestQuestions
         }`,
         qs.stringify({ access_key: token })
       );
@@ -56,7 +55,7 @@ const CareerInterestExam = () => {
   const sendAnswers = async (answers) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.saveCareerInterest}`,answers);
+        `${import.meta.env.VITE_API_URL + endpoints.saveCareerInterest}`, answers);
       if (response.data.status === "success") {
         notificationHelpers.success(
           "Career Interest Exam Was Completed Successfully"
@@ -118,7 +117,7 @@ const CareerInterestExam = () => {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
     return (
-      <div style={{display:"flex",height:"100%",justifyContent:"center",alignItems:"center"}}>
+      <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
         <div class="loader-container">
           <span class="loader"></span>
         </div>
@@ -197,7 +196,7 @@ const CareerInterestExam = () => {
               </button>
               <button
                 className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
-                onClick={() => handleSaveAnswers(answers)}
+                onClick={() => { window.confirm("Do you want to save the exam?") && handleSaveAnswers(answers) }}
                 disabled={isDisabled}
               >
                 Save

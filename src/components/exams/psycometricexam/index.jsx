@@ -88,7 +88,7 @@ const PsycometricExam = () => {
   const sendAnswers = async (answers) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`,answers);
+        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`, answers);
       if (response.data.status === "success") {
         notificationHelpers.success(
           "Psycometric Exam Was Completed Successfully"
@@ -115,7 +115,7 @@ const PsycometricExam = () => {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
     return (
-      <div style={{display:"flex",height:"100%",justifyContent:"center",alignItems:"center"}}>
+      <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
         <div class="loader-container">
           <span class="loader"></span>
         </div>
@@ -171,16 +171,15 @@ const PsycometricExam = () => {
                     {[1, 2, 3, 4, 5].map((number) => (
                       <div
                         key={number}
-                        className={`number-box ${
-                          answers.data.length !== 0 &&
-                          answers.data.some(
-                            (item) =>
-                              item.qid === parseInt(question.id) &&
-                              item.option === number
-                          )
+                        className={`number-box ${answers.data.length !== 0 &&
+                            answers.data.some(
+                              (item) =>
+                                item.qid === parseInt(question.id) &&
+                                item.option === number
+                            )
                             ? "active"
                             : ""
-                        }`}
+                          }`}
                         onClick={() =>
                           handleNumberBoxClick(question.id, number)
                         }
@@ -207,7 +206,7 @@ const PsycometricExam = () => {
           </button>
           <button
             className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
-            onClick={() => handleSaveAnswers(answers)}
+            onClick={() => { window.confirm("Do you want to save the exam?") && handleSaveAnswers(answers) }}
             disabled={isDisabled}
           >
             Save

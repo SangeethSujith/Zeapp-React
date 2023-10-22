@@ -179,7 +179,7 @@ const ReasoningExam = ({ }) => {
     return <h1>Max Limit Exceeded</h1>;
   } else if (loader == true) {
     return (
-      <div style={{display:"flex",height:"100%",justifyContent:"center",alignItems:"center"}}>
+      <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
         <div class="loader-container">
           <span class="loader"></span>
         </div>
@@ -246,8 +246,8 @@ const ReasoningExam = ({ }) => {
                   >
                     <button
                       className={`button ${answers.data.some((item) => item.qid === question.id)
-                          ? "btn-answered"
-                          : isUnAnswered && "btn-un-answered"
+                        ? "btn-answered"
+                        : isUnAnswered && "btn-un-answered"
                         }
 
                       `}
@@ -321,7 +321,7 @@ const ReasoningExam = ({ }) => {
               <button
                 className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 disabled={isDisabled}
-                onClick={handleSaveAnswers}
+                onClick={() => { window.confirm("Do you want to save the exam?") && handleSaveAnswers() }}
               >
                 Save
               </button>

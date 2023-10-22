@@ -84,7 +84,7 @@ const CareerClusterExam = () => {
   const sendAnswers = async (data) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.saveCareerClusterExam}`,answers);
+        `${import.meta.env.VITE_API_URL + endpoints.saveCareerClusterExam}`, answers);
       if (response.data.status === "success") {
         notificationHelpers.success(
           "Career Cluster Exam Was Completed Successfully"
@@ -135,7 +135,7 @@ const CareerClusterExam = () => {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
     return (
-      <div style={{display:"flex",height:"100%",justifyContent:"center",alignItems:"center"}}>
+      <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
         <div class="loader-container">
           <span class="loader"></span>
         </div>
@@ -165,16 +165,15 @@ const CareerClusterExam = () => {
                     <div
                       key={question.question_id}
                       className={`list-item 
-                      ${
-                        answers.data.length !== 0 &&
-                        answers.data.some(
-                          (item) =>
-                            item.group_id === group.grp_id &&
-                            item.option_id === question.question_id
-                        )
+                      ${answers.data.length !== 0 &&
+                          answers.data.some(
+                            (item) =>
+                              item.group_id === group.grp_id &&
+                              item.option_id === question.question_id
+                          )
                           ? "selected"
                           : ""
-                      }`}
+                        }`}
                       onClick={() =>
                         handleOptionClick(
                           group.grp_id,
@@ -188,11 +187,11 @@ const CareerClusterExam = () => {
                         className="green-tick "
                         style={
                           answers.data.length !== 0 &&
-                          answers.data.some(
-                            (item) =>
-                              item.group_id === group.grp_id &&
-                              item.option_id === question.question_id
-                          )
+                            answers.data.some(
+                              (item) =>
+                                item.group_id === group.grp_id &&
+                                item.option_id === question.question_id
+                            )
                             ? { display: "inline" }
                             : { display: "none" }
                         }
@@ -236,7 +235,7 @@ const CareerClusterExam = () => {
           </button>
           <button
             className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
-            onClick={handleSaveProgress}
+            onClick={() => { window.confirm("Do you want to save the exam?") && handleSaveProgress() }}
             disabled={isDisabled}
           >
             Save
