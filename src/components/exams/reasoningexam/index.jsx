@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import parseJSON from "../../../utils/jsonparser";
 import Timer from "../../shared/Timer";
 import { useNavigate, useParams } from "react-router-dom";
 import { userData } from "../../../utils/loginData";
@@ -10,8 +9,9 @@ import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import { routepath } from "../../../constants/routepath";
+import parseJSON from "../../../utils/parsers/jsonParserForReasoningExam";
 
-const ReasoningExam = ({ }) => {
+const ReasoningExam = ({}) => {
   const navigate = useNavigate();
   useBeforeUnload(
     "You will be redirected to Login Page. Your Progress May Not Be Saved"
@@ -179,12 +179,19 @@ const ReasoningExam = ({ }) => {
     return <h1>Max Limit Exceeded</h1>;
   } else if (loader == true) {
     return (
-      <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <div className="loader-container">
           <span className="loader"></span>
         </div>
       </div>
-    )
+    );
   } else {
     return (
       <div>
@@ -245,10 +252,11 @@ const ReasoningExam = ({ }) => {
                     }}
                   >
                     <button
-                      className={`button ${answers.data.some((item) => item.qid === question.id)
-                        ? "btn-answered"
-                        : isUnAnswered && "btn-un-answered"
-                        }
+                      className={`button ${
+                        answers.data.some((item) => item.qid === question.id)
+                          ? "btn-answered"
+                          : isUnAnswered && "btn-un-answered"
+                      }
 
                       `}
                       onClick={() => {
@@ -321,7 +329,10 @@ const ReasoningExam = ({ }) => {
               <button
                 className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
                 disabled={isDisabled}
-                onClick={() => { window.confirm("Do you want to save the exam?") && handleSaveAnswers() }}
+                onClick={() => {
+                  window.confirm("Do you want to save the exam?") &&
+                    handleSaveAnswers();
+                }}
               >
                 Save
               </button>
