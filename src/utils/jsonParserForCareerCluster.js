@@ -1,67 +1,37 @@
 export function parseData(jsonData) {
-    // Initialize an array to store the parsed data
-    const parsedData = [];
+  const transformedData = jsonData.reduce((result, item) => {
+    const { grp_id, sub_grp_id, options, quid, sub_group_name, group_name } =
+      item;
+    // Find the group in the result array or create a new one if it doesn't exist
+    let group = result.find((g) => g.grp_id === grp_id);
+    if (!group) {
+      group = {
+        grp_id: grp_id,
+        group_name: group_name,
+        subgroups: [],
+      };
+      result.push(group);
+    }
 
-    // Loop through each item in the JSON array
-    jsonData.forEach((item) => {
-      // Extract relevant information
-      const groupId = item.grp_id;
-      const groupName = item.group_name;
-      const subgroupId = item.sub_grp_id;
-      const subGroupName = item.sub_group_name;
-      const questionId = item.quid;
-      const options = item.options;
+    // Find the sub-group in the group or create a new one if it doesn't exist
+    let subgroup = group.subgroups.find((sg) => sg.sub_group_id === sub_grp_id);
+    if (!subgroup) {
+      subgroup = {
+        sub_group_id: sub_grp_id,
+        sub_group_name: sub_group_name,
+        questions: [],
+      };
+      group.subgroups.push(subgroup);
+    }
 
-      // Check if the group exists in the parsed data
-      const groupIndex = parsedData.findIndex(
-        (group) => group.grp_id === groupId
-      );
-
-      // If the group doesn't exist, add it
-      if (groupIndex === -1) {
-        parsedData.push({
-          grp_id: groupId,
-          group_name: groupName,
-          subgroups: [
-            {
-              sub_group_id: subgroupId,
-              sub_group_name: subGroupName,
-              questions: [
-                {
-                  question_id: questionId,
-                  options: options,
-                },
-              ],
-            },
-          ],
-        });
-      } else {
-        // Check if the subgroup exists in the group
-        const subgroupIndex = parsedData[groupIndex].subgroups.findIndex(
-          (subgroup) => subgroup.sub_group_id === subgroupId
-        );
-
-        // If the subgroup doesn't exist, add it
-        if (subgroupIndex === -1) {
-          parsedData[groupIndex].subgroups.push({
-            sub_group_id: subgroupId,
-            sub_group_name: subGroupName,
-            questions: [
-              {
-                question_id: questionId,
-                options: options,
-              },
-            ],
-          });
-        } else {
-          // Add the question to the existing subgroup
-          parsedData[groupIndex].subgroups[subgroupIndex].questions.push({
-            question_id: questionId,
-            options: options,
-          });
-        }
-      }
+    // Add the question to the sub-group
+    subgroup.questions.push({
+      question_id: quid,
+      options: options,
     });
 
-    return parsedData;
-  }
+    return result;
+  }, []);
+
+  return transformedData;
+}
