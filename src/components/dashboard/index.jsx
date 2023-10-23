@@ -1,16 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
 import career from "../../assets/images/career.png";
-import { routepath } from "../../constants/routepath";
 import { userData } from "../../utils/loginData";
 import { endpoints } from "../../constants/endpoints";
 import { useEffect, useState } from "react";
-import exam_career from "../../assets/images/exam-career.png"
-import exam_reasoning from "../../assets/images/exam-reas.png"
+import exam_career from "../../assets/images/exam-career.png";
+import exam_reasoning from "../../assets/images/exam-reas.png";
 import Axios from "axios";
 import qs from "qs";
+import { CareerExams, ReasoningExam } from "../../constants/exams";
+import CareerExamTab from "./CareerExamTab";
+import ReasoningExamTab from "./ReasoningExamTabl";
 
 const Dashboard = () => {
-  const navigate = useNavigate();
   const { first_name, school_name, access_token } = userData;
   const [exams, setExams] = useState({});
   useEffect(() => {
@@ -53,45 +53,26 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="row column dashboard-exam-tabs">
-          {exams.CAREER === "CAREER_CLUSTER" && (
-            <div className="graph career-exam-tab">
-              <Link to={routepath.careerClusterExam}>
-                <div className="career-exam-card">Take Career Cluster Test</div>
-                <div className="gif exam-tab">
-                  <img src={exam_career} alt="" />
-                </div>
-              </Link>
-            </div>
+          {/* Career Exams */}
+          {CareerExams.map(
+            (exam) =>
+              exams.CAREER === exam.key && (
+                <CareerExamTab
+                  key={exam.key}
+                  linkTo={exam.route}
+                  examTitle={exam.title}
+                  imgSrc={exam_career}
+                />
+              )
           )}
-          {exams.CAREER === "PSYCOMETRIC" && (
-            <div className="graph career-exam-tab">
-              <Link to={routepath.psycometricExam}>
-                <div className="career-exam-card">Take Psycometric Test</div>
-                <div className="gif exam-tab">
-                  <img src={exam_career} alt="" />
-                </div>
-              </Link>
-            </div>
-          )}
-          {exams.CAREER === "CAREER_INTEREST" && (
-            <div className="graph career-exam-tab">
-              <Link to={routepath.careerInterestExam}>
-                <div className="career-exam-card">Take Career Interest Test</div>
-                <div className="gif exam-tab">
-                  <img src={exam_career} alt="" />
-                </div>
-              </Link>
-            </div>
-          )}
+          {/* Reasoning Exam */}
           {exams.EXAM && (
-            <div className="graph reason-exam-tab">
-              <Link to={routepath.reasoningExam + "/" + exams.EXAM[0].quid + "/" + exams.EXAM[0].duration}>
-                <div className="career-exam-card">Take Reasoning Test</div>
-                <div className="gif exam-tab">
-                  <img src={exam_reasoning} alt="" />
-                </div>
-              </Link>
-            </div>
+            <ReasoningExamTab
+              title={ReasoningExam.title}
+              routepath={ReasoningExam.route}
+              examData={exams.EXAM[0]}
+              imgSrc={exam_reasoning}
+            />
           )}
         </div>
       </div>
