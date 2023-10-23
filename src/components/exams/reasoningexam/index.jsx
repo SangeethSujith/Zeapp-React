@@ -9,7 +9,7 @@ import notificationHelpers from "../../../utils/notification";
 import QuestionContainer from "./QuestionContainer";
 import useBeforeUnload from "../../../utils/hooks/useBeforeUnload";
 import { routepath } from "../../../constants/routepath";
-import parseJSON from "../../../utils/parsers/jsonParserForReasoningExam";
+import parseReasoningQuestions from "../../../utils/parsers/parseReasoningQuestions";
 
 const ReasoningExam = ({}) => {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const ReasoningExam = ({}) => {
       );
       if (response.data.http_code !== 300) {
         if (response.data.http_code === 200) {
-          const questionsResponse = parseJSON(response.data.data);
+          const questionsResponse = parseReasoningQuestions(response.data.data);
           setQuestions(questionsResponse);
           setIsMaxLimitExceeded(false);
         } else {

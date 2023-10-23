@@ -1,5 +1,6 @@
-export function parseData(jsonData) {
-  const transformedData = jsonData.reduce((result, item) => {
+// Question Parser For Career Cluster Questions
+export const parseCareerClusterQuestions = (jsonData) => {
+  return jsonData.reduce((result, item) => {
     const { grp_id, sub_grp_id, options, quid, sub_group_name, group_name } =
       item;
     // Find the group in the result array or create a new one if it doesn't exist
@@ -32,6 +33,4 @@ export function parseData(jsonData) {
 
     return result;
   }, []);
-
-  return transformedData;
-}
+};

@@ -13,7 +13,7 @@ import {
 } from "../../../utils/careerClusterAnswerConditions";
 import { useNavigate } from "react-router-dom";
 import { routepath } from "../../../constants/routepath";
-import { parseData } from "../../../utils/parsers/jsonParserForCareerCluster";
+import { parseCareerClusterQuestions } from "../../../utils/parsers/parseCareerClusterQuestions";
 const CareerClusterExam = () => {
   const navigate = useNavigate();
   useBeforeUnload(
@@ -39,10 +39,10 @@ const CareerClusterExam = () => {
         `${import.meta.env.VITE_API_URL + endpoints.getCareerClusterExam}`,
         qs.stringify({ access_key: token })
       );
-      const questionsData = parseData(response.data.data);
-      const timerFromApi = response.data.time;
       if (response.data.http_code !== 300) {
         if (response.data.http_code === 200) {
+          const questionsData = parseCareerClusterQuestions(response.data.data);
+          const timerFromApi = response.data.time;
           setQuestions(questionsData);
           setTimer(timerFromApi);
           setIsMaxLimitExceeded(false);

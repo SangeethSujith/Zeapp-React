@@ -8,7 +8,7 @@ import Axios from "axios";
 import qs from "qs";
 import { CareerExams, ReasoningExam } from "../../constants/exams";
 import CareerExamTab from "./CareerExamTab";
-import ReasoningExamTab from "./ReasoningExamTabl";
+import ReasoningExamTab from "./ReasoningExamTab";
 
 const Dashboard = () => {
   const { first_name, school_name, access_token } = userData;

@@ -30,10 +30,10 @@ const PsycometricExam = () => {
         qs.stringify({ access_key: token })
       );
 
-      const questionsData = response.data.data;
-      const timerFromApi = response.data.time;
       if (response.data.http_code !== 300) {
         if (response.data.http_code === 200) {
+          const questionsData = response.data.data;
+          const timerFromApi = response.data.time;
           setQuestions(questionsData);
           setTimer(timerFromApi);
           setIsMaxLimitExceeded(false);
@@ -88,13 +88,15 @@ const PsycometricExam = () => {
   const sendAnswers = async (answers) => {
     try {
       const response = await Axios.post(
-        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`, answers);
+        `${import.meta.env.VITE_API_URL + endpoints.savePsycometricExam}`,
+        answers
+      );
       if (response.data.status === "success") {
         notificationHelpers.success(
           "Psycometric Exam Was Completed Successfully"
         );
         setIsDisabled(true);
-        navigate(routepath.dashboard)
+        navigate(routepath.dashboard);
       }
     } catch (error) {
       console.error("Error Sending Answers:", error);
@@ -115,12 +117,19 @@ const PsycometricExam = () => {
     return <h1>Max Limit Exceeded</h1>;
   } else if (questions.length === 0) {
     return (
-      <div style={{ display: "flex", height: "100%", justifyContent: "center", alignItems: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <div className="loader-container">
           <span className="loader"></span>
         </div>
       </div>
-    )
+    );
   } else {
     return (
       <div>
@@ -171,15 +180,16 @@ const PsycometricExam = () => {
                     {[1, 2, 3, 4, 5].map((number) => (
                       <div
                         key={number}
-                        className={`number-box ${answers.data.length !== 0 &&
-                            answers.data.some(
-                              (item) =>
-                                item.qid === parseInt(question.id) &&
-                                item.option === number
-                            )
+                        className={`number-box ${
+                          answers.data.length !== 0 &&
+                          answers.data.some(
+                            (item) =>
+                              item.qid === parseInt(question.id) &&
+                              item.option === number
+                          )
                             ? "active"
                             : ""
-                          }`}
+                        }`}
                         onClick={() =>
                           handleNumberBoxClick(question.id, number)
                         }
@@ -206,7 +216,10 @@ const PsycometricExam = () => {
           </button>
           <button
             className={`btn ${isDisabled ? "btn-disabled" : "btn-green"}`}
-            onClick={() => { window.confirm("Do you want to save the exam?") && handleSaveAnswers(answers) }}
+            onClick={() => {
+              window.confirm("Do you want to save the exam?") &&
+                handleSaveAnswers(answers);
+            }}
             disabled={isDisabled}
           >
             Save
