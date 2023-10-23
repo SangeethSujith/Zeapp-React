@@ -57,7 +57,7 @@ const Dashboard = () => {
             <div className="graph career-exam-tab">
               <Link to={routepath.careerClusterExam}>
                 <div className="career-exam-card">Take Career Cluster Test</div>
-                <div class="gif exam-tab">
+                <div className="gif exam-tab">
                   <img src={exam_career} alt="" />
                 </div>
               </Link>
@@ -67,7 +67,7 @@ const Dashboard = () => {
             <div className="graph career-exam-tab">
               <Link to={routepath.psycometricExam}>
                 <div className="career-exam-card">Take Psycometric Test</div>
-                <div class="gif exam-tab">
+                <div className="gif exam-tab">
                   <img src={exam_career} alt="" />
                 </div>
               </Link>
@@ -76,8 +76,8 @@ const Dashboard = () => {
           {exams.CAREER === "CAREER_INTEREST" && (
             <div className="graph career-exam-tab">
               <Link to={routepath.careerInterestExam}>
-                <div className="career-exam-tab">Take Career Interest Test</div>
-                <div class="gif exam-tab">
+                <div className="career-exam-card">Take Career Interest Test</div>
+                <div className="gif exam-tab">
                   <img src={exam_career} alt="" />
                 </div>
               </Link>
@@ -87,7 +87,7 @@ const Dashboard = () => {
             <div className="graph reason-exam-tab">
               <Link to={routepath.reasoningExam + "/" + exams.EXAM[0].quid + "/" + exams.EXAM[0].duration}>
                 <div className="career-exam-card">Take Reasoning Test</div>
-                <div class="gif exam-tab">
+                <div className="gif exam-tab">
                   <img src={exam_reasoning} alt="" />
                 </div>
               </Link>
